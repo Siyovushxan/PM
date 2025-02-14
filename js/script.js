@@ -11,6 +11,7 @@ projectForm.addEventListener('submit', function (e) {
   const startDate = document.querySelector('#start-date').value;
   const endDate = document.querySelector('#end-date').value;
   const status = document.querySelector('#status').value;
+  const statusMasul = document.querySelector('#statusMasul').value;
 
   // LocalStorage'dan mavjud loyihalarni olish yoki bo'sh massiv yaratish
   const projects = JSON.parse(localStorage.getItem('projects')) || [];
@@ -22,7 +23,8 @@ projectForm.addEventListener('submit', function (e) {
     description: projectDescription,
     startDate: startDate,
     endDate: endDate,
-    status: status
+    status: status,
+    statusMasul: statusMasul
   };
 
   // Yangi loyihani massivga qo'shish

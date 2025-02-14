@@ -43,7 +43,7 @@
         <label for="project-name">Loyiha nomi</label>
         <input type="text" id="project-name" name="project-name" placeholder="Loyiha nomini kiriting" required>
         <label for="project-description">Loyiha haqida izoh</label>
-        <textarea id="project-description" name="project-description" placeholder="Loyiha haqida izoh"
+        <textarea id="project-description" name="project-description" placeholder="Loyiha haqida izoh yozing"
           required></textarea>
 
         <label for="start-date">Boshlash sanasi</label>
@@ -54,11 +54,22 @@
 
         <label for="status">Status</label>
         <select id="status" name="status" required>
+          <option value="rejalashtirilmoqda">Loyiha statusini tanlang</option>
           <option value="rejalashtirilmoqda">Rejalashtirilmoqda</option>
           <option value="bajarilmoqda">Bajarilmoqda</option>
           <option value="bajarildi">Bajarildi</option>
           <option value="yakunlandi">Yakunlandi</option>
           <option value="to'xtatildi">To'xtatildi</option>
+        </select>
+
+        <label for="statusMasul">Mas'ul hodim</label>
+        <select id="statusMasul" name="statusMasul" required>
+          <option value="masul">Mas'ul hodimni tanlang</option>
+          <option value="J.Xafizov">J. Xafizov</option>
+          <option value="S.Adizov">S. Adizov</option>
+          <option value="S.Abdullayev">S. Abdullayev</option>
+          <option value="J.G'iyosov">J. G'iyosov</option>
+          <option value="J.Toshboyev">J. Toshboyev</option>
         </select>
 
         <button type="submit" class="btn-submit">Loyihani qo'shish</button>

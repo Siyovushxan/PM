@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <p class="project-description">${project.description}</p>
         <p class="project-dates">Boshlanish: ${project.startDate} | Tugash: ${project.endDate}</p>
         <p class="project-status">Status: <span class="status">${project.status.toUpperCase()}</span></p>
+        <p class="project-status">Mas'ul hodim: <span class="status">${project.statusMasul}</span></p>
         <div class="buttons">
           <button class="edit-btn" data-index="${index}">Tahrirlash</button>
           <button class="delete-btn" data-index="${index}">O'chirish</button>
@@ -31,6 +32,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
       projectsContainer.appendChild(projectCard);
     });
+
+    console.log(projects);
 
     // Har bir "Tahrirlash" tugmasiga bosilganda modalni ochish
     document.querySelectorAll('.edit-btn').forEach((button) => {
@@ -44,6 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('edit-start-date').value = project.startDate;
         document.getElementById('edit-end-date').value = project.endDate;
         document.getElementById('edit-status').value = project.status;
+        document.getElementById('edit-statusMasul').value = project.statusMasul;
         document.getElementById('edit-index').value = projectIndex;
 
         editModal.style.display = 'block';
@@ -110,6 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
       startDate: document.getElementById('edit-start-date').value,
       endDate: document.getElementById('edit-end-date').value,
       status: document.getElementById('edit-status').value,
+      statusMasul: document.getElementById('edit-statusMasul').value
     };
 
     localStorage.setItem('projects', JSON.stringify(projects)); // Yangilangan loyihalarni saqlash
