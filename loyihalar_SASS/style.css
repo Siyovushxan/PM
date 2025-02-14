@@ -65,7 +65,7 @@ body {
   border-radius: 8px;
 }
 .container h2 {
-  font-size: 2.5rem;
+  font-size: 2rem;
   margin-bottom: 1.5rem;
 }
 .container .projects {
@@ -78,7 +78,7 @@ body {
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 30%;
+  width: 49%;
   padding: 1.5rem;
   transition: transform 0.3s, box-shadow 0.3s;
 }

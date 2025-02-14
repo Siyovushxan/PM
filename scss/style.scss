@@ -93,7 +93,8 @@ body {
 // Main content styles
 .container {
   padding: 3rem;
-  max-width: 800px;
+  max-width: 70rem;
+  height: auto;
   margin: 0 auto;
   background-color: #fff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -102,6 +103,10 @@ body {
   h2 {
     font-size: 1.8rem;
     margin-bottom: 1rem;
+  }
+
+  h3 {
+    padding-bottom: 1rem;
   }
 
   .project-form {
@@ -123,7 +128,7 @@ body {
 
     textarea {
       resize: vertical;
-      min-height: 120px;
+      min-height: 3rem;
     }
 
     .btn-submit {

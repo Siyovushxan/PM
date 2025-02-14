@@ -64,7 +64,8 @@ body {
 
 .container {
   padding: 3rem;
-  max-width: 800px;
+  max-width: 70rem;
+  height: auto;
   margin: 0 auto;
   background-color: #fff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -73,6 +74,9 @@ body {
 .container h2 {
   font-size: 1.8rem;
   margin-bottom: 1rem;
+}
+.container h3 {
+  padding-bottom: 1rem;
 }
 .container .project-form {
   display: flex;
@@ -91,7 +95,7 @@ body {
 }
 .container .project-form textarea {
   resize: vertical;
-  min-height: 120px;
+  min-height: 3rem;
 }
 .container .project-form .btn-submit {
   padding: 1rem;
