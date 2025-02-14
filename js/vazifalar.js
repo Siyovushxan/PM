@@ -45,8 +45,8 @@ document.addEventListener('DOMContentLoaded', function () {
             <th>ID</th>
             <th>Vazifa nomi</th>
             <th>Izoh</th>
-            <th>Boshlanish - Tugash sanasi</th>
-            <th>Mas'ul hodim</th>
+            <th>Muddat</th>
+            <th>Mas'ult status</th>
             <th>Status</th>
             <th>Amallar</th>
           </tr>
