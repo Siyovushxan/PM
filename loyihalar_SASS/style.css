@@ -143,7 +143,9 @@ body {
   justify-content: center;
   gap: 1rem;
 }
-.container .project-card .edit-btn, .container .project-card .delete-btn, .container .project-card .add-task-btn {
+.container .project-card .edit-btn,
+.container .project-card .delete-btn,
+.container .project-card .add-task-btn {
   border: none;
   border-radius: 10%;
 }
@@ -231,6 +233,10 @@ button {
   display: flex;
   flex-direction: column;
 }
+.modal-content .close-task {
+  cursor: pointer;
+  font-size: 2rem;
+}
 .modal-content h2 {
   text-align: center;
   color: #123524;
@@ -313,6 +319,7 @@ form button:hover {
   }
 }
 .tasks {
+  width: 30%;
   margin-top: 20px;
   padding: 15px;
   background-color: #fdfdfd;
@@ -334,17 +341,46 @@ form button:hover {
   margin: 0;
 }
 .tasks ul li {
-  font-size: 16px;
+  font-size: 28px;
   color: #555;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 6px;
   padding: 10px;
   margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.tasks ul li .vazifa-button {
+  margin-top: 1.5rem;
+}
+.tasks ul li div .edit-task-btn {
+  color: #fff;
+  background-color: #dc3545;
+  border: none;
+  border-radius: 10%;
+  font-size: 1rem;
+  padding: 1rem;
+  width: 8rem;
+}
+.tasks ul li div .delete-task-btn {
+  color: #fff;
+  background-color: #0c6354;
+  margin-left: 1rem;
+  border: none;
+  border-radius: 10%;
+  font-size: 1rem;
+  padding: 1rem;
+  width: 8rem;
+}
+.tasks ul li div .write-task-btn {
+  color: #fff;
+  background-color: #0c6354;
+  margin-left: 1rem;
+  border: none;
+  border-radius: 10%;
+  font-size: 1rem;
+  padding: 1rem;
+  width: 8rem;
 }
 .tasks ul li:hover {
   background-color: #34495e;
@@ -388,7 +424,8 @@ form button:hover {
   margin: 1.5rem 0;
   color: #555;
 }
-.loyiha_vazifalari .vazifalar .project-card .project-dates, .loyiha_vazifalari .vazifalar .project-card .project-status {
+.loyiha_vazifalari .vazifalar .project-card .project-dates,
+.loyiha_vazifalari .vazifalar .project-card .project-status {
   font-size: 1rem;
   color: #777;
 }

@@ -139,6 +139,8 @@ document.addEventListener('DOMContentLoaded', function () {
       description: document.getElementById('task-description').value,
       startDate: document.getElementById('task-start-date').value,
       endDate: document.getElementById('task-end-date').value,
+      vazifaMasulHodim: document.getElementById('vazifa-masul-hodim').value,
+      vazifa: document.getElementById('vazifa').value
     };
 
     if (!projects[projectIndex].tasks) {

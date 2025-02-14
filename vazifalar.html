@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Loyihalar</title>
   <link rel="stylesheet" href="loyihalar_SASS/style.css">
 </head>
+
 <body>
 
   <header>
@@ -27,19 +29,60 @@
     </nav>
   </header>
 
+  <!-- Loyiha vazifalar -->
   <main>
     <div class="loyiha_vazifalari">
       <h1>Bajarilishi Rejalashtirilgan Loyihalar va Loyihalarga tegishli Vazifalar</h1>
-      
+
       <!-- Loyiha kartalari -->
-			<div class="vazifalar">
-				<!-- Loyihalar shu joyda ko'rsatiladi -->
-			</div>
-			
+      <div class="vazifalar">
+        <!-- Loyihalar shu joyda ko'rsatiladi -->
+      </div>
     </div>
   </main>
+
+  <!-- Vazifa tahrirlash modal oynasi -->
+  <div id="editTaskModal" class="modal">
+    <div class="modal-content">
+      <span class="close-edit-task">&times;</span>
+      <h2>Vazifani Tahrirlash</h2>
+      <form id="edit-task-form">
+        <input type="hidden" id="edit-task-index">
+        <label for="edit-task-name">Vazifa nomi</label>
+        <input type="text" id="edit-task-name" placeholder="Vazifa nomini kiriting" required>
+
+        <label for="edit-task-description">Izoh</label>
+        <textarea id="edit-task-description" placeholder="Vazifa haqida izoh kiriting" required></textarea>
+
+        <label for="edit-task-start-date">Boshlanish sanasi</label>
+        <input type="date" id="edit-task-start-date" required>
+
+        <label for="edit-task-end-date">Tugash sanasi</label>
+        <input type="date" id="edit-task-end-date" required>
+
+        <label for="edit-task-status">Status</label>
+        <select id="edit-task-status" required>
+          <option value="rejalashtirilmoqda">Rejalashtirilmoqda</option>
+          <option value="bajarilmoqda">Bajarilmoqda</option>
+          <option value="yakunlandi">Yakunlandi</option>
+          <option value="to'xtatildi">To'xtatilgan</option>
+        </select>
+
+        <label for="edit-task-responsible">Mas'ul hodim</label>
+        <select id="edit-task-responsible" required>
+          <option value="S.Adizov">S. Adizov</option>
+          <option value="S.Abdullayev">S. Abdullayev</option>
+          <option value="J.G'iyosov">J. G'iyosov</option>
+          <option value="J.Toshboyev">J. Toshboyev</option>
+        </select>
+        <button type="submit">Saqlash</button>
+      </form>
+    </div>
+  </div>
+
 
   <script src="js/vazifalar.js"></script>
 
 </body>
+
 </html>

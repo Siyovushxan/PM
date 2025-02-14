@@ -15,460 +15,501 @@ $status-paused: #e74c3c;
 
 // Global reset
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
 
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f4f4f4;
+	font-family: 'Arial', sans-serif;
+	background-color: #f4f4f4;
 }
 
 // Navbar styles
 .navbar {
-  margin-bottom: 3.5rem;
-  background-color: $primary-color;
-  padding: 1rem 2rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	margin-bottom: 3.5rem;
+	background-color: $primary-color;
+	padding: 1rem 2rem;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
-  .navbar-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+	.navbar-container {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 
-    .div1 {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
+		.div1 {
+			display: flex;
+			align-items: center;
+			gap: 1rem;
 
-      .img_logo {
-      align-items: center;
-        width: 3rem;
-        height: 3rem;
-      }
-    }
+			.img_logo {
+				align-items: center;
+				width: 3rem;
+				height: 3rem;
+			}
+		}
 
-    .div2 {
-      display: flex;
-      align-items: center;
-    }
-  }
+		.div2 {
+			display: flex;
+			align-items: center;
+		}
+	}
 
-  
-  .logo {
-    color: $secondary-color;
-    font-size: 1.6rem;
-    font-weight: bold;
-    text-decoration: none;
-  }
+	.logo {
+		color: $secondary-color;
+		font-size: 1.6rem;
+		font-weight: bold;
+		text-decoration: none;
+	}
 
-  .navbar-links {
-    list-style: none;
-    display: flex;
-    gap: 2rem;
+	.navbar-links {
+		list-style: none;
+		display: flex;
+		gap: 2rem;
 
-    .nav-link {
-      color: $secondary-color;
-      text-decoration: none;
-      font-size: 1.2rem;
-      font-weight: 500;
-      transition: color 0.3s;
+		.nav-link {
+			color: $secondary-color;
+			text-decoration: none;
+			font-size: 1.2rem;
+			font-weight: 500;
+			transition: color 0.3s;
 
-      &:hover {
-        color: $hover-color;
-      }
-    }
-  }
+			&:hover {
+				color: $hover-color;
+			}
+		}
+	}
 }
 
 // Main content styles
 .container {
-  padding: 2rem;
-  width: 90%;
-  margin: 0 auto;
-  background-color: #fff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+	padding: 2rem;
+	width: 90%;
+	margin: 0 auto;
+	background-color: #fff;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
 
-  h2 {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-    text-align: center;
-  }
-  
-  .title_vazifa {
-    text-align: center;
-    margin-bottom: 1rem;
-  }
+	h2 {
+		font-size: 2rem;
+		margin-bottom: 1.5rem;
+		text-align: center;
+	}
 
-  .projects {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    justify-content: center;
-  }
+	.title_vazifa {
+		text-align: center;
+		margin-bottom: 1rem;
+	}
 
-  .project-card {
-    background-color: $card-bg;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px $card-shadow;
-    width: 30%;
-    padding: 1.5rem;
-    transition: transform 0.3s, box-shadow 0.3s;
+	.projects {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 2rem;
+		justify-content: center;
+	}
 
-    &:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 6px 12px $card-shadow;
-    }
+	.project-card {
+		background-color: $card-bg;
+		border-radius: 8px;
+		box-shadow: 0 4px 6px $card-shadow;
+		width: 30%;
+		padding: 1.5rem;
+		transition: transform 0.3s, box-shadow 0.3s;
 
-    .project-title {
-      font-size: 2.2rem;
-      font-weight: bold;
-      color: $primary-color;
-      margin-bottom: 0.8rem;
-    }
+		&:hover {
+			transform: translateY(-10px);
+			box-shadow: 0 6px 12px $card-shadow;
+		}
 
-    .project-description {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      color: #555;
-    }
+		.project-title {
+			font-size: 2.2rem;
+			font-weight: bold;
+			color: $primary-color;
+			margin-bottom: 0.8rem;
+		}
 
-    .project-dates {
-      font-size: 1.3rem;
-      color: #888;
-      margin-bottom: 1rem;
-    }
+		.project-description {
+			font-size: 1.5rem;
+			margin-bottom: 1rem;
+			color: #555;
+		}
 
-    .project-status {
-      font-size: 1.2rem;
+		.project-dates {
+			font-size: 1.3rem;
+			color: #888;
+			margin-bottom: 1rem;
+		}
 
-      .status {
-        font-weight: bold;
-        padding: 0.2rem 0.5rem;
-        border-radius: 4px;
-      }
+		.project-status {
+			font-size: 1.2rem;
 
-      .planned {
-        background-color: $status-planned;
-        color: #fff;
-      }
+			.status {
+				font-weight: bold;
+				padding: 0.2rem 0.5rem;
+				border-radius: 4px;
+			}
 
-      .ongoing {
-        background-color: $status-ongoing;
-        color: #fff;
-      }
+			.planned {
+				background-color: $status-planned;
+				color: #fff;
+			}
 
-      .completed {
-        background-color: $status-completed;
-        color: #fff;
-      }
+			.ongoing {
+				background-color: $status-ongoing;
+				color: #fff;
+			}
 
-      .paused {
-        background-color: $status-paused;
-        color: #fff;
-      }
-    }
+			.completed {
+				background-color: $status-completed;
+				color: #fff;
+			}
 
-    .bottons {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 1rem;
+			.paused {
+				background-color: $status-paused;
+				color: #fff;
+			}
+		}
 
-      .left {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 1rem;
-      }
-    }
+		.bottons {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin-top: 1rem;
 
+			.left {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				gap: 1rem;
+			}
+		}
 
-    .edit-btn, .delete-btn, .add-task-btn {
-      border: none;
-      border-radius: 10%;
-    }
+		.edit-btn,
+		.delete-btn,
+		.add-task-btn {
+			border: none;
+			border-radius: 10%;
+		}
 
-    .edit-btn {
-      margin-top: -0.01px;
-      background-color: #007bff; /* Tahrirlash uchun moviy rang */
-      color: white;
-    }
-  
-    .delete-btn {
-      background-color: #dc3545; /* O'chirish uchun qizil rang */
-      color: white;
-    }
-  
-    .add-task-btn {
-      background-color: #0c6354; /* Vazifa qo'shish uchun to'q yashil rang */
-      color: white;
-    }
-  }
+		.edit-btn {
+			margin-top: -0.01px;
+			background-color: #007bff; /* Tahrirlash uchun moviy rang */
+			color: white;
+		}
+
+		.delete-btn {
+			background-color: #dc3545; /* O'chirish uchun qizil rang */
+			color: white;
+		}
+
+		.add-task-btn {
+			background-color: #0c6354; /* Vazifa qo'shish uchun to'q yashil rang */
+			color: white;
+		}
+	}
 }
 
 .modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
+	display: none;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modal-content {
-  background-color: white;
-  padding: 20px;
-  margin: 10% auto;
-  width: 40%;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+	background-color: white;
+	padding: 20px;
+	margin: 10% auto;
+	width: 40%;
+	border-radius: 8px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .close {
-  float: right;
-  font-size: 24px;
-  cursor: pointer;
+	float: right;
+	font-size: 24px;
+	cursor: pointer;
 }
 
 button {
-  padding: 10px;
-  border: none;
-  cursor: pointer;
+	padding: 10px;
+	border: none;
+	cursor: pointer;
 }
 
 .edit-btn {
-  background-color: #123524;
-  color: white;
-  margin-top: 1rem;
+	background-color: #123524;
+	color: white;
+	margin-top: 1rem;
 }
 
 .save-btn {
-  background-color: #28a745;
-  color: white;
+	background-color: #28a745;
+	color: white;
 }
-
 
 // Modal Background
 .modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  justify-content: center;
-  align-items: center;
-  transition: opacity 0.3s ease-in-out;
-  z-index: 1000;
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.6);
+	justify-content: center;
+	align-items: center;
+	transition: opacity 0.3s ease-in-out;
+	z-index: 1000;
 }
 
 // Modal Content
 .modal-content {
-  background-color: #ffffff;
-  padding: 2rem;
-  border-radius: 15px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-  width: 600px;  // Wider modal width
-  max-width: 90%;
-  max-height: 80vh; // Limit the height to 80% of the viewport height
-  overflow: hidden;  // No scrolling, content will be clipped if it's too long
-  position: relative;
-  display: flex;
-  flex-direction: column;
+	background-color: #ffffff;
+	padding: 2rem;
+	border-radius: 15px;
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+	width: 600px; // Wider modal width
+	max-width: 90%;
+	max-height: 80vh; // Limit the height to 80% of the viewport height
+	overflow: hidden; // No scrolling, content will be clipped if it's too long
+	position: relative;
+	display: flex;
+	flex-direction: column;
 
-  h2 {
-    text-align: center;
-    color: #123524;
-    font-size: 1.6rem;
-  }
+	.close-task {
+		cursor: pointer;
+		font-size: 2rem;
+	}
 
-  // Close Button (X)
-  .close {
-    position: absolute;
-    top: 1px;
-    right: 15px;
-    font-size: 1.8rem;
-    color: #34495e;
-    cursor: pointer;
-    transition: color 0.3s ease;
-    
-    &:hover {
-      color: #e74c3c;
-    }
-  }
+	h2 {
+		text-align: center;
+		color: #123524;
+		font-size: 1.6rem;
+	}
+
+	// Close Button (X)
+	.close {
+		position: absolute;
+		top: 1px;
+		right: 15px;
+		font-size: 1.8rem;
+		color: #34495e;
+		cursor: pointer;
+		transition: color 0.3s ease;
+
+		&:hover {
+			color: #e74c3c;
+		}
+	}
 }
 
 // Form Styles
 form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  height: 100%;  // Ensure form elements take up the full height of the modal
+	display: flex;
+	flex-direction: column;
+	gap: 0.3rem;
+	height: 100%; // Ensure form elements take up the full height of the modal
 
-  label {
-    font-size: 1rem;
-    color: #34495e;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-  }
+	label {
+		font-size: 1rem;
+		color: #34495e;
+		font-weight: 600;
+		margin-bottom: 0.5rem;
+	}
 
-  input[type="text"],
-  input[type="date"],
-  textarea,
-  select {
-    width: 100%;
-    padding: 0.8rem;
-    margin-bottom: 1rem;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
+	input[type='text'],
+	input[type='date'],
+	textarea,
+	select {
+		width: 100%;
+		padding: 0.8rem;
+		margin-bottom: 1rem;
+		border-radius: 8px;
+		border: 1px solid #ddd;
+		font-size: 1rem;
+		transition: border-color 0.3s ease;
 
-    &:focus {
-      border-color: #123524;
-      outline: none;
-    }
-  }
+		&:focus {
+			border-color: #123524;
+			outline: none;
+		}
+	}
 
-  textarea {
-    resize: vertical;
-    min-height: 80px;  // Adjusted to keep it compact
-  }
+	textarea {
+		resize: vertical;
+		min-height: 80px; // Adjusted to keep it compact
+	}
 
-  select {
-    padding: 0.8rem;
-    font-size: 1rem;
-  }
+	select {
+		padding: 0.8rem;
+		font-size: 1rem;
+	}
 
-  button {
-    background-color: #123524;
-    color: #fff;
-    padding: 0.8rem;
-    font-size: 1rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    
-    &:hover {
-      background-color: #123524;
-    }
-  }
+	button {
+		background-color: #123524;
+		color: #fff;
+		padding: 0.8rem;
+		font-size: 1rem;
+		border: none;
+		border-radius: 8px;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+
+		&:hover {
+			background-color: #123524;
+		}
+	}
 }
 
 // Modal fade-in animation
 @keyframes fadeIn {
-  0% {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+	0% {
+		opacity: 0;
+		transform: translateY(-20px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 // Qo'shilgan vazifalar dezayni
 .tasks {
-  margin-top: 20px;
-  padding: 15px;
-  background-color: #fdfdfd;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 30%;
+	margin-top: 20px;
+	padding: 15px;
+	background-color: #fdfdfd;
+	border: 1px solid #e0e0e0;
+	border-radius: 10px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
-  h4 {
-    font-size: 20px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
+	h4 {
+		font-size: 20px;
+		font-weight: bold;
+		color: #333;
+		margin-bottom: 10px;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+	}
 
-  ul {
-    list-style: none; // Bullets yo'qotiladi
-    padding: 0;
-    margin: 0;
+	ul {
+		list-style: none; // Bullets yo'qotiladi
+		padding: 0;
+		margin: 0;
 
-    li {
-      font-size: 16px;
-      color: #555;
-      background-color: #f9f9f9;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      padding: 10px;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+		li {
+			font-size: 28px;
+			color: #555;
+			background-color: #f9f9f9;
+			border: 1px solid #ddd;
+			border-radius: 6px;
+			padding: 10px;
+			margin-bottom: 8px;
+			transition: background-color 0.3s ease, box-shadow 0.3s ease;
 
-      &:hover {
-        background-color: #34495e;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-        cursor: pointer;
-        color: #fff;
+      .vazifa-button {
+        margin-top: 1.5rem;
       }
 
-      &:last-child {
-        margin-bottom: 0;
-      }
+			div {
+				.edit-task-btn {
+					color: #fff;
+					background-color: #dc3545;
+          border: none;
+          border-radius: 10%;
+          font-size: 1rem;
+          padding: 1rem;
+          width: 8rem;
+				}
 
-      // "Hozircha vazifa yo‘q" uchun maxsus uslub
-      &[style*="text-decoratsion: none"] {
-        color: #999;
-        font-style: italic;
-        background-color: transparent;
-        border: none;
-        text-align: center;
-      }
-    }
-  }
+				.delete-task-btn {
+					color: #fff;
+					background-color: #0c6354;
+          margin-left: 1rem;
+          border: none;
+          border-radius: 10%;
+          font-size: 1rem;
+          padding: 1rem;
+          width: 8rem;
+				}
+
+        .write-task-btn {
+          color: #fff;
+					background-color: #0c6354;
+          margin-left: 1rem;
+          border: none;
+          border-radius: 10%;
+          font-size: 1rem;
+          padding: 1rem;
+          width: 8rem;
+        }
+			}
+
+			&:hover {
+				background-color: #34495e;
+				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+				cursor: pointer;
+				color: #fff;
+			}
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+
+			// "Hozircha vazifa yo‘q" uchun maxsus uslub
+			&[style*='text-decoratsion: none'] {
+				color: #999;
+				font-style: italic;
+				background-color: transparent;
+				border: none;
+				text-align: center;
+			}
+		}
+	}
 }
 
-// Vazifalar.html dezayni
+// Vazifalar.html ga bazaga qo'shilgan loyihalarni chiqarish
 .loyiha_vazifalari {
-  width: 90%;
-  margin-left: 5%;
-  .vazifalar {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    margin-top: 2rem;
-  
-    .project-card {
-      padding: 1.5rem;
-      background: #ffffff;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  
-      .project-title {
-        font-size: 2rem;
-        font-weight: bold;
-        color: #333;
-      }
-  
-      .project-description {
-        margin: 1.5rem 0;
-        color: #555;
-      }
-  
-      .project-dates, .project-status {
-        font-size: 1rem;
-        color: #777;
-      }
-  
-      .status {
-        font-weight: bold;
-        color: #007bff;
-      }
-    }
-  }
+	width: 90%;
+	margin-left: 5%;
+	.vazifalar {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+		margin-top: 2rem;
+
+		.project-card {
+			padding: 1.5rem;
+			background: #ffffff;
+			border-radius: 8px;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+			.project-title {
+				font-size: 2rem;
+				font-weight: bold;
+				color: #333;
+			}
+
+			.project-description {
+				margin: 1.5rem 0;
+				color: #555;
+			}
+
+			.project-dates,
+			.project-status {
+				font-size: 1rem;
+				color: #777;
+			}
+
+			.status {
+				font-weight: bold;
+				color: #007bff;
+			}
+		}
+	}
 }
