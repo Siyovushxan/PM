@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loyihalar</title>
+  <link rel="stylesheet" href="loyihalar_SASS/style.css">
+</head>
+<body>
+
+  <header>
+    <nav class="navbar">
+      <div class="navbar-container">
+        <div class="div1">
+          <img class="img_logo" src="img/Рисунок1.png" alt="">
+          <a href="#" class="logo">"Navoiyuran" DK</a>
+        </div>
+        <div class="div2">
+          <ul class="navbar-links">
+            <li><a href="index.html" class="nav-link">Bosh sahifa</a></li>
+            <li><a href="loyihalar.html" class="nav-link">Loyihalar</a></li>
+            <li><a href="vazifalar.html" class="nav-link">Vazifalar</a></li>
+            <li><a href="#" class="nav-link">Hisobotlar</a></li>
+            <li><a href="#" class="nav-link">Yo'l xaritalari</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="container">
+      <h2>Bajarilishi Rejalashtirilgan Loyihalar</h2>
+      
+      <!-- Loyiha kartalari -->
+      <div class="projects"></div>
+    </div>
+  </main>
+
+  <!-- Loyiha tahrirlash modal oynasi -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Loyihani Tahrirlash</h2>
+      <form id="edit-form">
+        <input type="hidden" id="edit-index">
+        <label for="edit-project-name">Loyiha nomi</label>
+        <input type="text" id="edit-project-name" required>
+        <label for="edit-project-description">Izoh</label>
+        <textarea id="edit-project-description" required></textarea>
+        <label for="edit-start-date">Boshlanish sanasi</label>
+        <input type="date" id="edit-start-date" required>
+        <label for="edit-end-date">Tugash sanasi</label>
+        <input type="date" id="edit-end-date" required>
+        <label for="edit-status">Status</label>
+        <select id="edit-status" required>
+          <option value="rejalashtirilmoqda">Rejalashtirilmoqda</option>
+          <option value="bajarilmoqda">Bajarilmoqda</option>
+          <option value="yakunlandi">Yakunlandi</option>
+          <option value="to'xtatildi">To'xtatildi</option>
+        </select>
+        <button type="submit">Saqlash</button>
+      </form>
+    </div>
+  </div>
+
+<!-- Yangi vazifa qo'shish modal -->
+<div id="taskModal" class="modal">
+  <div class="modal-content">
+    <span class="close-task">&times;</span>
+    <h2>Yangi Vazifa Qo'shish</h2>
+    <form id="task-form">
+      <input type="hidden" id="task-index">
+
+      <label for="task-name">Vazifa nomi</label>
+      <input type="text" id="task-name" required>
+
+      <label for="task-description">Tavsif</label>
+      <textarea id="task-description" required></textarea>
+
+      <label for="task-start-date">Boshlanish sanasi</label>
+      <input type="date" id="task-start-date" required>
+
+      <label for="task-end-date">Tugash sanasi</label>
+      <input type="date" id="task-end-date" required>
+
+      <button type="submit">Qo'shish</button>
+    </form>
+  </div>
+</div>
+
+  <script src="js/loyihalar.js"></script>
+
+</body>
+</html>

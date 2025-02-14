@@ -1,2 +1,2 @@
-# PM
-Korxonaga tegishli loyihalar boshqaruv tizimi
+# PM.navoiyuran.uz
+Loyihalarni boshqaruv tizimi

@@ -1,0 +1,166 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f4f4f4;
+}
+
+.navbar {
+  margin-bottom: 3.5rem;
+  background-color: #123524;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.navbar .navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.navbar .navbar-container .div1 {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.navbar .navbar-container .div1 .img_logo {
+  align-items: center;
+  width: 3rem;
+  height: 3rem;
+}
+.navbar .navbar-container .div2 {
+  display: flex;
+  align-items: center;
+}
+.navbar .logo {
+  color: #ffffff;
+  font-size: 1.6rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+.navbar .navbar-links {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+.navbar .navbar-links .nav-link {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+.navbar .navbar-links .nav-link:hover {
+  color: #3a5c64;
+}
+
+.yaratuvchi div {
+  margin: 0 auto;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.container {
+  padding: 3rem;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+.container h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+.container .project-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+.container .project-form label {
+  font-weight: 600;
+}
+.container .project-form input, .container .project-form select, .container .project-form textarea {
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f7f7f7;
+  font-size: 1rem;
+}
+.container .project-form textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+.container .project-form .btn-submit {
+  padding: 1rem;
+  background-color: #3a5c64;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.container .project-form .btn-submit:hover {
+  background-color: #2f4f4f;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f4f4f4;
+}
+
+.container-hisobotlar {
+  padding: 2rem;
+  max-width: auto;
+  margin: 0 auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+.container-hisobotlar h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+.container-hisobotlar .reports {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.container-hisobotlar .report-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 23%;
+  padding: 1.5rem;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.container-hisobotlar .report-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+.container-hisobotlar .report-card h3 {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #123524;
+  margin-bottom: 1rem;
+}
+.container-hisobotlar .report-card .report-count {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #123524;
+  margin-bottom: 1rem;
+}
+.container-hisobotlar .report-card .report-description {
+  font-size: 1rem;
+  color: #555;
+}/*# sourceMappingURL=style.css.map */

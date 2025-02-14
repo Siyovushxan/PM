@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PM Navoiyuran</title>
+  <link rel="stylesheet" href="scss/style.css">
+</head>
+
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="navbar-container">
+        <div class="div1">
+          <img class="img_logo" src="img/Рисунок1.png" alt="">
+          <a href="#" class="logo">"Navoiyuran" DK</a>
+        </div>
+        <div class="div2">
+          <ul class="navbar-links">
+            <li><a href="#" class="nav-link">Bosh sahifa</a></li>
+            <li><a href="loyihalar.html" class="nav-link">Loyihalar</a></li>
+            <li><a href="vazifalar.html" class="nav-link">Vazifalar</a></li>
+            <li><a href="hisobot.html" class="nav-link">Hisobotlar</a></li>
+            <li><a href="#" class="nav-link">Yo'l xaritalari</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <section class="yaratuvchi">
+    <div>
+      <h2>Yaratuvchi: Raqamli transformatsiyani joriy etish bo'limi bosh mutaxassisi</h2>
+      <h2>S. Abdullayev</h2>
+    </div>
+  </section>
+
+  <main>
+    <div class="container">
+      <h2>Yangi Loyiha Qo'shish</h2>
+      <form class="project-form">
+        <label for="project-name">Loyiha nomi</label>
+        <input type="text" id="project-name" name="project-name" placeholder="Loyiha nomini kiriting" required>
+        <label for="project-description">Loyiha haqida izoh</label>
+        <textarea id="project-description" name="project-description" placeholder="Loyiha haqida izoh"
+          required></textarea>
+
+        <label for="start-date">Boshlash sanasi</label>
+        <input type="date" id="start-date" name="start-date" required>
+
+        <label for="end-date">Tugash sanasi</label>
+        <input type="date" id="end-date" name="end-date" required>
+
+        <label for="status">Status</label>
+        <select id="status" name="status" required>
+          <option value="rejalashtirilmoqda">Rejalashtirilmoqda</option>
+          <option value="bajarilmoqda">Bajarilmoqda</option>
+          <option value="bajarildi">Bajarildi</option>
+          <option value="yakunlandi">Yakunlandi</option>
+          <option value="to'xtatildi">To'xtatildi</option>
+        </select>
+
+        <button type="submit" class="btn-submit">Loyihani qo'shish</button>
+      </form>
+    </div>
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+
+</html>

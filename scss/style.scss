@@ -1,0 +1,213 @@
+// Global styles
+$primary-color: #123524;
+$secondary-color: #ffffff;
+$hover-color: #3a5c64;
+$card-bg: #ffffff;
+$card-shadow: rgba(0, 0, 0, 0.1);
+$button-bg: #3a5c64;
+$button-hover-bg: #2f4f4f;
+$input-bg: #f7f7f7;
+$input-border: #ccc;
+$status-planned: #f39c12;
+$status-ongoing: #3498db;
+$status-completed: #2ecc71;
+$status-paused: #e74c3c;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
+}
+
+// Navbar styles
+.navbar {
+  margin-bottom: 3.5rem;
+  background-color: $primary-color;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+  .navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .div1 {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      .img_logo {
+      align-items: center;
+        width: 3rem;
+        height: 3rem;
+      }
+    }
+
+    .div2 {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  
+  .logo {
+    color: $secondary-color;
+    font-size: 1.6rem;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  .navbar-links {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+
+    .nav-link {
+      color: $secondary-color;
+      text-decoration: none;
+      font-size: 1.2rem;
+      font-weight: 500;
+      transition: color 0.3s;
+
+      &:hover {
+        color: $hover-color;
+      }
+    }
+  }
+}
+
+// Yaratuvchi section
+.yaratuvchi {
+  div {
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+}
+
+// Main content styles
+.container {
+  padding: 3rem;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+
+  h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .project-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+
+    label {
+      font-weight: 600;
+    }
+
+    input, select, textarea {
+      padding: 0.8rem;
+      border: 1px solid $input-border;
+      border-radius: 4px;
+      background-color: $input-bg;
+      font-size: 1rem;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .btn-submit {
+      padding: 1rem;
+      background-color: $button-bg;
+      color: $secondary-color;
+      border: none;
+      border-radius: 4px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: $button-hover-bg;
+      }
+    }
+  }
+}
+
+// Global reset
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
+}
+
+// Main content styles
+.container-hisobotlar {
+  padding: 2rem;
+  max-width: auto;
+  margin: 0 auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+
+  h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .reports {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .report-card {
+    background-color: $card-bg;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px $card-shadow;
+    width: 23%;
+    padding: 1.5rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+
+    &:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 6px 12px $card-shadow;
+    }
+
+    h3 {
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: $primary-color;
+      margin-bottom: 1rem;
+    }
+
+    .report-count {
+      font-size: 2rem;
+      font-weight: bold;
+      color: $primary-color;
+      margin-bottom: 1rem;
+    }
+
+    .report-description {
+      font-size: 1rem;
+      color: #555;
+    }
+  }
+}
+
+// Modal vazifa qo'shish
