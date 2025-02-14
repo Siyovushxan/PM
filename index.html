@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PM Navoiyuran</title>
   <link rel="stylesheet" href="scss/style.css">
 </head>
-
 <body>
   <header>
     <nav class="navbar">
@@ -18,10 +16,9 @@
         </div>
         <div class="div2">
           <ul class="navbar-links">
-            <li><a href="#" class="nav-link">Bosh sahifa</a></li>
+            <li><a href="index.html" class="nav-link">Bosh sahifa</a></li>
             <li><a href="loyihalar.html" class="nav-link">Loyihalar</a></li>
             <li><a href="vazifalar.html" class="nav-link">Vazifalar</a></li>
-            <li><a href="hisobot.html" class="nav-link">Hisobotlar</a></li>
             <li><a href="#" class="nav-link">Yo'l xaritalari</a></li>
           </ul>
         </div>
@@ -29,12 +26,50 @@
     </nav>
   </header>
 
-  <section class="yaratuvchi">
-    <div>
-      <h2>Yaratuvchi: Raqamli transformatsiyani joriy etish bo'limi bosh mutaxassisi</h2>
-      <h2>S. Abdullayev</h2>
+  <main>
+    <div class="container-hisobotlar">
+      <h2>Loyihalar Hisobotlari</h2>
+
+      <!-- Hisobotlar bo'limi -->
+      <div class="reports">
+        <div class="report-card">
+          <h3>Umumiy Loyihalar</h3>
+          <p class="report-count"></p>
+          <p class="report-description">Barcha qo'shilgan loyihalar soni.</p>
+        </div>
+
+        <div class="report-card">
+          <h3>Aktiv Loyihalar</h3>
+          <p class="report-count"></p>
+          <p class="report-description">Bajarilayotgan va rejalashtirilgan loyihalar soni.</p>
+        </div>
+
+        <div class="report-card">
+          <h3>Bajarilayotgan Loyihalar</h3>
+          <p class="report-count"></p>
+          <p class="report-description">Barcha bajarilayotgan loyihalar soni.</p>
+        </div>
+
+        <div class="report-card">
+          <h3>Rejalashtirilgan Loyihalar</h3>
+          <p class="report-count"></p>
+          <p class="report-description">Barcha bajarilishi rejalashtirilgan loyihalar soni.</p>
+        </div>
+
+        <div class="report-card">
+          <h3>To'xtatilgan Loyihalar</h3>
+          <p class="report-count"></p>
+          <p class="report-description">To'xtatilgan yoki bekor qilingan loyihalar soni.</p>
+        </div>
+
+        <div class="report-card">
+          <h3>Yakunlangan Loyihalar</h3>
+          <p class="report-count"></p>
+          <p class="report-description">Muvaffaqiyatli yakunlangan loyihalar soni.</p>
+        </div>
+      </div>
     </div>
-  </section>
+  </main>
 
   <main>
     <div class="container">
@@ -58,9 +93,8 @@
           <option value="rejalashtirilmoqda">Loyiha statusini tanlang</option>
           <option value="rejalashtirilmoqda">Rejalashtirilmoqda</option>
           <option value="bajarilmoqda">Bajarilmoqda</option>
-          <option value="bajarildi">Bajarildi</option>
           <option value="yakunlandi">Yakunlandi</option>
-          <option value="to'xtatildi">To'xtatildi</option>
+          <option value="to'xtatildi">To'xtatilgan</option>
         </select>
 
         <label for="statusMasul">Mas'ul hodim</label>
@@ -78,7 +112,14 @@
     </div>
   </main>
 
-  <script src="js/script.js"></script>
-</body>
+  <section class="yaratuvchi">
+    <div>
+      <h2>Loyiha yaratuvchisi: Raqamli transformatsiyani joriy etish bo'limi bosh mutaxassisi</h2>
+      <h2>S. Abdullayev</h2>
+    </div>
+  </section>
 
+  <script src="js/script.js"></script>
+  <script src="js/hisobot.js"></script>
+</body>
 </html>

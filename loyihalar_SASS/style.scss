@@ -94,20 +94,26 @@ body {
   h2 {
     font-size: 2rem;
     margin-bottom: 1.5rem;
+    text-align: center;
   }
   
+  .title_vazifa {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
   .projects {
     display: flex;
     flex-wrap: wrap;
     gap: 2rem;
-    justify-content: space-between;
+    justify-content: center;
   }
 
   .project-card {
     background-color: $card-bg;
     border-radius: 8px;
     box-shadow: 0 4px 6px $card-shadow;
-    width: 49%;
+    width: 30%;
     padding: 1.5rem;
     transition: transform 0.3s, box-shadow 0.3s;
 
