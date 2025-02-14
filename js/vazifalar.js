@@ -57,11 +57,11 @@ document.addEventListener('DOMContentLoaded', function () {
 							(task, taskIndex) => `
               <tr>
                 <td>${taskIndex + 1}</td>
-                <td>${task.name}</td>
-                <td>${task.description}</td>
-                <td>${task.startDate} - ${task.endDate}</td>
-                <td>${task.vazifaMasulHodim}</td>
-                <td>${task.vazifa.toUpperCase()}</td>
+                <td class"name-vazifa">${task.name}</td>
+                <td class"description">${task.description}</td>
+                <td class"startDate">${task.startDate} - ${task.endDate}</td>
+                <td class"vazifaMasulHodim">${task.vazifaMasulHodim}</td>
+                <td class"vazifa" style="font-weight: bold">${task.vazifa.toUpperCase()}</td>
                 <td class="task-actions">
                   <button class="edit-task-btn" data-project-index="${projectIndex}" data-task-index="${taskIndex}">Tahrirlash</button>
                   <button class="delete-task-btn" data-project-index="${projectIndex}" data-task-index="${taskIndex}">O'chirish</button>
