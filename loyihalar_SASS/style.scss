@@ -380,98 +380,85 @@ form {
 
 // Qo'shilgan vazifalar dezayni
 .tasks {
-  width: 30%;
-	margin-top: 20px;
-	padding: 15px;
-	background-color: #fdfdfd;
-	border: 1px solid #e0e0e0;
-	border-radius: 10px;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
 
-	h4 {
-		font-size: 20px;
-		font-weight: bold;
-		color: #333;
-		margin-bottom: 10px;
-		text-transform: uppercase;
-		letter-spacing: 1px;
-	}
+  .task-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
 
-	ul {
-		list-style: none; // Bullets yo'qotiladi
-		padding: 0;
-		margin: 0;
+    thead {
+      background-color: #f4f4f4;
 
-		li {
-			font-size: 28px;
-			color: #555;
-			background-color: #f9f9f9;
-			border: 1px solid #ddd;
-			border-radius: 6px;
-			padding: 10px;
-			margin-bottom: 8px;
-			transition: background-color 0.3s ease, box-shadow 0.3s ease;
-
-      .vazifa-button {
-        margin-top: 1.5rem;
+      th {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 2px solid #ddd;
+        font-weight: bold;
+        font-size: 20px;
       }
+    }
 
-			div {
-				.edit-task-btn {
-					color: #fff;
-					background-color: #dc3545;
-          border: none;
-          border-radius: 10%;
-          font-size: 1rem;
-          padding: 1rem;
-          width: 8rem;
-				}
-
-				.delete-task-btn {
-					color: #fff;
-					background-color: #0c6354;
-          margin-left: 1rem;
-          border: none;
-          border-radius: 10%;
-          font-size: 1rem;
-          padding: 1rem;
-          width: 8rem;
-				}
-
-        .write-task-btn {
-          color: #fff;
-					background-color: #0c6354;
-          margin-left: 1rem;
-          border: none;
-          border-radius: 10%;
-          font-size: 1rem;
-          padding: 1rem;
-          width: 8rem;
+    tbody {
+      tr {
+        &:nth-child(even) {
+          background-color: #f9f9f9;
         }
-			}
 
-			&:hover {
-				background-color: #34495e;
-				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-				cursor: pointer;
-				color: #fff;
-			}
+        &:hover {
+          background-color: #f1f1f1;
+        }
 
-			&:last-child {
-				margin-bottom: 0;
-			}
+        td {
+          padding: 10px;
+          border-bottom: 1px solid #ddd;
+          font-size: 18px;
 
-			// "Hozircha vazifa yo‘q" uchun maxsus uslub
-			&[style*='text-decoratsion: none'] {
-				color: #999;
-				font-style: italic;
-				background-color: transparent;
-				border: none;
-				text-align: center;
-			}
-		}
-	}
+          &.task-actions {
+            display: flex;
+            gap: 10px;
+
+            button {
+              padding: 5px 10px;
+              font-size: 14px;
+              border: none;
+              border-radius: 4px;
+              cursor: pointer;
+
+              &.edit-task-btn {
+                background-color: #007bff;
+                color: white;
+
+                &:hover {
+                  background-color: #0056b3;
+                }
+              }
+
+              &.delete-task-btn {
+                background-color: #dc3545;
+                color: white;
+
+                &:hover {
+                  background-color: #a71d2a;
+                }
+              }
+
+              &.write-task-btn {
+                background-color: #28a745;
+                color: white;
+
+                &:hover {
+                  background-color: #1c7c32;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
+
 
 // Vazifalar.html ga bazaga qo'shilgan loyihalarni chiqarish
 .loyiha_vazifalari {

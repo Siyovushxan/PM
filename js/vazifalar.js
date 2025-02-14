@@ -1,115 +1,139 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const projectsContainer = document.querySelector('.vazifalar');
+	const projectsContainer = document.querySelector('.vazifalar')
 
-  if (!projectsContainer) {
-    console.error('.projects elementi topilmadi!');
-    return;
-  }
+	if (!projectsContainer) {
+		console.error('.projects elementi topilmadi!')
+		return
+	}
 
-  let projects = JSON.parse(localStorage.getItem('projects')) || [];
-  const editTaskModal = document.getElementById('editTaskModal');
-  const closeEditTaskModal = document.querySelector('.close-edit-task');
-  const editTaskForm = document.getElementById('edit-task-form');
+	let projects = JSON.parse(localStorage.getItem('projects')) || []
+	const editTaskModal = document.getElementById('editTaskModal')
+	const closeEditTaskModal = document.querySelector('.close-edit-task')
+	const editTaskForm = document.getElementById('edit-task-form')
 
-  let currentProjectIndex = null;
-  let currentTaskIndex = null;
+	let currentProjectIndex = null
+	let currentTaskIndex = null
 
-  // Vazifa tahrirlash oynasini yopish
-  closeEditTaskModal.addEventListener('click', () => {
-    editTaskModal.style.display = 'none';
-  });
+	// Vazifa tahrirlash oynasini yopish
+	closeEditTaskModal.addEventListener('click', () => {
+		editTaskModal.style.display = 'none'
+	})
 
-  // Loyihalarni render qilish
-  function renderProjects() {
-    projectsContainer.innerHTML = '';
-    projects.forEach((project, projectIndex) => {
-      const projectCard = document.createElement('div');
-      projectCard.classList.add('project-card');
+	// Loyihalarni render qilish
+	function renderProjects() {
+		projectsContainer.innerHTML = ''
+		projects.forEach((project, projectIndex) => {
+			const projectCard = document.createElement('div')
+			projectCard.classList.add('project-card')
 
-      projectCard.innerHTML = `
+			projectCard.innerHTML = `
         <h3 class="project-title">${projectIndex + 1}. ${project.name}</h3>
         <p class="project-description">${project.description}</p>
-        <p class="project-dates">Boshlanish: ${project.startDate} | Tugash: ${project.endDate}</p>
+        <p class="project-dates">Boshlanish: ${project.startDate} | Tugash: ${
+				project.endDate
+			}</p>
         <p class="project-status">Status: <span class="status">${project.status.toUpperCase()}</span></p>
 
-        <div class="tasks">
-          <h4>Vazifalar:</h4>
-          <ul>
-            ${project.tasks && project.tasks.length > 0
-              ? project.tasks
-                  .map(
-                    (task, taskIndex) => `
-                    <li>
-											<div>
-                      	${taskIndex + 1}. Vazifa nomi: ${task.name} Vazifa haqida izoh: ${task.description} | Boshlanish va Tugash sana: ${task.startDate} - ${task.endDate} | vazifaga mas'ul hodim: ${task.vazifaMasulHodim} | Status: ${task.vazifa}
-											</div>
-											<div class="vazifa-button">
-												<button class="edit-task-btn" data-project-index="${projectIndex}" data-task-index="${taskIndex}">Tahrirlash</button>
-												<button class="delete-task-btn" data-project-index="${projectIndex}" data-task-index="${taskIndex}">O'chirish</button>
-												<button class="write-task-btn" data-project-index="${projectIndex}" data-task-index="${taskIndex}">Xabar yozish</button>
-											</div>
-                    </li>`
-                  )
-                  .join('')
-              : '<li>Hozircha vazifa yo‘q</li>'}
-          </ul>
-        </div>
-      `;
-      projectsContainer.appendChild(projectCard);
-    });
+<div class="tasks">
+  <h4>Vazifalar:</h4>
+  ${
+		project.tasks && project.tasks.length > 0
+			? `
+      <table class="task-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Vazifa nomi</th>
+            <th>Izoh</th>
+            <th>Boshlanish - Tugash sanasi</th>
+            <th>Mas'ul hodim</th>
+            <th>Status</th>
+            <th>Amallar</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${project.tasks
+						.map(
+							(task, taskIndex) => `
+              <tr>
+                <td>${taskIndex + 1}</td>
+                <td>${task.name}</td>
+                <td>${task.description}</td>
+                <td>${task.startDate} - ${task.endDate}</td>
+                <td>${task.vazifaMasulHodim}</td>
+                <td>${task.vazifa.toUpperCase()}</td>
+                <td class="task-actions">
+                  <button class="edit-task-btn" data-project-index="${projectIndex}" data-task-index="${taskIndex}">Tahrirlash</button>
+                  <button class="delete-task-btn" data-project-index="${projectIndex}" data-task-index="${taskIndex}">O'chirish</button>
+                  <button class="write-task-btn" data-project-index="${projectIndex}" data-task-index="${taskIndex}">Xabar yozish</button>
+                </td>
+              </tr>`
+						)
+						.join('')}
+        </tbody>
+      </table>`
+			: '<p>Hozircha vazifa yo‘q</p>'
+	}
+</div>
 
-    // Tahrirlash tugmasini bosganda
-    document.querySelectorAll('.edit-task-btn').forEach((btn) => {
-      btn.addEventListener('click', function () {
-        currentProjectIndex = this.dataset.projectIndex;
-        currentTaskIndex = this.dataset.taskIndex;
+      `
+			projectsContainer.appendChild(projectCard)
+		})
 
-        const task = projects[currentProjectIndex].tasks[currentTaskIndex];
-        document.getElementById('edit-task-name').value = task.name;
-        document.getElementById('edit-task-description').value = task.description;
-        document.getElementById('edit-task-start-date').value = task.startDate;
-        document.getElementById('edit-task-end-date').value = task.endDate;
-        document.getElementById('edit-task-status').value = task.vazifa;
-        document.getElementById('edit-task-responsible').value = task.vazifaMasulHodim;
+		// Tahrirlash tugmasini bosganda
+		document.querySelectorAll('.edit-task-btn').forEach(btn => {
+			btn.addEventListener('click', function () {
+				currentProjectIndex = this.dataset.projectIndex
+				currentTaskIndex = this.dataset.taskIndex
 
-        editTaskModal.style.display = 'block';
-      });
-    });
+				const task = projects[currentProjectIndex].tasks[currentTaskIndex]
+				document.getElementById('edit-task-name').value = task.name
+				document.getElementById('edit-task-description').value =
+					task.description
+				document.getElementById('edit-task-start-date').value = task.startDate
+				document.getElementById('edit-task-end-date').value = task.endDate
+				document.getElementById('edit-task-status').value = task.vazifa
+				document.getElementById('edit-task-responsible').value =
+					task.vazifaMasulHodim
 
-    // O'chirish tugmasini bosganda
-    document.querySelectorAll('.delete-task-btn').forEach((btn) => {
-      btn.addEventListener('click', function () {
-        const projectIndex = this.dataset.projectIndex;
-        const taskIndex = this.dataset.taskIndex;
+				editTaskModal.style.display = 'block'
+			})
+		})
 
-        if (confirm('Ushbu vazifani o‘chirishga ishonchingiz komilmi?')) {
-          projects[projectIndex].tasks.splice(taskIndex, 1);
-          localStorage.setItem('projects', JSON.stringify(projects));
-          renderProjects();
-        }
-      });
-    });
-  }
+		// O'chirish tugmasini bosganda
+		document.querySelectorAll('.delete-task-btn').forEach(btn => {
+			btn.addEventListener('click', function () {
+				const projectIndex = this.dataset.projectIndex
+				const taskIndex = this.dataset.taskIndex
 
-  // Tahrirlangan vazifani saqlash
-  editTaskForm.addEventListener('submit', function (e) {
-    e.preventDefault();
+				if (confirm('Ushbu vazifani o‘chirishga ishonchingiz komilmi?')) {
+					projects[projectIndex].tasks.splice(taskIndex, 1)
+					localStorage.setItem('projects', JSON.stringify(projects))
+					renderProjects()
+				}
+			})
+		})
+	}
 
-    const updatedTask = {
-      name: document.getElementById('edit-task-name').value,
-      description: document.getElementById('edit-task-description').value,
-      startDate: document.getElementById('edit-task-start-date').value,
-      endDate: document.getElementById('edit-task-end-date').value,
-      vazifa: document.getElementById('edit-task-status').value,
-      vazifaMasulHodim: document.getElementById('edit-task-responsible').value,
-    };
+	// Tahrirlangan vazifani saqlash
+	editTaskForm.addEventListener('submit', function (e) {
+		e.preventDefault()
 
-    projects[currentProjectIndex].tasks[currentTaskIndex] = updatedTask;
-    localStorage.setItem('projects', JSON.stringify(projects));
+		const updatedTask = {
+			name: document.getElementById('edit-task-name').value,
+			description: document.getElementById('edit-task-description').value,
+			startDate: document.getElementById('edit-task-start-date').value,
+			endDate: document.getElementById('edit-task-end-date').value,
+			vazifa: document.getElementById('edit-task-status').value,
+			vazifaMasulHodim: document.getElementById('edit-task-responsible').value,
+		}
 
-    editTaskModal.style.display = 'none';
-    renderProjects();
-  });
+		projects[currentProjectIndex].tasks[currentTaskIndex] = updatedTask
+		localStorage.setItem('projects', JSON.stringify(projects))
 
-  renderProjects();
-});
+		editTaskModal.style.display = 'none'
+		renderProjects()
+	})
+
+	renderProjects()
+})
