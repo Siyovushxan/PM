@@ -23,10 +23,15 @@ document.addEventListener('DOMContentLoaded', function () {
         <p class="project-dates">Boshlanish: ${project.startDate} | Tugash: ${project.endDate}</p>
         <p class="project-status">Status: <span class="status">${project.status.toUpperCase()}</span></p>
         <p class="project-status">Mas'ul hodim: <span class="status">${project.statusMasul}</span></p>
-        <div class="buttons">
-          <button class="edit-btn" data-index="${index}">Tahrirlash</button>
-          <button class="delete-btn" data-index="${index}">O'chirish</button>
-          <button class="add-task-btn" data-index="${index}">Vazifa qo'shish</button>
+        <div class="bottons">
+          <div class="left">
+            <button class="edit-btn" data-index="${index}">Tahrirlash</button>
+            <button class="delete-btn" data-index="${index}">O'chirish</button>
+          </div>
+          <div class="right">
+            <button class="add-task-btn" data-index="${index}">Vazifa qo'shish</button>
+          </div>
+        </div>
         </div>
       `;
 

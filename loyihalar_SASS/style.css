@@ -58,7 +58,7 @@ body {
 
 .container {
   padding: 2rem;
-  max-width: 90%;
+  width: 90%;
   margin: 0 auto;
   background-color: #fff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -130,6 +130,35 @@ body {
 .container .project-card .project-status .paused {
   background-color: #e74c3c;
   color: #fff;
+}
+.container .project-card .bottons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+.container .project-card .bottons .left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.container .project-card .edit-btn, .container .project-card .delete-btn, .container .project-card .add-task-btn {
+  border: none;
+  border-radius: 10%;
+}
+.container .project-card .edit-btn {
+  margin-top: -0.01px;
+  background-color: #007bff; /* Tahrirlash uchun moviy rang */
+  color: white;
+}
+.container .project-card .delete-btn {
+  background-color: #dc3545; /* O'chirish uchun qizil rang */
+  color: white;
+}
+.container .project-card .add-task-btn {
+  background-color: #0c6354; /* Vazifa qo'shish uchun to'q yashil rang */
+  color: white;
 }
 
 .modal {

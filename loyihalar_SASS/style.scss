@@ -85,7 +85,7 @@ body {
 // Main content styles
 .container {
   padding: 2rem;
-  max-width: 90%;
+  width: 90%;
   margin: 0 auto;
   background-color: #fff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -169,6 +169,42 @@ body {
         background-color: $status-paused;
         color: #fff;
       }
+    }
+
+    .bottons {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1rem;
+
+      .left {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+      }
+    }
+
+
+    .edit-btn, .delete-btn, .add-task-btn {
+      border: none;
+      border-radius: 10%;
+    }
+
+    .edit-btn {
+      margin-top: -0.01px;
+      background-color: #007bff; /* Tahrirlash uchun moviy rang */
+      color: white;
+    }
+  
+    .delete-btn {
+      background-color: #dc3545; /* O'chirish uchun qizil rang */
+      color: white;
+    }
+  
+    .add-task-btn {
+      background-color: #0c6354; /* Vazifa qo'shish uchun to'q yashil rang */
+      color: white;
     }
   }
 }
