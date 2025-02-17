@@ -13,32 +13,57 @@ document.addEventListener('DOMContentLoaded', function () {
   // Loyihalarni ekranga chiqarish funksiyasi
   function renderProjects() {
     projectsContainer.innerHTML = ''; // Oldingi ma'lumotlarni tozalash
+
     projects.forEach((project, index) => {
-      const projectCard = document.createElement('div');
-      projectCard.classList.add('project-card');
+    // Loyihaning tugash sanasi va boshlanish sanasini olish
+    const startDate = new Date(project.startDate);
+    const endDate = new Date(project.endDate);
 
-      projectCard.innerHTML += `
-        <h3 class="project-title">${project.name}</h3>
-        <p class="project-description">${project.description}</p>
-        <p class="project-dates">Boshlanish: ${project.startDate} | Tugash: ${project.endDate}</p>
-        <p class="project-status">Status: <span class="status">${project.status.toUpperCase()}</span></p>
-        <p class="project-status">Mas'ul hodim: <span class="status">${project.statusMasul}</span></p>
-        <div class="bottons">
-          <div class="left">
-            <button class="edit-btn" data-index="${index}">Tahrirlash</button>
-            <button class="delete-btn" data-index="${index}">O'chirish</button>
-          </div>
-          <div class="right">
-            <button class="add-task-btn" data-index="${index}">Vazifa qo'shish</button>
-          </div>
-        </div>
-        </div>
-      `;
+    if (isNaN(startDate) || isNaN(endDate)) {
+      console.error(`Noto'g'ri sana formati: ${project.startDate} yoki ${project.endDate}`);
+      return;
+    }
 
+    // Joriy sana
+    const currentDate = new Date();
+
+    // Loyihaning tugash sanasi va joriy sana o'rtasidagi farqni hisoblash
+    const remainingTime = endDate - currentDate; // Millisekund farq
+    const remainingDays = Math.floor(remainingTime / (1000 * 3600 * 24)); // Qolgan kunlar
+
+    // Agar sanalar teng bo'lsa, "Bugun" deb ko'rsatish
+    let remainingText = '';
+    if (remainingDays === 0) {
+      remainingText = 'Bugun';
+    } else if (remainingDays > 0) {
+      remainingText = `Qolgan ${remainingDays} kun`;
+    } else {
+      remainingText = `Kecha tugadi (Kechikish: ${Math.abs(remainingDays)} kun)`;
+    }
+
+    const projectCard = document.createElement('div');
+    projectCard.classList.add('project-card');
+
+    projectCard.innerHTML += `
+      <h3 class="project-title">${project.name}</h3>
+      <p class="project-description">${project.description}</p>
+      <p class="project-dates">Boshlanish: ${project.startDate} | Tugash: ${project.endDate}</p>
+      <p class="project-remaining">Loyihani bajarish uchun qolgan: ${remainingText}</p>
+      <p class="project-status">Status: <span class="status">${project.status.toUpperCase()}</span></p>
+      <p class="project-status">Mas'ul hodim: <span class="status">${project.statusMasul}</span></p>
+      <div class="bottons">
+        <div class="left">
+          <button class="edit-btn" data-index="${index}">Tahrirlash</button>
+          <button class="delete-btn" data-index="${index}">O'chirish</button>
+        </div>
+        <div class="right">
+          <button class="add-task-btn" data-index="${index}">Vazifa qo'shish</button>
+        </div>
+      </div>
+    `;
+    
       projectsContainer.appendChild(projectCard);
     });
-
-    console.log(projects);
 
     // Har bir "Tahrirlash" tugmasiga bosilganda modalni ochish
     document.querySelectorAll('.edit-btn').forEach((button) => {
@@ -137,8 +162,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const newTask = {
       name: document.getElementById('task-name').value,
       description: document.getElementById('task-description').value,
-      startDate: document.getElementById('task-start-date').value,
-      endDate: document.getElementById('task-end-date').value,
+      taskStartDate: document.getElementById('task-start-date').value,
+      taskEndDate: document.getElementById('task-end-date').value,
       vazifaMasulHodim: document.getElementById('vazifa-masul-hodim').value,
       vazifa: document.getElementById('vazifa').value
     };

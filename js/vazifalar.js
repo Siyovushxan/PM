@@ -21,62 +21,71 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	// Loyihalarni render qilish
 	function renderProjects() {
-		projectsContainer.innerHTML = ''
+		projectsContainer.innerHTML = '';
 		projects.forEach((project, projectIndex) => {
-			const projectCard = document.createElement('div')
-			projectCard.classList.add('project-card')
+		  const projectCard = document.createElement('div');
+		  projectCard.classList.add('project-card');
+	  
+		  // Loyihaning tugash sana va joriy sanasini olish
+		  const currentDate = new Date();
+		  const endDate = new Date(project.endDate);
+		  const remainingTime = endDate - currentDate;
+		  const remainingDays = Math.floor(remainingTime / (1000 * 3600 * 24)); // Qolgan kunlar
+	  
+		  projectCard.innerHTML = `
+		  <h3 class="project-title">${projectIndex + 1}. ${project.name}</h3>
+		  <p class="project-description">${project.description}</p>
+		  <p class="project-dates">Boshlanish: ${project.startDate} | Tugash: ${project.endDate}</p>
+		  <p class="project-remaining">Loyihani bajarish uchun qolgan: ${remainingDays}</p> <!-- Qolgan kunlarni chiqarish -->
+		  <p class="project-status">Status: <span class="status">${project.status.toUpperCase()}</span></p>
+	  
+		  <div class="tasks">
+			<h4>Vazifalar:</h4>
+			${
+			  project.tasks && project.tasks.length > 0
+				? `
+				  <table class="task-table">
+					<thead>
+					  <tr>
+						<th>ID</th>
+						<th>Vazifa nomi</th>
+						<th>Izoh</th>
+						<th>Muddat</th>
+						<th>Mas'ul hodim</th>
+						<th>Status</th>
+						<th>Amallar</th>
+					  </tr>
+					</thead>
+					<tbody>
+					  ${project.tasks
+						.map((task, taskIndex) => {
+							const taskCurrentDate = new Date();
+							const taskendDate = new Date(projectCard.taskEndDate);
+							const taskRemainingTime = taskendDate - taskCurrentDate;
+							const taskRemainingDays = Math.floor(taskRemainingTime / (1000 * 3600 * 24)); // Qolgan kunlar
 
-			projectCard.innerHTML = `
-        <h3 class="project-title">${projectIndex + 1}. ${project.name}</h3>
-        <p class="project-description">${project.description}</p>
-        <p class="project-dates">Boshlanish: ${project.startDate} | Tugash: ${
-				project.endDate
-			}</p>
-        <p class="project-status">Status: <span class="status">${project.status.toUpperCase()}</span></p>
-
-<div class="tasks">
-  <h4>Vazifalar:</h4>
-  ${
-		project.tasks && project.tasks.length > 0
-			? `
-      <table class="task-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Vazifa nomi</th>
-            <th>Izoh</th>
-            <th>Muddat</th>
-            <th>Mas'ult status</th>
-            <th>Status</th>
-            <th>Amallar</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${project.tasks
-						.map(
-							(task, taskIndex) => `
-              <tr>
-                <td>${taskIndex + 1}</td>
-                <td class"name-vazifa">${task.name}</td>
-                <td class"description">${task.description}</td>
-                <td class"startDate">${task.startDate} - ${task.endDate}</td>
-                <td class"vazifaMasulHodim">${task.vazifaMasulHodim}</td>
-                <td class"vazifa" style="font-weight: bold">${task.vazifa.toUpperCase()}</td>
-                <td class="task-actions">
-                  <button class="edit-task-btn" data-project-index="${projectIndex}" data-task-index="${taskIndex}">Tahrirlash</button>
-                  <button class="delete-task-btn" data-project-index="${projectIndex}" data-task-index="${taskIndex}">O'chirish</button>
-                  <button class="write-task-btn" data-project-index="${projectIndex}" data-task-index="${taskIndex}">Xabar yozish</button>
-                </td>
-              </tr>`
-						)
+						  return `
+							<tr>
+							  <td>${taskIndex + 1}</td>
+							  <td class="name-vazifa">${task.name}</td>
+							  <td class="description">${task.description}</td>
+							  <td class="startDate">${task.taskStartDate} - ${task.taskEndDate} </br>${taskRemainingTime} kun</td> <!-- Qolgan kunlarni ko'rsatish -->
+							  <td class="vazifaMasulHodim">${task.vazifaMasulHodim}</td>
+							  <td class="vazifa" style="font-weight: bold">${task.vazifa.toUpperCase()}</td>
+							  <td class="task-actions">
+								<button class="edit-task-btn" data-project-index="${projectIndex}" data-task-index="${taskIndex}">Tahrirlash</button>
+								<button class="delete-task-btn" data-project-index="${projectIndex}" data-task-index="${taskIndex}">O'chirish</button>
+								<button class="write-task-btn" data-project-index="${projectIndex}" data-task-index="${taskIndex}">Xabar yozish</button>
+							  </td>
+							</tr>`;
+						})
 						.join('')}
-        </tbody>
-      </table>`
-			: '<p>Hozircha vazifa yo‘q</p>'
-	}
-</div>
-
-      `
+					</tbody>
+				  </table>`
+				: '<p>Hozircha vazifa yo`q</p>'
+			}
+		  </div>
+		`;
 			projectsContainer.appendChild(projectCard)
 		})
 
@@ -90,8 +99,8 @@ document.addEventListener('DOMContentLoaded', function () {
 				document.getElementById('edit-task-name').value = task.name
 				document.getElementById('edit-task-description').value =
 					task.description
-				document.getElementById('edit-task-start-date').value = task.startDate
-				document.getElementById('edit-task-end-date').value = task.endDate
+				document.getElementById('edit-task-start-date').value = task.taskStartDate
+				document.getElementById('edit-task-end-date').value = task.taskEndDate
 				document.getElementById('edit-task-status').value = task.vazifa
 				document.getElementById('edit-task-responsible').value =
 					task.vazifaMasulHodim
@@ -122,8 +131,8 @@ document.addEventListener('DOMContentLoaded', function () {
 		const updatedTask = {
 			name: document.getElementById('edit-task-name').value,
 			description: document.getElementById('edit-task-description').value,
-			startDate: document.getElementById('edit-task-start-date').value,
-			endDate: document.getElementById('edit-task-end-date').value,
+			taskStartDate: document.getElementById('edit-task-start-date').value,
+			taskEndDate: document.getElementById('edit-task-end-date').value,
 			vazifa: document.getElementById('edit-task-status').value,
 			vazifaMasulHodim: document.getElementById('edit-task-responsible').value,
 		}
