@@ -330,11 +330,14 @@ form button:hover {
   background-color: #f4f4f4;
 }
 .tasks .task-table thead th {
-  text-align: center;
+  height: 5rem;
+  background-color: #2f4f4f;
+  color: #fff;
+  text-align: start;
   padding: 10px;
   border-bottom: 2px solid #ddd;
   font-weight: bold;
-  font-size: 19px;
+  font-size: 25px;
 }
 .tasks .task-table tbody tr:nth-child(even) {
   background-color: #f9f9f9;
@@ -343,8 +346,23 @@ form button:hover {
   background-color: #123524;
   color: white;
 }
+.tasks .task-table tbody tr .due-today {
+  color: #f39c12;
+  margin-top: 0.5rem;
+  font-weight: bold;
+}
+.tasks .task-table tbody tr .on-time {
+  color: #1c7c32;
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+.tasks .task-table tbody tr .overdue {
+  color: #a71d2a;
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
 .tasks .task-table tbody tr td {
-  min-height: 5rem;
+  min-height: 6rem;
   padding: 10px;
   border-bottom: 1px solid #ddd;
   font-size: 17px;
@@ -409,20 +427,21 @@ form button:hover {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 .loyiha_vazifalari .vazifalar .project-card .project-title {
-  font-size: 2rem;
   font-weight: bold;
-  color: #333;
+  font-size: 2rem;
 }
 .loyiha_vazifalari .vazifalar .project-card .project-description {
   margin: 1.5rem 0;
-  color: #555;
+  font-size: 1.5rem;
 }
 .loyiha_vazifalari .vazifalar .project-card .project-dates,
-.loyiha_vazifalari .vazifalar .project-card .project-status {
-  font-size: 1rem;
-  color: #777;
+.loyiha_vazifalari .vazifalar .project-card .project-status, .loyiha_vazifalari .vazifalar .project-card .project-remaining {
+  font-size: 1.3rem;
 }
-.loyiha_vazifalari .vazifalar .project-card .status {
+.loyiha_vazifalari .vazifalar .project-card .project-status, .loyiha_vazifalari .vazifalar .project-card .project-remaining {
+  margin-top: 1rem;
+}
+.loyiha_vazifalari .vazifalar .project-card .vazifalar-ruyxati {
+  font-size: 2rem;
   font-weight: bold;
-  color: #007bff;
 }/*# sourceMappingURL=style.css.map */

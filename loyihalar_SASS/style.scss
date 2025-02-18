@@ -391,11 +391,14 @@ form {
 			background-color: #f4f4f4;
 
 			th {
-        text-align: center;
+				height: 5rem;
+				background-color: #2f4f4f;
+				color: #fff;
+				text-align: start;
 				padding: 10px;
 				border-bottom: 2px solid #ddd;
 				font-weight: bold;
-				font-size: 19px;
+				font-size: 25px;
 			}
 		}
 
@@ -410,8 +413,26 @@ form {
 					color: white;
 				}
 
+				.due-today {
+					color: #f39c12;
+					margin-top: 0.5rem;
+					font-weight: bold;
+				}
+
+				.on-time {
+					color: #1c7c32;
+					font-weight: bold;
+					margin-top: 0.5rem;
+				}
+
+				.overdue {
+					color: #a71d2a;
+					font-weight: bold;
+					margin-top: 0.5rem;
+				}
+
 				td {
-					min-height: 5rem;
+					min-height: 6rem;
 					padding: 10px;
 					border-bottom: 1px solid #ddd;
 					font-size: 17px;
@@ -491,25 +512,27 @@ form {
 			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
 			.project-title {
-				font-size: 2rem;
 				font-weight: bold;
-				color: #333;
+				font-size: 2rem;
 			}
 
 			.project-description {
 				margin: 1.5rem 0;
-				color: #555;
+				font-size: 1.5rem;
 			}
 
 			.project-dates,
-			.project-status {
-				font-size: 1rem;
-				color: #777;
+			.project-status, .project-remaining {
+				font-size: 1.3rem;
 			}
 
-			.status {
+			.project-status, .project-remaining {
+				margin-top: 1rem;
+			}
+
+			.vazifalar-ruyxati {
+				font-size: 2rem;
 				font-weight: bold;
-				color: #007bff;
 			}
 		}
 	}
