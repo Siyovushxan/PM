@@ -1,41 +1,30 @@
-// Formani olish
-const projectForm = document.querySelector('.project-form');
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector(".project-form");
 
-// Loyihalarni localStorage'ga qo'shish
-projectForm.addEventListener('submit', function (e) {
-  e.preventDefault(); // Formani yuborishni to'xtatish
+  form.addEventListener("submit", function (e) {
+      e.preventDefault(); // Sahifa yangilanib ketmasligi uchun
 
-  // Formadagi ma'lumotlarni olish
-  const projectName = document.querySelector('#project-name').value;
-  const projectDescription = document.querySelector('#project-description').value;
-  const startDate = document.querySelector('#start-date').value;
-  const endDate = document.querySelector('#end-date').value;
-  const status = document.querySelector('#status').value;
-  const statusMasul = document.querySelector('#statusMasul').value;
+      const projectData = {
+          name: document.getElementById("project-name").value,
+          description: document.getElementById("project-description").value,
+          startDate: document.getElementById("start-date").value,
+          endDate: document.getElementById("end-date").value,
+          status: document.getElementById("status").value,
+          responsible: document.getElementById("statusMasul").value,
+      };
 
-  // LocalStorage'dan mavjud loyihalarni olish yoki bo'sh massiv yaratish
-  const projects = JSON.parse(localStorage.getItem('projects')) || [];
-
-  // Yangi loyiha obyektini yaratish
-  const newProject = {
-    id: Date.now(), // Loyihaning noyob ID'si
-    name: projectName,
-    description: projectDescription,
-    startDate: startDate,
-    endDate: endDate,
-    status: status,
-    statusMasul: statusMasul
-  };
-
-  // Yangi loyihani massivga qo'shish
-  projects.push(newProject);
-
-  // Yangi massivni localStorage'ga saqlash
-  localStorage.setItem('projects', JSON.stringify(projects));
-
-  // Xabar berish
-  alert('Loyiha muvaffaqiyatli qo\'shildi!');
-
-  // Formani tozalash
-  projectForm.reset();
+      fetch("http://localhost:5000/api/projects", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+          },
+          body: JSON.stringify(projectData),
+      })
+          .then((response) => response.json())
+          .then((data) => {
+              alert(data.message);
+              form.reset(); // Formani tozalash
+          })
+          .catch((error) => console.error("Xatolik:", error));
+  });
 });
