@@ -6,12 +6,12 @@ const app = express();
 app.use(cors());
 app.use(express.json()); // JSON ma'lumotlarni o‘qish uchun
 
-// MySQL bilan bog‘lanish
+// ** MySQL bilan bog‘lanish **
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'Hacker$1995', // O'zingizning MySQL parolingizni kiriting
-    database: 'loyihalar'
+    database: 'pm_navoiyuran'
 });
 
 db.connect(err => {
@@ -19,24 +19,63 @@ db.connect(err => {
         console.error('MySQLga ulanishda xatolik: ' + err.message);
         return;
     }
-    console.log('MySQLga muvaffaqiyatli ulandi!');
+    console.log('✅ MySQLga muvaffaqiyatli ulandi!');
 });
 
-// Yangi loyihani bazaga qo'shish
+// ** Yangi loyihani bazaga qo'shish API **
 app.post('/api/projects', (req, res) => {
-    const { name, description, start_date, end_date, status, responsible } = req.body;
+    const { name, description, startDate, endDate, status, responsible } = req.body;
 
-    const sql = 'INSERT INTO projects (name, description, start_date, end_date, status, responsible) VALUES (?, ?, ?, ?, ?, ?)';
-    db.query(sql, [name, description, start_date, end_date, status, responsible], (err, result) => {
+    if (!name || !description || !startDate || !endDate || !status || !responsible) {
+        return res.status(400).json({ message: "Barcha maydonlarni to‘ldiring!" });
+    }
+
+    const sql = 'INSERT INTO projects (name, description, startDate, endDate, status, responsible) VALUES (?, ?, ?, ?, ?, ?)';
+    db.query(sql, [name, description, startDate, endDate, status, responsible], (err, result) => {
         if (err) {
-            console.error(err);
+            console.error("MySQL xatolik:", err);
             return res.status(500).json({ message: 'Loyiha qo‘shishda xatolik yuz berdi' });
         }
         res.status(201).json({ message: 'Loyiha muvaffaqiyatli qo‘shildi!' });
     });
 });
 
-// Serverni ishga tushirish
-app.listen(5000, () => {
-    console.log('Server 5000-portda ishga tushdi');
+// ** Serverni ishga tushirish **
+const PORT = 5000;
+app.listen(PORT, () => {
+    console.log(`✅ Server ${PORT} portda ishlamoqda...`);
 });
+
+// ** Barcha loyihalarni bazadan olish API **
+app.get('/api/projects/:id', (req, res) => {
+    const projectId = req.params.id;
+
+    const sql = `SELECT * FROM projects WHERE id = ?`;
+    db.query(sql, [projectId], (err, result) => {
+        if (err) {
+            console.error("Xatolik:", err);
+            return res.status(500).json({ message: "Loyihani yuklab bo'lmadi" });
+        }
+        if (result.length === 0) {
+            return res.status(404).json({ message: "Loyiha topilmadi" });
+        }
+        res.json(result[0]);
+    });
+});
+
+
+// ** Loyihani tahrirlash API **
+app.get('/api/projects/:id', (req, res) => {
+    const projectId = req.params.id;
+    db.query('SELECT * FROM projects WHERE id = ?', [projectId], (err, result) => {
+        if (err) {
+            res.status(500).json({ error: "Database error" });
+        } else if (result.length === 0) {
+            res.status(404).json({ error: "Project not found" });
+        } else {
+            res.json(result[0]);
+        }
+    });
+});
+
+

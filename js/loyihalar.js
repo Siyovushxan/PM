@@ -1,193 +1,101 @@
-document.addEventListener('DOMContentLoaded', function () {
-	const projectsContainer = document.querySelector('.projects')
-	const editModal = document.getElementById('editModal')
-	const taskModal = document.getElementById('taskModal')
-	const closeEditModal = document.querySelector('.close')
-	const closeTaskModal = document.querySelector('.close-task')
-	const editForm = document.getElementById('edit-form')
-	const taskForm = document.getElementById('task-form')
+document.addEventListener("DOMContentLoaded", async () => {
+    const projectsContainer = document.querySelector(".projects");
+    const editModal = document.getElementById("editModal");
+    const editForm = document.getElementById("edit-form");
+    const closeModal = document.querySelector(".close");
 
-	// LocalStorage'dan loyihalarni olish
-	let projects = JSON.parse(localStorage.getItem('projects')) || []
+    let currentProjectId = null; // Hozir tahrirlanayotgan loyiha ID-si
 
-	// Loyihalarni ekranga chiqarish funksiyasi
-	function renderProjects() {
-		projectsContainer.innerHTML = '' // Oldingi ma'lumotlarni tozalash
+    try {
+        const response = await fetch("http://localhost:5000/api/projects");
+        const projects = await response.json();
 
-		projects.forEach((project, index) => {
-			// Loyihaning tugash sanasi va boshlanish sanasini olish
-			const startDate = new Date(project.startDate)
-			const endDate = new Date(project.endDate)
+        if (projects.length === 0) {
+            projectsContainer.innerHTML = "<p>Hozircha hech qanday loyiha yo'q.</p>";
+            return;
+        }
 
-			if (isNaN(startDate) || isNaN(endDate)) {
-				console.error(
-					`Noto'g'ri sana formati: ${project.startDate} yoki ${project.endDate}`
-				)
-				return
-			}
+        projects.forEach(project => {
+            const projectCard = document.createElement("div");
+            projectCard.classList.add("project-card");
 
-			// Joriy sana
-			const currentDate = new Date()
+            projectCard.innerHTML = `
+                <h3 class="project-title">${project.name}</h3>
+                <p class="project-description">${project.description}</p>
+                <p class="project-dates">Boshlanish: ${project.startDate} | Tugash: ${project.endDate}</p>
+                <p class="project-status">Status: <span class="status">${project.status.toUpperCase()}</span></p>
+                <p class="project-status">Mas'ul hodim: <span class="status">${project.statusMasul}</span></p>
+                <div class="bottons">
+                    <div class="left">
+                        <button class="edit-btn" data-id="${project.id}">Tahrirlash</button>
+                        <button class="delete-btn" data-id="${project.id}">O'chirish</button>
+                    </div>
+                    <div class="right">
+                        <button class="add-task-btn" data-id="${project.id}">Vazifa qo'shish</button>
+                    </div>
+                </div>
+            `;
 
-			// Loyihaning tugash sanasi va joriy sana o'rtasidagi farqni hisoblash
-			const remainingTime = endDate - currentDate // Millisekund farq
+            projectsContainer.appendChild(projectCard);
 
-			const remainingDays = Math.ceil(remainingTime / (1000 * 3600 * 24)) // Qolgan kunlar
+        });
 
-			// Agar sanalar teng bo'lsa, "Bugun" deb ko'rsatish
-			let remainingText = ''
-			if (remainingDays === 0) {
-				remainingText = 'Bugun'
-			} else if (remainingDays > 0) {
-				remainingText = `Qolgan ${remainingDays + 1} kun`
-			} else {
-				remainingText = `${Math.abs(
-					remainingDays
-				)} KUNGA KECHIKDI`
-			}
+        // Tahrirlash tugmalarini tanlash va modalni ochish
+        document.querySelectorAll(".edit-btn").forEach(button => {
+            button.addEventListener("click", async (event) => {
+                currentProjectId = event.target.dataset.id; // Loyihani ID sini olish
+                const response = await fetch(`http://localhost:5000/api/projects/${currentProjectId}`); // ✅ To‘g‘ri!
 
-			const projectCard = document.createElement('div')
-			projectCard.classList.add('project-card')
+                const project = await response.json();
 
-			projectCard.innerHTML += `
-      <h3 class="project-title">${project.name}</h3>
-      <p class="project-description">${project.description}</p>
-      <p class="project-dates">Boshlanish: ${project.startDate} | Tugash: ${
-				project.endDate
-			}</p>
-      <p class="project-remaining">Muddat: ${remainingText}</p>
-      <p class="project-status">Status: <span class="status">${project.status.toUpperCase()}</span></p>
-      <p class="project-status">Mas'ul hodim: <span class="status">${
-				project.statusMasul
-			}</span></p>
-      <div class="bottons">
-        <div class="left">
-          <button class="edit-btn" data-index="${index}">Tahrirlash</button>
-          <button class="delete-btn" data-index="${index}">O'chirish</button>
-        </div>
-        <div class="right">
-          <button class="add-task-btn" data-index="${index}">Vazifa qo'shish</button>
-        </div>
-      </div>
-    `
+                // Modal oynani ma’lumotlar bilan to‘ldirish
+                document.getElementById("edit-project-name").value = project.name;
+                document.getElementById("edit-project-description").value = project.description;
+                document.getElementById("edit-start-date").value = project.startDate;
+                document.getElementById("edit-end-date").value = project.endDate;
+                document.getElementById("edit-status").value = project.status;
+                document.getElementById("edit-statusMasul").value = project.responsible;
 
-			projectsContainer.appendChild(projectCard)
-		})
+                editModal.style.display = "block"; // Modalni ochish
+            });
+        });
 
-		// Har bir "Tahrirlash" tugmasiga bosilganda modalni ochish
-		document.querySelectorAll('.edit-btn').forEach(button => {
-			button.addEventListener('click', function () {
-				const projectIndex = this.getAttribute('data-index')
-				const project = projects[projectIndex]
+        // Modal oynani yopish
+        closeModal.addEventListener("click", () => {
+            editModal.style.display = "none";
+        });
 
-				document.getElementById('edit-project-name').value = project.name
-				document.getElementById('edit-project-description').value =
-					project.description
-				document.getElementById('edit-start-date').value = project.startDate
-				document.getElementById('edit-end-date').value = project.endDate
-				document.getElementById('edit-status').value = project.status
-				document.getElementById('edit-statusMasul').value = project.statusMasul
-				document.getElementById('edit-index').value = projectIndex
+        // Modalni saqlash tugmasi bosilganda loyihani yangilash
+        editForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
 
-				editModal.style.display = 'block'
-			})
-		})
+            const updatedProject = {
+                name: document.getElementById("edit-project-name").value,
+                description: document.getElementById("edit-project-description").value,
+                startDate: document.getElementById("edit-start-date").value,
+                endDate: document.getElementById("edit-end-date").value,
+                status: document.getElementById("edit-status").value,
+                responsible: document.getElementById("edit-statusMasul").value
+            };
 
-		// Har bir "O'chirish" tugmasiga bosilganda loyiha o'chiriladi
-		document.querySelectorAll('.delete-btn').forEach(button => {
-			button.addEventListener('click', function () {
-				const projectIndex = this.getAttribute('data-index')
-				const confirmation = confirm(
-					'Siz ushbu loyihani o‘chirishga ishonchingiz komilmi?'
-				)
-				if (confirmation) {
-					projects.splice(projectIndex, 1) // Loyihani massivdan o'chirish
-					localStorage.setItem('projects', JSON.stringify(projects)) // Yangilangan massivni saqlash
-					renderProjects() // Loyihalarni qayta ko'rsatish
-				}
-			})
-		})
+            const response = await fetch(`http://localhost:5000/api/projects/${currentProjectId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(updatedProject)
+            });
 
-		// Har bir "Vazifa Qo'shish" tugmasiga bosilganda modalni ochish
-		document.querySelectorAll('.add-task-btn').forEach(button => {
-			button.addEventListener('click', function () {
-				const projectIndex = this.getAttribute('data-index')
-				document.getElementById('task-index').value = projectIndex
-				taskModal.style.display = 'block'
-			})
-		})
-	}
+            if (response.ok) {
+                alert("Loyiha yangilandi!");
+                location.reload(); // Sahifani yangilash
+            } else {
+                alert("Xatolik yuz berdi!");
+            }
+        });
 
-	// Loyihalarni birinchi marta yuklash
-	renderProjects()
-
-	// Tahrir modalini yopish
-	closeEditModal.addEventListener('click', function () {
-		editModal.style.display = 'none'
-	})
-
-	// Vazifa modalini yopish
-	closeTaskModal.addEventListener('click', function () {
-		taskModal.style.display = 'none'
-	})
-
-	window.addEventListener('click', function (event) {
-		if (event.target == editModal) {
-			editModal.style.display = 'none'
-		}
-		if (event.target == taskModal) {
-			taskModal.style.display = 'none'
-		}
-	})
-
-	// Tahrirlangan loyihani saqlash
-	editForm.addEventListener('submit', function (event) {
-		event.preventDefault()
-
-		const projectIndex = document.getElementById('edit-index').value
-
-		projects[projectIndex] = {
-			...projects[projectIndex],
-			name: document.getElementById('edit-project-name').value,
-			description: document.getElementById('edit-project-description').value,
-			startDate: document.getElementById('edit-start-date').value,
-			endDate: document.getElementById('edit-end-date').value,
-			status: document.getElementById('edit-status').value,
-			statusMasul: document.getElementById('edit-statusMasul').value,
-		}
-
-		localStorage.setItem('projects', JSON.stringify(projects)) // Yangilangan loyihalarni saqlash
-		editModal.style.display = 'none'
-
-		renderProjects() // Yangilangan ma'lumotlarni chiqarish
-	})
-
-	// Yangi vazifa qo'shish
-	taskForm.addEventListener('submit', function (event) {
-		event.preventDefault()
-
-		const projectIndex = document.getElementById('task-index').value
-
-		const newTask = {
-			name: document.getElementById('task-name').value,
-			description: document.getElementById('task-description').value,
-			taskStartDate: document.getElementById('task-start-date').value,
-			taskEndDate: document.getElementById('task-end-date').value,
-			vazifaMasulHodim: document.getElementById('vazifa-masul-hodim').value,
-			vazifa: document.getElementById('vazifa').value,
-		}
-
-		if (!projects[projectIndex].tasks) {
-			projects[projectIndex].tasks = []
-		}
-
-		projects[projectIndex].tasks.push(newTask)
-
-		localStorage.setItem('projects', JSON.stringify(projects))
-		taskModal.style.display = 'none'
-
-		renderProjects()
-
-		taskForm.reset()
-	})
-})
+    } catch (error) {
+        console.error("Xatolik:", error);
+        projectsContainer.innerHTML = "<p>Serverga ulanishda xatolik yuz berdi.</p>";
+    }
+});
