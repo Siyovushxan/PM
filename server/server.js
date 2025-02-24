@@ -6,11 +6,11 @@ const app = express();
 app.use(cors());
 app.use(express.json()); // JSON ma'lumotlarni o‘qish uchun
 
-// ** MySQL bilan bog‘lanish **
+// MySQL bilan bog‘lanish
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'Hacker$1995', // O'zingizning MySQL parolingizni kiriting
+    password: 'Hacker$1995',
     database: 'pm_navoiyuran'
 });
 
@@ -22,7 +22,7 @@ db.connect(err => {
     console.log('✅ MySQLga muvaffaqiyatli ulandi!');
 });
 
-// ** Yangi loyihani bazaga qo'shish API **
+// Yangi loyihani qo‘shish API
 app.post('/api/projects', (req, res) => {
     const { name, description, startDate, endDate, status, responsible } = req.body;
 
@@ -40,16 +40,21 @@ app.post('/api/projects', (req, res) => {
     });
 });
 
-// ** Serverni ishga tushirish **
-const PORT = 5000;
-app.listen(PORT, () => {
-    console.log(`✅ Server ${PORT} portda ishlamoqda...`);
+// Barcha loyihalarni olish API
+app.get('/api/projects', (req, res) => {
+    const sql = 'SELECT * FROM projects';
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error("Xatolik:", err);
+            return res.status(500).json({ message: "Loyihalarni yuklab bo'lmadi" });
+        }
+        res.json(results);
+    });
 });
 
-// ** Barcha loyihalarni bazadan olish API **
+// Bitta loyihani olish API
 app.get('/api/projects/:id', (req, res) => {
     const projectId = req.params.id;
-
     const sql = `SELECT * FROM projects WHERE id = ?`;
     db.query(sql, [projectId], (err, result) => {
         if (err) {
@@ -63,19 +68,43 @@ app.get('/api/projects/:id', (req, res) => {
     });
 });
 
-
-// ** Loyihani tahrirlash API **
-app.get('/api/projects/:id', (req, res) => {
+// Loyihani yangilash API
+app.put('/api/projects/:id', (req, res) => {
     const projectId = req.params.id;
-    db.query('SELECT * FROM projects WHERE id = ?', [projectId], (err, result) => {
+    const { name, description, startDate, endDate, status, responsible } = req.body;
+
+    const sql = 'UPDATE projects SET name = ?, description = ?, startDate = ?, endDate = ?, status = ?, responsible = ? WHERE id = ?';
+    db.query(sql, [name, description, startDate, endDate, status, responsible, projectId], (err, result) => {
         if (err) {
-            res.status(500).json({ error: "Database error" });
-        } else if (result.length === 0) {
-            res.status(404).json({ error: "Project not found" });
-        } else {
-            res.json(result[0]);
+            console.error("Xatolik:", err);
+            return res.status(500).json({ message: "Loyihani yangilashda xatolik" });
         }
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "Loyiha topilmadi" });
+        }
+        res.json({ message: "Loyiha muvaffaqiyatli yangilandi" });
     });
 });
 
+// Loyihani o‘chirish API
+app.delete('/api/projects/:id', (req, res) => {
+    const projectId = req.params.id;
 
+    const sql = 'DELETE FROM projects WHERE id = ?';
+    db.query(sql, [projectId], (err, result) => {
+        if (err) {
+            console.error("Xatolik:", err);
+            return res.status(500).json({ message: "Loyihani o‘chirishda xatolik" });
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "Loyiha topilmadi" });
+        }
+        res.json({ message: "Loyiha muvaffaqiyatli o‘chirildi" });
+    });
+});
+
+// Serverni ishga tushirish
+const PORT = 5000;
+app.listen(PORT, () => {
+    console.log(`✅ Server ${PORT} portda ishlamoqda...`);
+});

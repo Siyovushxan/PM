@@ -10,7 +10,7 @@ body {
 }
 
 .navbar {
-  margin-bottom: 3.5rem;
+  margin-bottom: 1rem;
   background-color: #123524;
   padding: 1rem 2rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -56,392 +56,114 @@ body {
   color: #3a5c64;
 }
 
-.container {
-  padding: 2rem;
-  width: 90%;
-  margin: 0 auto;
-  background-color: #fff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-}
-.container h2 {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-.container .title_vazifa {
-  text-align: center;
-  margin-bottom: 1rem;
-}
-.container .projects {
+.projects {
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem;
-  justify-content: center;
-}
-.container .project-card {
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 30%;
-  padding: 1.5rem;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-.container .project-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-}
-.container .project-card .project-title {
-  font-size: 2.2rem;
-  font-weight: bold;
-  color: #123524;
-  margin-bottom: 0.8rem;
-}
-.container .project-card .project-description {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  color: #555;
-}
-.container .project-card .project-dates {
-  font-size: 1.3rem;
-  color: #888;
-  margin-bottom: 1rem;
-}
-.container .project-card .project-status {
-  font-size: 1.2rem;
-}
-.container .project-card .project-status .status {
-  font-weight: bold;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-}
-.container .project-card .project-status .planned {
-  background-color: #f39c12;
-  color: #fff;
-}
-.container .project-card .project-status .ongoing {
-  background-color: #3498db;
-  color: #fff;
-}
-.container .project-card .project-status .completed {
-  background-color: #2ecc71;
-  color: #fff;
-}
-.container .project-card .project-status .paused {
-  background-color: #e74c3c;
-  color: #fff;
-}
-.container .project-card .bottons {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 1rem;
-}
-.container .project-card .bottons .left {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-}
-.container .project-card .edit-btn,
-.container .project-card .delete-btn,
-.container .project-card .add-task-btn {
-  border: none;
-  border-radius: 10%;
-}
-.container .project-card .edit-btn {
-  margin-top: -0.01px;
-  background-color: #007bff; /* Tahrirlash uchun moviy rang */
-  color: white;
-}
-.container .project-card .delete-btn {
-  background-color: #dc3545; /* O'chirish uchun qizil rang */
-  color: white;
-}
-.container .project-card .add-task-btn {
-  background-color: #0c6354; /* Vazifa qo'shish uchun to'q yashil rang */
-  color: white;
-}
-
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
-.modal-content {
-  background-color: white;
+  gap: 20px;
   padding: 20px;
-  margin: 10% auto;
-  width: 40%;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.close {
-  float: right;
-  font-size: 24px;
-  cursor: pointer;
-}
-
-button {
-  padding: 10px;
-  border: none;
-  cursor: pointer;
-}
-
-.edit-btn {
-  background-color: #123524;
-  color: white;
-  margin-top: 1rem;
-}
-
-.save-btn {
-  background-color: #28a745;
-  color: white;
-}
-
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
   justify-content: center;
-  align-items: center;
-  transition: opacity 0.3s ease-in-out;
-  z-index: 1000;
 }
-
-.modal-content {
+.projects .project-card {
   background-color: #ffffff;
-  padding: 2rem;
-  border-radius: 15px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-  width: 600px;
-  max-width: 90%;
-  max-height: 80vh;
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-.modal-content .close-task {
-  cursor: pointer;
-  font-size: 2rem;
-}
-.modal-content h2 {
-  text-align: center;
-  color: #123524;
-  font-size: 1.6rem;
-}
-.modal-content .close {
-  position: absolute;
-  top: 1px;
-  right: 15px;
-  font-size: 1.8rem;
-  color: #34495e;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-.modal-content .close:hover {
-  color: #e74c3c;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  height: 100%;
-}
-form label {
-  font-size: 1rem;
-  color: #34495e;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-form input[type=text],
-form input[type=date],
-form textarea,
-form select {
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
-  padding: 0.8rem;
-  margin-bottom: 1rem;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  font-size: 1rem;
-  transition: border-color 0.3s ease;
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-form input[type=text]:focus,
-form input[type=date]:focus,
-form textarea:focus,
-form select:focus {
-  border-color: #123524;
-  outline: none;
+.projects .project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
-form textarea {
-  resize: vertical;
-  min-height: 80px;
+.projects .project-card .project-title {
+  font-size: 1.5em;
+  color: #2c3e50;
+  margin-bottom: 10px;
+  font-weight: bold;
 }
-form select {
-  padding: 0.8rem;
-  font-size: 1rem;
+.projects .project-card .project-description {
+  font-size: 1em;
+  color: #666;
+  margin-bottom: 10px;
+  line-height: 1.5;
 }
-form button {
-  background-color: #123524;
-  color: #fff;
-  padding: 0.8rem;
-  font-size: 1rem;
+.projects .project-card .project-dates,
+.projects .project-card .project-status {
+  font-size: 0.9em;
+  color: #777;
+  margin-bottom: 8px;
+}
+.projects .project-card .project-dates .status,
+.projects .project-card .project-status .status {
+  font-weight: bold;
+  color: #3498db;
+}
+.projects .project-card .project-status:last-child {
+  margin-bottom: 15px;
+}
+.projects .project-card .bottons {
+  display: flex;
+  justify-content: space-between;
+}
+.projects .project-card .bottons .left {
+  display: flex;
+  gap: 10px;
+}
+.projects .project-card .bottons .left button {
+  padding: 8px 16px;
   border: none;
-  border-radius: 8px;
+  border-radius: 4px;
   cursor: pointer;
+  font-size: 0.9em;
   transition: background-color 0.3s ease;
 }
-form button:hover {
-  background-color: #123524;
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.tasks {
-  margin-top: 20px;
-}
-.tasks .task-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-}
-.tasks .task-table thead {
-  background-color: #f4f4f4;
-}
-.tasks .task-table thead th {
-  height: 5rem;
-  background-color: #2f4f4f;
-  color: #fff;
-  text-align: start;
-  padding: 10px;
-  border-bottom: 2px solid #ddd;
-  font-weight: bold;
-  font-size: 25px;
-}
-.tasks .task-table tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-.tasks .task-table tbody tr:hover {
-  background-color: #123524;
+.projects .project-card .bottons .left button.edit-btn {
+  background-color: #3498db;
   color: white;
 }
-.tasks .task-table tbody tr .due-today {
-  color: #f39c12;
-  margin-top: 0.5rem;
-  font-weight: bold;
+.projects .project-card .bottons .left button.edit-btn:hover {
+  background-color: #2980b9;
 }
-.tasks .task-table tbody tr .on-time {
-  color: #1c7c32;
-  font-weight: bold;
-  margin-top: 0.5rem;
+.projects .project-card .bottons .left button.delete-btn {
+  background-color: #e74c3c;
+  color: white;
 }
-.tasks .task-table tbody tr .overdue {
-  color: #a71d2a;
-  font-weight: bold;
-  margin-top: 0.5rem;
+.projects .project-card .bottons .left button.delete-btn:hover {
+  background-color: #c0392b;
 }
-.tasks .task-table tbody tr td {
-  min-height: 6rem;
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-  font-size: 17px;
-  vertical-align: middle; /* Vertikal markazlash */
-}
-.tasks .task-table tbody tr td:nth-child(2), .tasks .task-table tbody tr td:nth-child(3) {
-  width: 25%; /* Izoh */
-}
-.tasks .task-table tbody tr td:nth-child(4) {
-  width: 13%; /* Boshlanish - Tugash sanasi */
-}
-.tasks .task-table tbody tr td:nth-child(5) {
-  width: 10%; /* Mas'ul hodim */
-}
-.tasks .task-table tbody tr td.task-actions {
-  display: flex;
-  justify-content: center; /* Gorizontal markazlash */
-  align-items: center; /* Vertikal markazlash */
-  gap: 5px;
-}
-.tasks .task-table tbody tr td.task-actions button {
-  height: 3rem;
-  padding: 5px 10px;
-  font-size: 14px;
+.projects .project-card .bottons .right button {
+  padding: 8px 16px;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
+  background-color: #2ecc71;
+  color: white;
   cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.3s ease;
 }
-.tasks .task-table tbody tr td.task-actions button.edit-task-btn {
-  background-color: #007bff;
-  color: white;
-}
-.tasks .task-table tbody tr td.task-actions button.delete-task-btn {
-  background-color: #dc3545;
-  color: white;
-}
-.tasks .task-table tbody tr td.task-actions button.delete-task-btn:hover {
-  background-color: #a71d2a;
-}
-.tasks .task-table tbody tr td.task-actions button.write-task-btn {
-  background-color: #28a745;
-  color: white;
-}
-.tasks .task-table tbody tr td.task-actions button.write-task-btn:hover {
-  background-color: #1c7c32;
+.projects .project-card .bottons .right button:hover {
+  background-color: #27ae60;
 }
 
-.loyiha_vazifalari {
-  width: 90%;
-  margin-left: 5%;
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
-.loyiha_vazifalari .vazifalar {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  margin-top: 2rem;
+.container h2 {
+  color: #2c3e50;
+  margin-bottom: 15px;
+  font-size: 2em;
 }
-.loyiha_vazifalari .vazifalar .project-card {
-  padding: 1.5rem;
-  background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.container .title_vazifa {
+  color: #7f8c8d;
+  margin-bottom: 20px;
+  font-size: 1.1em;
 }
-.loyiha_vazifalari .vazifalar .project-card .project-title {
-  font-weight: bold;
-  font-size: 2rem;
-}
-.loyiha_vazifalari .vazifalar .project-card .project-description {
-  margin: 1.5rem 0;
-  font-size: 1.5rem;
-}
-.loyiha_vazifalari .vazifalar .project-card .project-dates,
-.loyiha_vazifalari .vazifalar .project-card .project-status, .loyiha_vazifalari .vazifalar .project-card .project-remaining {
-  font-size: 1.3rem;
-}
-.loyiha_vazifalari .vazifalar .project-card .project-status, .loyiha_vazifalari .vazifalar .project-card .project-remaining {
-  margin-top: 1rem;
-}
-.loyiha_vazifalari .vazifalar .project-card .vazifalar-ruyxati {
-  font-size: 2rem;
-  font-weight: bold;
+
+@media (max-width: 768px) {
+  .projects .project-card {
+    width: 100%;
+    margin-bottom: 15px;
+  }
 }/*# sourceMappingURL=style.css.map */
