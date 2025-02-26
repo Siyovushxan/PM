@@ -166,7 +166,7 @@ body {
   color: white;
 }
 .projects .project-card .bottons .edd-task-btn:hover {
-  background-color: #27ae60;
+  background-color: #126635;
 }
 
 .container {
@@ -265,7 +265,7 @@ body {
 }
 .modal .modal-content form button[type=submit] {
   padding: 12px 20px;
-  background-color: #2c3e50;
+  background-color: #123524;
   color: white;
   border: none;
   border-radius: 4px;
@@ -359,7 +359,7 @@ body {
   align-items: center;
 }
 .task-buttons .edd-task-btn:hover {
-  background-color: #27ae60;
+  background-color: #126635;
 }
 
 .modal {
@@ -434,16 +434,13 @@ body {
 }
 .modal .modal-content form button[type=submit] {
   padding: 12px 20px;
-  background-color: #2ecc71;
+  background-color: #123524;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 1em;
   transition: background-color 0.3s ease;
-}
-.modal .modal-content form button[type=submit]:hover {
-  background-color: #27ae60;
 }
 .modal .close-edit-task {
   color: #aaa;
@@ -486,5 +483,53 @@ body {
   }
   .modal .close-edit-task {
     font-size: 24px;
+  }
+}
+.task-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  font-family: Arial, sans-serif;
+}
+.task-table thead {
+  background-color: #2c3e50;
+  color: white;
+}
+.task-table thead th {
+  padding: 12px;
+  text-align: left;
+  font-size: 1em;
+  font-weight: bold;
+  border-bottom: 2px solid #34495e;
+}
+.task-table tbody tr {
+  transition: background-color 0.3s ease;
+}
+.task-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+.task-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+.task-table tbody tr td {
+  padding: 10px;
+  font-size: 0.9em;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+}
+.task-table th, .task-table td {
+  border: 1px solid #ddd;
+}
+
+.task-table {
+  max-width: 100%;
+  overflow-x: auto;
+}
+@media (max-width: 768px) {
+  .task-table {
+    font-size: 0.85em;
+  }
+  .task-table th, .task-table td {
+    padding: 8px;
   }
 }/*# sourceMappingURL=style.css.map */

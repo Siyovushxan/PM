@@ -14,8 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 throw new Error(`Server javobi: ${response.status} - ${response.statusText}`);
             }
             const tasks = await response.json();
-            console.log("Vazifalar yuklandi:", tasks); // Debugging uchun
-            return tasks || [];
+            return tasks || []; // Agar bo'sh bo'lsa, bo'sh massiv qaytarilsin
         } catch (error) {
             console.error("Vazifalarni yuklashda xatolik:", error.message);
             return [];
@@ -51,7 +50,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         <table class="task-table">
                             <thead>
                                 <tr>
-                                    <th style="text-align: center;">id</th> <!-- Yangi raqam ustuni -->
                                     <th>Vazifa nomi</th>
                                     <th>Izoh</th>
                                     <th>Boshlanish sanasi</th>
@@ -61,9 +59,8 @@ document.addEventListener("DOMContentLoaded", () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                ${projectTasks.map((task, index) => `
+                                ${projectTasks.map(task => `
                                     <tr>
-                                        <td style="text-align: center;">${index + 1}</td> <!-- Har loyiha uchun 1-dan boshlanadi -->
                                         <td>${task.vazifa_nomi || '-'}</td>
                                         <td>${task.izoh || '-'}</td>
                                         <td>${task.vazifa_boshlanish_sanasi || '-'}</td>
