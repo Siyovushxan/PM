@@ -37,6 +37,9 @@ document.addEventListener("DOMContentLoaded", () => {
                             <button class="edit-btn" data-id="${project.id}">Tahrirlash</button>
                             <button class="delete-btn" data-id="${project.id}">O'chirish</button>
                         </div>
+                        <div>
+                            <button class="edd-task-btn" data-id="${project.id}">Vazifa qo'shish</button>
+                        </div>
                     </div>
                 `;
                 projectsContainer.appendChild(projectCard);

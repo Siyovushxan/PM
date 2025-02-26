@@ -42,7 +42,7 @@ app.post('/api/projects', (req, res) => {
 
 // Barcha loyihalarni olish API
 app.get('/api/projects', (req, res) => {
-    const sql = 'SELECT * FROM projects';
+    const sql = 'SELECT * FROM projects ORDER BY id ASC'; // id bo‘yicha o‘sish tartibida
     db.query(sql, (err, results) => {
         if (err) {
             console.error("Xatolik:", err);
@@ -100,6 +100,37 @@ app.delete('/api/projects/:id', (req, res) => {
             return res.status(404).json({ message: "Loyiha topilmadi" });
         }
         res.json({ message: "Loyiha muvaffaqiyatli o‘chirildi" });
+    });
+});
+
+// Yangi vazifani qo‘shish API
+app.post('/api/vazifalar', (req, res) => {
+    const { project_id, vazifa_nomi, izoh, vazifa_boshlanish_sanasi, vazifa_tugash_sanasi, vazifa_status, vazifa_masul_hodimi } = req.body;
+
+    // Tekshiruv: Barcha maydonlar to‘ldirilganligini tekshiramiz
+    if (!vazifa_nomi || !izoh || !vazifa_boshlanish_sanasi || !vazifa_tugash_sanasi || !vazifa_status || !vazifa_masul_hodimi || !project_id) {
+        return res.status(400).json({ message: "Barcha maydonlarni to‘ldiring!" });
+    }
+
+    const sql = 'INSERT INTO vazifalar (project_id, vazifa_nomi, izoh, vazifa_boshlanish_sanasi, vazifa_tugash_sanasi, vazifa_status, vazifa_masul_hodimi) VALUES (?, ?, ?, ?, ?, ?, ?)';
+    db.query(sql, [project_id, vazifa_nomi, izoh, vazifa_boshlanish_sanasi, vazifa_tugash_sanasi, vazifa_status, vazifa_masul_hodimi], (err, result) => {
+        if (err) {
+            console.error("MySQL xatolik:", err); // Xatolikni batafsil ko‘rish
+            return res.status(500).json({ message: 'Vazifa qo‘shishda xatolik yuz berdi: ' + err.message });
+        }
+        res.status(201).json({ message: 'Vazifa muvaffaqiyatli qo‘shildi!' });
+    });
+});
+
+// Barcha vazifalarni olish API
+app.get('/api/vazifalar', (req, res) => {
+    const sql = 'SELECT * FROM vazifalar ORDER BY id ASC';
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error("Xatolik:", err);
+            return res.status(500).json({ message: "Vazifalarni yuklab bo'lmadi" });
+        }
+        res.json(results);
     });
 });
 
