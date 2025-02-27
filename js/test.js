@@ -3,28 +3,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const editModal = document.getElementById("editModal");
     const editForm = document.getElementById("edit-form");
     const closeModal = document.querySelector(".close");
+    const editTaskModal = document.getElementById("editTaskModal"); // Vazifa qo‘shish modal
+    const editTaskForm = document.getElementById("edit-task-form");
+    const closeEditTask = document.querySelector(".close-edit-task");
 
     let currentProjectId = null;
 
-    // Kunlar farqini hisoblash funksiyasi
-    function getDaysUntilEnd(endDate) {
-        const now = new Date();
+    // Kunlar farqini hisoblash funksiyalari
+    function getDaysDifference(startDate, endDate) {
+        const start = new Date(startDate);
         const end = new Date(endDate);
-        const differenceMs = end - now;
-        const differenceDays = Math.floor(differenceMs / (1000 * 60 * 60 * 24));
-        return differenceDays >= 0 ? differenceDays : -Math.abs(differenceDays); // O‘tgan kunlarni manfiy sifatda qaytaradi
+        const differenceMs = end - start;
+        const differenceDays = Math.ceil(differenceMs / (1000 * 60 * 60 * 24));
+        return differenceDays > 0 ? differenceDays : 0;
     }
 
-    function getProjectStatusText(daysUntilEnd) {
-        if (daysUntilEnd < 0) {
-            const daysOverdue = -daysUntilEnd;
-            return daysOverdue >= 10 ? `<span style="color: #f1c40f;">${daysOverdue} KUN UTDI</span>` : `<span style="color: #f1c40f;">${daysOverdue} KUN UTDI</span>`;
-        } else if (daysUntilEnd === 0) {
-            return `<span style="color: #e74c3c;">BUGUN</span>`;
-        } else if (daysUntilEnd <= 10) {
-            return `<span style="color: #2ecc71;">${daysUntilEnd} KUN QOLDI</span>`;
-        }
-        return `${daysUntilEnd} KUN QOLDI`; // 10 kundan ko‘p qolgan holatlar uchun oddiy matn
+    function getDaysPassed(startDate) {
+        const start = new Date(startDate);
+        const now = new Date();
+        const differenceMs = now - start;
+        const differenceDays = Math.floor(differenceMs / (1000 * 60 * 60 * 24));
+        return differenceDays >= 0 ? differenceDays : 0;
     }
 
     // Barcha loyihalarni olish va ko‘rsatish
@@ -37,6 +36,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const projects = await response.json();
+            const tasksResponse = await fetch("http://localhost:5000/api/vazifalar");
+            if (!tasksResponse.ok) {
+                throw new Error(`Server javobi: ${tasksResponse.status} - ${tasksResponse.statusText}`);
+            }
+            const tasks = await tasksResponse.json();
 
             if (!projects || projects.length === 0) {
                 projectsContainer.innerHTML = "<p>Hozircha hech qanday loyiha yo'q.</p>";
@@ -48,14 +52,54 @@ document.addEventListener("DOMContentLoaded", () => {
                 const projectCard = document.createElement("div");
                 projectCard.classList.add("project-card");
 
-                // Loyiha uchun kunlar farqi va status
-                const daysUntilEnd = getDaysUntilEnd(project.endDate);
-                const statusText = getProjectStatusText(daysUntilEnd);
+                // Loyihaga tegishli vazifalarni filtrlash
+                const projectTasks = tasks.filter(task => task.project_id === project.id);
+                let tasksHtml = '';
+                if (projectTasks.length > 0) {
+                    tasksHtml = `
+                        <table class="task-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Vazifa nomi</th>
+                                    <th>Izoh</th>
+                                    <th>Boshlanish sanasi</th>
+                                    <th>Tugash sanasi</th>
+                                    <th>Kunlar farqi</th>
+                                    <th>O‘tgan kunlar</th>
+                                    <th>Status</th>
+                                    <th>Mas'ul hodim</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${projectTasks.map((task, index) => `
+                                    <tr>
+                                        <td>${index + 1}</td>
+                                        <td>${task.vazifa_nomi || '-'}</td>
+                                        <td>${task.izoh || '-'}</td>
+                                        <td>${task.vazifa_boshlanish_sanasi || '-'}</td>
+                                        <td>${task.vazifa_tugash_sanasi || '-'}</td>
+                                        <td>${getDaysDifference(task.vazifa_boshlanish_sanasi, task.vazifa_tugash_sanasi) || '-'}</td>
+                                        <td>${getDaysPassed(task.vazifa_boshlanish_sanasi) || '-'}</td>
+                                        <td>${task.vazifa_status || '-'}</td>
+                                        <td>${task.vazifa_masul_hodimi || '-'}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    `;
+                } else {
+                    tasksHtml = '<p>Bu loyiha uchun hech qanday vazifa yo\'q.</p>';
+                }
+
+                // Loyiha uchun kunlar farqi va o‘tgan kunlar
+                const totalDays = getDaysDifference(project.startDate, project.endDate);
+                const passedDays = getDaysPassed(project.startDate);
 
                 projectCard.innerHTML = `
                     <h3 class="project-title">${project.name}</h3>
                     <p class="project-description">${project.description}</p>
-                    <p class="project-dates">Boshlanish: ${project.startDate} | Tugash: ${project.endDate} | Muddati: ${statusText}</p>
+                    <p class="project-dates">Boshlanish: ${project.startDate} | Tugash: ${project.endDate} | Umumiy kunlar: ${totalDays} | O‘tgan kunlar: ${passedDays}</p>
                     <p class="project-status">Status: <span class="status">${project.status.toUpperCase()}</span></p>
                     <p class="project-status">Mas'ul hodim: <span class="status">${project.responsible}</span></p>
                     <div class="bottons">
@@ -67,6 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             <button class="edd-task-btn" data-id="${project.id}">Vazifa qo'shish</button>
                         </div>
                     </div>
+                    ${tasksHtml}
                 `;
                 projectsContainer.appendChild(projectCard);
             });
@@ -130,37 +175,47 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Modal elementini tekshirish
-    if (!editModal || !closeModal) {
-        console.error("Modal yoki close tugmasi topilmadi. HTML da 'editModal' ID si yoki '.close' classi mavjudligini tekshiring.");
+    // Modal elementlarini tekshirish
+    if (!editModal || !closeModal || !editTaskModal || !closeEditTask) {
+        console.error("Modal yoki close tugmasi topilmadi. HTML da 'editModal' yoki 'editTaskModal' ID lari mavjudligini tekshiring.");
         return;
     }
 
-    // Modalni yopish uchun close tugmasi
+    // Loyiha tahrirlash modalini yopish
     closeModal.addEventListener("click", () => {
         editModal.style.display = "none";
-        console.log("Modal close tugmasi orqali yopildi.");
+        console.log("Tahrirlash modal close tugmasi orqali yopildi.");
     });
 
-    // Modal tashqarisiga bosilganda yopish
+    // Vazifa qo‘shish modalini yopish
+    closeEditTask.addEventListener("click", () => {
+        editTaskModal.style.display = "none";
+    });
+
+    // Ikkala modalni tashqarisiga bosilganda yopish
     window.addEventListener("click", (event) => {
         console.log("Window bosildi, target:", event.target, "Modal:", editModal);
         if (event.target === editModal) {
             editModal.style.display = "none";
-            console.log("Modal tashqarisiga bosilgan holda yopildi.");
+            console.log("Tahrirlash modal tashqarisiga bosilgan holda yopildi.");
+        }
+        if (event.target === editTaskModal) {
+            editTaskModal.style.display = "none";
+            console.log("Vazifa qo‘shish modal tashqarisiga bosilgan holda yopildi.");
         }
     });
 
     // Esc tugmasi bosilganda yopish
     document.addEventListener("keydown", (event) => {
         console.log("Tugma bosildi, key:", event.key);
-        if (event.key === "Escape" && editModal.style.display === "block") {
+        if (event.key === "Escape" && (editModal.style.display === "block" || editTaskModal.style.display === "block")) {
             editModal.style.display = "none";
+            editTaskModal.style.display = "none";
             console.log("Esc tugmasi orqali modal yopildi.");
         }
     });
 
-    // Formani saqlash (yangilash)
+    // Loyiha tahrirlash formasi
     editForm.addEventListener("submit", async (event) => {
         event.preventDefault();
 
@@ -194,6 +249,59 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch (error) {
             console.error("Yangilashda xatolik:", error.message);
             alert("Loyihani yangilashda xatolik yuz berdi: " + error.message);
+        }
+    });
+
+    // Vazifa qo‘shish tugmasi uchun hodisa tinglovchi
+    document.querySelectorAll(".edd-task-btn").forEach(button => {
+        button.addEventListener("click", () => {
+            currentProjectId = button.dataset.id;
+            editTaskModal.style.display = "block"; // Modalni ochish
+            // Modalni tozalash
+            document.getElementById("edit-task-name").value = "";
+            document.getElementById("edit-task-description").value = "";
+            document.getElementById("edit-task-start-date").value = "";
+            document.getElementById("edit-task-end-date").value = "";
+            document.getElementById("edit-task-status").value = "rejalashtirilmoqda";
+            document.getElementById("edit-task-responsible").value = "";
+        });
+    });
+
+    // Vazifa qo‘shish formasi
+    editTaskForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const taskData = {
+            project_id: currentProjectId,
+            vazifa_nomi: document.getElementById("edit-task-name").value,
+            izoh: document.getElementById("edit-task-description").value,
+            vazifa_boshlanish_sanasi: document.getElementById("edit-task-start-date").value,
+            vazifa_tugash_sanasi: document.getElementById("edit-task-end-date").value,
+            vazifa_status: document.getElementById("edit-task-status").value,
+            vazifa_masul_hodimi: document.getElementById("edit-task-responsible").value
+        };
+
+        try {
+            const response = await fetch("http://localhost:5000/api/vazifalar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(taskData)
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`Vazifa qo'shishda xatolik: ${response.status} - ${errorText}`);
+            }
+
+            const data = await response.json();
+            alert(data.message || "Vazifa muvaffaqiyatli qo‘shildi!");
+            editTaskModal.style.display = "none"; // Modalni yopish
+            loadProjects(); // Loyihalarni qayta yuklash
+        } catch (error) {
+            console.error("Vazifa qo'shishda xatolik:", error.message);
+            alert("Vazifa qo'shishda xatolik yuz berdi: " + error.message);
         }
     });
 
