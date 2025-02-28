@@ -122,17 +122,31 @@ app.post('/api/vazifalar', (req, res) => {
     });
 });
 
-// Barcha vazifalarni olish API
+// Barcha vazifalarni olish (loyihaga tegishli)
 app.get('/api/vazifalar', (req, res) => {
-    const sql = 'SELECT * FROM vazifalar ORDER BY id ASC';
-    db.query(sql, (err, results) => {
-        if (err) {
-            console.error("Xatolik:", err);
-            return res.status(500).json({ message: "Vazifalarni yuklab bo'lmadi" });
-        }
-        res.json(results);
-    });
+    const projectId = req.query.project_id;
+    let sql = 'SELECT * FROM vazifalar ORDER BY id ASC';
+    if (projectId) {
+        sql = 'SELECT * FROM vazifalar WHERE project_id = ? ORDER BY id ASC';
+        db.query(sql, [projectId], (err, results) => {
+            if (err) {
+                console.error("Xatolik:", err);
+                return res.status(500).json({ message: "Vazifalarni yuklab bo'lmadi" });
+            }
+            res.json(results);
+        });
+    } else {
+        db.query(sql, (err, results) => {
+            if (err) {
+                console.error("Xatolik:", err);
+                return res.status(500).json({ message: "Vazifalarni yuklab bo'lmadi" });
+            }
+            res.json(results);
+        });
+    }
 });
+
+// ... (boshqa marshrutlar saqlanadi)
 
 // Serverni ishga tushirish
 const PORT = 5000;

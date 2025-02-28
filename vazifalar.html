@@ -1,95 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="uz">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loyihalar</title>
-  <link rel="stylesheet" href="loyihalar_SASS/style.css">
-  <link rel="stylesheet" href="scss/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loyiha Vazifalari</title>
+    <link rel="stylesheet" href="loyihalar_SASS/style.css">
+    <link rel="stylesheet" href="scss/style.css">
 </head>
-
 <body>
+    <header>
+        <nav class="navbar">
+            <div class="navbar-container">
+                <div class="div1">
+                    <img class="img_logo" src="img/Рисунок1.png" alt="">
+                    <a href="index.html" class="logo">"Navoiyuran" DK</a>
+                </div>
+                <div class="div2">
+                    <ul class="navbar-links">
+                        <li><a href="index.html" class="nav-link">Bosh sahifa</a></li>
+                        <li><a href="loyihalar.html" class="nav-link">Loyihalar</a></li>
+                        <li><a href="vazifa_qushish.html" class="nav-link">Vazifa qo'shish</a></li>
+                        <li><a href="#" class="nav-link">Yo'l xaritalari</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
 
-  <header>
-    <nav class="navbar">
-      <div class="navbar-container">
-        <div class="div1">
-          <img class="img_logo" src="img/Рисунок1.png" alt="">
-          <a href="#" class="logo">"Navoiyuran" DK</a>
+    <main>
+        <div class="container-projects">
+            <h2 class="title_vazifa">Loyihaga Tegishli Vazifalar</h2>
+            <div id="task-list"></div>
         </div>
-        <div class="div2">
-          <ul class="navbar-links">
-            <li><a href="index.html" class="nav-link">Bosh sahifa</a></li>
-            <li><a href="loyihalar.html" class="nav-link">Loyihalar</a></li>
-            <li><a href="#" class="nav-link">Vazifalar</a></li>
-            <li><a href="#" class="nav-link">Yo'l xaritalari</a></li>
-          </ul>
+    </main>
+
+    <section class="yaratuvchi">
+        <div>
+            <h2>Loyiha yaratuvchisi: Raqamli transformatsiyani joriy etish bo'limi bosh mutaxassisi</h2>
+            <h2>S. Abdullayev</h2>
         </div>
-      </div>
-    </nav>
-  </header>
+    </section>
 
-  <!-- Loyiha vazifalar -->
-  <main>
-    <div class="container-projects">
-      <h1 style="text-align: center; margin-top: 1rem;">Bajarilishi Rejalashtirilgan Loyihalar va Loyihalarga tegishli Vazifalar</h1>
-
-      <!-- Loyiha kartalari -->
-      <div class="projects">
-        <!-- Loyihalar shu joyda ko'rsatiladi -->
-      </div>
-    </div>
-  </main>
-
-  <!-- Vazifa tahrirlash modal oynasi -->
-  <div id="editTaskModal" class="modal">
-    <div class="modal-content">
-      <span class="close-edit-task">&times;</span>
-      <h2>Vazifani Tahrirlash</h2>
-      <form id="edit-task-form">
-        <input type="hidden" id="edit-task-index">
-        <label for="edit-task-name">Vazifa nomi</label>
-        <input type="text" id="edit-task-name" placeholder="Vazifa nomini kiriting" required>
-
-        <label for="edit-task-description">Izoh</label>
-        <textarea id="edit-task-description" placeholder="Vazifa haqida izoh kiriting" required></textarea>
-
-        <label for="edit-task-start-date">Boshlanish sanasi</label>
-        <input type="date" id="edit-task-start-date" required>
-
-        <label for="edit-task-end-date">Tugash sanasi</label>
-        <input type="date" id="edit-task-end-date" required>
-
-        <label for="edit-task-status">Status</label>
-        <select id="edit-task-status" required>
-          <option value="rejalashtirilmoqda">Rejalashtirilmoqda</option>
-          <option value="bajarilmoqda">Bajarilmoqda</option>
-          <option value="yakunlandi">Yakunlandi</option>
-          <option value="to'xtatildi">To'xtatilgan</option>
-        </select>
-
-        <label for="edit-task-responsible">Mas'ul hodim</label>
-        <select id="edit-task-responsible" required>
-          <option value="S.Adizov">S. Adizov</option>
-          <option value="S.Abdullayev">S. Abdullayev</option>
-          <option value="J.G'iyosov">J. G'iyosov</option>
-          <option value="J.Toshboyev">J. Toshboyev</option>
-        </select>
-        <button type="submit">Saqlash</button>
-      </form>
-    </div>
-  </div>
-
-  <section class="yaratuvchi">
-    <div>
-      <h2>Loyiha yaratuvchisi: Raqamli transformatsiyani joriy etish bo'limi bosh mutaxassisi</h2>
-      <h2>S. Abdullayev</h2>
-    </div>
-  </section>
-
-  <script src="js/vazifalar.js"></script>
-
+    <script src="js/vazifalar.js"></script>
 </body>
-
 </html>
