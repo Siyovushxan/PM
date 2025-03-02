@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		getUserFish().then(fish => {
 			const formData = new FormData()
-			formData.append('task_id', userFish) // Jadvaldagi task_id
+			formData.append('task_id', taskId) // Jadvaldagi task_id
 			formData.append('user_task_id', userId) // Jadvaldagi user_task_id
 			formData.append('fish', fish)
 			formData.append('matn', text)
