@@ -348,12 +348,12 @@ app.get('/api/chat-history/:taskId', (req, res) => {
 	})
 })
 
-// // Vaqtni MySQL formatiga o'zgartirish funksiyasi
+// Vaqtni MySQL formatiga o'zgartirish funksiyasi
 // function formatDateToMySQL(date) {
 // 	return date.toISOString().slice(0, 19).replace('T', ' ') // YYYY-MM-DD HH:mm:ss
 // }
 
-// // Chat tarixini olish (users jadvalidan fish ni olish uchun JOIN)
+// Chat tarixini olish (users jadvalidan fish ni olish uchun JOIN)
 // app.get('/api/chat-history/:taskId', (req, res) => {
 // 	const taskId = req.params.taskId
 // 	const sql = `
@@ -379,7 +379,7 @@ app.get('/api/chat-history/:taskId', (req, res) => {
 // 	})
 // })
 
-// // Xabar yuborish va saqlash
+// Xabar yuborish va saqlash
 // app.post('/api/send-message', upload.array('files', 5), (req, res) => {
 // 	const { task_id, user_task_id, fish, matn } = req.body
 // 	const files = req.files
@@ -420,10 +420,12 @@ app.get('/api/chat-history/:taskId', (req, res) => {
 // 						'Xabar saqlashda xatolik:',
 // 						err.sqlMessage || err.message
 // 					)
-// 					return res.status(500).json({
-// 						message: 'Xabar saqlanmadi',
-// 						error: err.sqlMessage || err.message,
-// 					})
+// 					return res
+// 						.status(500)
+// 						.json({
+// 							message: 'Xabar saqlanmadi',
+// 							error: err.sqlMessage || err.message,
+// 						})
 // 				}
 // 				console.log('Xabar muvaffaqiyatli saqlandi:', result)
 // 				res.json({ message: 'Xabar muvaffaqiyatli yuborildi' })

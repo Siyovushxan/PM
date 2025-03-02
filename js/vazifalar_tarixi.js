@@ -96,7 +96,8 @@ document.addEventListener('DOMContentLoaded', () => {
 					data.length > 0
 						? data
 								.map(message => {
-									const isCurrentUser = message.user_task_id === currentUserId // user_task_id bilan solishtirish
+									const isCurrentUser =
+										String(message.user_task_id) === currentUserId // String sifatida solishtirish
 									console.log('Tekshirish:', {
 										messageUserId: message.user_task_id,
 										currentUserId,
