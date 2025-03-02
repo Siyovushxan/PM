@@ -36,11 +36,11 @@ document.addEventListener('DOMContentLoaded', () => {
 			console.log('Modal ochildi, currentTaskId:', currentTaskId) // Debugging
 			if (currentTaskId) {
 				modal.style.display = 'block'
-				loadChatHistory(currentTaskId).then(() => {
-					return getUserFish().then(fish => {
+				loadChatHistory(currentTaskId).then(() =>
+					getUserFish().then(fish => {
 						userFish.textContent = fish || '#123524'
 					})
-				})
+				)
 				const activeRow = taskList.querySelector(
 					`tr[data-id="${currentTaskId}"]`
 				)
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		})
 	} else {
 		console.error(
-			'task-list elementi topilmadi! HTML da \'id="task-list"\' tekshirilsin.'
+			'task-list elementi topilmadi! HTML da "id="task-list"" tekshirilsin.'
 		)
 	}
 
@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	// Chat tarixini yuklash va joylashuvni aniqlash
 	function loadChatHistory(taskId) {
-		return fetch(`http://localhost:5000/api/chat-history/${taskId}`)
+		fetch(`http://localhost:5000/api/chat-history/${taskId}`)
 			.then(response => {
 				if (!response.ok) throw new Error('Server xatosi: ' + response.status)
 				return response.json()
@@ -95,30 +95,29 @@ document.addEventListener('DOMContentLoaded', () => {
 				chatHistory.innerHTML =
 					data.length > 0
 						? data
-								.slice() // Massivni ko'chirib olamiz
-								.reverse() // Yangi xabarlarni oxiriga joylashtirish uchun teskari tartib
 								.map(message => {
-									const isCurrentUser = message.fish === currentUserId // fish bilan solishtirish
+									const isCurrentUser = message.user_task_id === currentUserId // user_task_id bilan solishtirish
 									console.log('Tekshirish:', {
-										messageFish: message.fish,
+										messageUserId: message.user_task_id,
 										currentUserId,
 										isCurrentUser,
+										rawMessage: message,
 									}) // Debugging
 									return `
-															<div class="chat-message ${isCurrentUser ? 'right' : 'left'}">
-																	<p><strong>${message.fish}</strong>: ${
+																<div class="chat-message ${isCurrentUser ? 'right' : 'left'}">
+																		<p><strong>${message.fish || "Noma'lum"}</strong>: ${
 										message.matn || ''
 									} <small>(${formatDateTime(message.vaqt)})</small></p>
-																	${
-																		message.file_paths
-																			? '<br>Fayllar: ' +
-																			  JSON.parse(message.file_paths).join(
-																					', '
-																			  )
-																			: ''
-																	}
-															</div>
-													`
+																		${
+																			message.file_paths
+																				? '<br>Fayllar: ' +
+																				  JSON.parse(message.file_paths).join(
+																						', '
+																				  )
+																				: ''
+																		}
+																</div>
+														`
 								})
 								.join('')
 						: '<p>Chat tarixi mavjud emas.</p>'
@@ -164,10 +163,10 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 
 			// So'rovni tekshirish uchun log
-			for (let pair of formData.entries()) {
+			for (let [key, value] of formData.entries()) {
 				console.log(
 					'FormData:',
-					pair[0] + ': ' + (pair[1] instanceof File ? pair[1].name : pair[1])
+					key + ': ' + (value instanceof File ? value.name : value)
 				)
 			}
 
