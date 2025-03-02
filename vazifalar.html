@@ -44,16 +44,20 @@
         </nav>
     </header>
 
+    <!-- Vazifalar ruyxatini bazadan oladi -->
     <main class="task-main">
         <div class="container-projects">
-            <div id="task-list"></div>
+            <div id="task-list" class="task-list">
+                <!-- Vazifalar dynamic ravishda bu yerga yuklanadi -->
+            </div>
         </div>
     </main>
 
+    <!-- Har bir vaziafa click bulganida modal ochiladi va vazifalar yuzasidan yozishmalar tarixi kurinadi -->
     <div id="task-modal-tarix" class="task-modal-tarix">
         <span class="close-modal" onclick="closeModal()">×</span>
         <div class="modal-content">
-            <h3>Vazifa haqida</h3>
+            <h3>Vazifa tarixi</h3>
             <p id="user-fish"></p>
             <div id="chat-history"></div>
             <input type="text" id="message-input" placeholder="Xabar yozing...">
@@ -105,7 +109,7 @@
 
     <script src="js/vazifalar.js"></script>
     <script src="js/index.js"></script>
-    <!-- <script src="js/vazifalar_tarixi.js"></script> -->
+    <script src="js/vazifalar_tarixi.js"></script>
 
 </body>
 

@@ -21,15 +21,15 @@ document.addEventListener('DOMContentLoaded', () => {
 		return `${day}.${month}.${year}`
 	}
 
-	// Sanani input uchun formatga aylantirish (YYYY-MM-DD -> DD.MM.YYYY uchun qayta ko‘rib chiqish)
+	// Sanani input uchun formatga aylantirish (YYYY-MM-DD)
 	function formatDateForInput(dateString) {
 		if (!dateString) return ''
 		const date = new Date(dateString)
 		if (isNaN(date.getTime())) return ''
-		const day = String(date.getDate()).padStart(2, '0')
-		const month = String(date.getMonth() + 1).padStart(2, '0')
 		const year = date.getFullYear()
-		return `${year}-${month}-${day}` // Input uchun kerakli format, lekin ko‘rishda DD.MM.YYYY bo‘ladi
+		const month = String(date.getMonth() + 1).padStart(2, '0')
+		const day = String(date.getDate()).padStart(2, '0')
+		return `${year}-${month}-${day}`
 	}
 
 	// Loyiha ma’lumotlarini olish
@@ -118,58 +118,48 @@ document.addEventListener('DOMContentLoaded', () => {
 			const tasks = await response.json()
 			console.log('Vazifalar:', tasks) // Debugging
 			taskList.innerHTML = `
-                <h3 style="text-align: center; margin-bottom: 20px; color: #2c3e50; font-size: 1.5em;">${projectName} loyihasiga tegishli vazifalar ro'yxati</h3>
-                ${
-									tasks.length > 0
-										? `
-                        <table class="task-table" style="width: 95%; margin: 0 auto;">
-                            <thead>
-                                <tr>
-                                    <th>Vazifa nomi</th>
-                                    <th>Izoh</th>
-                                    <th>Boshlanish sanasi</th>
-                                    <th>Tugash sanasi</th>
-                                    <th>Status</th>
-                                    <th>Mas'ul hodim</th>
-                                    <th>Amallar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${tasks
-																	.map(
-																		task => `
-                                    <tr class="task-row" data-id="${
-																			task.id || ''
-																		}">
-                                        <td>${task.vazifa_nomi || 'N/A'}</td>
-                                        <td>${task.izoh || 'N/A'}</td>
-                                        <td>${
-																					formatDate(
-																						task.vazifa_boshlanish_sanasi
-																					) || 'N/A'
-																				}</td>
-                                        <td>${
-																					formatDate(
-																						task.vazifa_tugash_sanasi
-																					) || 'N/A'
-																				}</td>
-                                        <td>${task.vazifa_status || 'N/A'}</td>
-                                        <td>${
-																					task.vazifa_masul_hodimi || 'N/A'
-																				}</td>
-                                        <td>
-                                            <span class="edit-task-icon" style="cursor: pointer; margin-right: 10px; color: #3498db;">✎</span>
-                                        </td>
-                                    </tr>
-                                `
-																	)
-																	.join('')}
-                            </tbody>
-                        </table>
-                    `
-										: "<p>Bu loyiha uchun vazifa yo'q.</p>"
-								}
-            `
+							<h3 style="text-align: center; margin-bottom: 20px; color: #2c3e50; font-size: 1.5em;">${projectName} loyihasiga tegishli vazifalar ro'yxati</h3>
+							${
+								tasks.length > 0
+									? `
+											<table class="task-table" style="width: 95%; margin: 0 auto;">
+													<thead>
+															<tr>
+																	<th>Vazifa nomi</th>
+																	<th>Izoh</th>
+																	<th>Boshlanish sanasi</th>
+																	<th>Tugash sanasi</th>
+																	<th>Status</th>
+																	<th>Mas'ul hodim</th>
+																	<th>Amallar</th>
+															</tr>
+													</thead>
+													<tbody>
+															${tasks
+																.map(
+																	task => `
+																	<tr class="task-row" data-id="${task.id || ''}">
+																			<td class="task-name" data-task-id="${task.id}">${
+																		task.vazifa_nomi || 'N/A'
+																	}</td>
+																			<td>${task.izoh || 'N/A'}</td>
+																			<td>${formatDate(task.vazifa_boshlanish_sanasi) || 'N/A'}</td>
+																			<td>${formatDate(task.vazifa_tugash_sanasi) || 'N/A'}</td>
+																			<td>${task.vazifa_status || 'N/A'}</td>
+																			<td>${task.vazifa_masul_hodimi || 'N/A'}</td>
+																			<td>
+																					<span class="edit-task-icon" style="cursor: pointer; margin-right: 10px; color: #3498db;">✎</span>
+																			</td>
+																	</tr>
+															`
+																)
+																.join('')}
+													</tbody>
+											</table>
+									`
+									: "<p>Bu loyiha uchun vazifa yo'q.</p>"
+							}
+					`
 			// Tahrirlash iconiga click hodisasi
 			document.querySelectorAll('.edit-task-icon').forEach(icon => {
 				icon.addEventListener('click', async e => {
@@ -204,6 +194,25 @@ document.addEventListener('DOMContentLoaded', () => {
 						editTaskModal.style.display = 'block'
 					} else {
 						alert('Vazifa ma’lumotlari topilmadi yoki server xatosi!')
+					}
+				})
+			})
+			// Vazifa nomiga bosilganda modalni ochish
+			document.querySelectorAll('.task-name').forEach(taskName => {
+				taskName.addEventListener('click', e => {
+					e.stopPropagation()
+					const taskId = taskName.getAttribute('data-task-id')
+					if (taskId) {
+						const taskRow = taskName.closest('tr')
+						if (taskRow) {
+							taskRow.classList.add('active') // <tr> ga active qo'shish
+							const modalEvent = new Event('modalOpen')
+							modalEvent.taskId = taskId // task_id ni uzatish
+							taskList.dispatchEvent(modalEvent) // Signal yuborish
+							console.log('Task tanlandi, task_id:', taskId) // Debugging
+						} else {
+							console.error('Task row topilmadi:', taskId)
+						}
 					}
 				})
 			})

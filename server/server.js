@@ -3,30 +3,33 @@ const mysql = require('mysql')
 const cors = require('cors')
 const bcrypt = require('bcrypt')
 const path = require('path') // Statik fayllar uchun kerak
-// const multer = require('multer')
-// const fs = require('fs')
+const multer = require('multer')
+const fs = require('fs')
 
 const app = express()
 app.use(cors())
 app.use(express.json())
 
-// Fayl yuklash uchun multer sozlamalari
-// const storage = multer.diskStorage({
-// 	destination: (req, file, cb) => {
-// 		const dir = './uploads'
-// 		if (!fs.existsSync(dir)) {
-// 			fs.mkdirSync(dir, { recursive: true }) // Direktoriya yaratish
-// 		}
-// 		cb(null, dir)
-// 	},
-// 	filename: (req, file, cb) => {
-// 		cb(null, Date.now() + '-' + file.originalname) // Fayl nomini noyob qilish
-// 	},
-// })
-// const upload = multer({ storage: storage })
+// Multer konfiguratsiyasi
+const storage = multer.diskStorage({
+	destination: (req, file, cb) => {
+		const dir = './uploads'
+		if (!fs.existsSync(dir)) {
+			fs.mkdirSync(dir, { recursive: true })
+		}
+		cb(null, dir)
+	},
+	filename: (req, file, cb) => {
+		cb(null, Date.now() + '-' + file.originalname)
+	},
+})
+const upload = multer({ storage: storage })
+
+// Statik fayllarni xizmat qilish
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
 // Statik fayllarni xizmat qilish (yuklangan fayllar uchun)
-// app.use(express.static(path.join(__dirname, 'uploads')))
+app.use(express.static(path.join(__dirname, 'uploads')))
 app.use(express.static(path.join(__dirname)))
 
 // MySQL bilan bog‘lanish
@@ -318,6 +321,69 @@ app.get('/api/user/:id', (req, res) => {
 		})
 	})
 })
+
+// Statik fayllarni xizmat qilish
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
+
+// Vaqtni MySQL formatiga o'zgartirish funksiyasi
+function formatDateToMySQL(date) {
+	return date.toISOString().slice(0, 19).replace('T', ' ') // YYYY-MM-DD HH:mm:ss
+}
+
+// Chat tarixini olish
+app.get('/api/chat-history/:taskId', (req, res) => {
+	const taskId = req.params.taskId
+	const sql =
+		'SELECT user_task_id, task_id, fish, matn, vaqt, file_paths FROM chat_history WHERE task_id = ? ORDER BY vaqt DESC'
+	db.query(sql, [taskId], (err, results) => {
+		if (err) {
+			console.error('Chat tarixi olishda xatolik:', err)
+			return res
+				.status(500)
+				.json({ message: 'Chat tarixi yuklanmadi', error: err.message })
+		}
+		res.json(results || [])
+	})
+})
+
+// Xabar yuborish va saqlash
+app.post('/api/send-message', upload.array('files', 5), (req, res) => {
+	const { task_id, user_task_id, fish, matn } = req.body
+	const files = req.files
+		? req.files.map(file => `/uploads/${file.filename}`)
+		: []
+	const filePaths = JSON.stringify(files)
+	const vaqt = formatDateToMySQL(new Date()) // MySQL formatiga o'zgartirish
+
+	console.log('Keldi:', { task_id, user_task_id, fish, matn, files }) // Debugging
+
+	if (!task_id || !user_task_id) {
+		console.error('Talab qilinmagan maydonlar:', { task_id, user_task_id })
+		return res
+			.status(400)
+			.json({ message: 'task_id va user_task_id talab qilinadi' })
+	}
+
+	const sql =
+		'INSERT INTO chat_history (user_task_id, task_id, fish, matn, file_paths, vaqt) VALUES (?, ?, ?, ?, ?, ?)'
+	db.query(
+		sql,
+		[user_task_id, task_id, fish, matn, filePaths, vaqt],
+		(err, result) => {
+			if (err) {
+				console.error('Xabar saqlashda xatolik:', err.sqlMessage || err.message)
+				return res.status(500).json({
+					message: 'Xabar saqlanmadi',
+					error: err.sqlMessage || err.message,
+				})
+			}
+			console.log('Xabar muvaffaqiyatli saqlandi:', result)
+			res.json({ message: 'Xabar muvaffaqiyatli yuborildi' })
+		}
+	)
+})
+
+
 
 const PORT = 5000
 app.listen(PORT, () => {

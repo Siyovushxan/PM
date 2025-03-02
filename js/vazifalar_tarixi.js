@@ -1,117 +1,218 @@
-// document.addEventListener('DOMContentLoaded', () => {
-// 	const taskList = document.querySelector('.task-list')
-// 	const modal = document.getElementById('task-modal-tarix')
-// 	const chatHistory = document.getElementById('chat-history')
-// 	const messageInput = document.getElementById('message-input')
-// 	const fileUpload = document.getElementById('file-upload')
-// 	const userFish = document.getElementById('user-fish')
-// 	const closeModalBtn = document.querySelector('.close-modal')
-// 	const sendButton = document.querySelector('button[onclick="sendMessage()"]')
+document.addEventListener('DOMContentLoaded', () => {
+	const taskList = document.getElementById('task-list')
+	const modal = document.getElementById('task-modal-tarix')
+	const chatHistory = document.getElementById('chat-history')
+	const messageInput = document.getElementById('message-input')
+	const fileUpload = document.getElementById('file-upload')
+	const userFish = document.getElementById('user-fish')
+	const closeModalBtn = document.querySelector('.close-modal')
+	const sendButton = document.querySelector('button[onclick="sendMessage()"]')
 
-// 	// Foydalanuvchi FISH ni login paytida saqlangan userId orqali olish
-// 	function getUserFish() {
-// 		const userId = sessionStorage.getItem('userId')
-// 		if (userId) {
-// 			fetch(`http://localhost:5000/api/user/${userId}`)
-// 				.then(response => response.json())
-// 				.then(data => {
-// 					return data.FISH || "Noma'lum"
-// 				})
-// 				.catch(error => {
-// 					console.error('User FISH olishda xatolik:', error)
-// 					return "Noma'lum"
-// 				})
-// 		}
-// 		return "Noma'lum" // Agar xatolik bo‘lsa
-// 	}
+	let currentTaskId = null // Global taskId ni saqlash
+	const currentUserId = sessionStorage.getItem('userId') || '#123524' // Random ID sifatida
 
-// 	// Modalni ochish va tarixni yuklash
-// 	taskList.addEventListener('click', e => {
-// 		const task = e.target.closest('.task')
-// 		if (task) {
-// 			const taskId = task.getAttribute('data-task-id')
-// 			modal.style.display = 'block'
-// 			loadChatHistory(taskId)
-// 			userFish.textContent = getUserFish() // FISH ni ko‘rsatish
-// 			task.classList.add('active')
-// 		}
-// 	})
+	// Vaqtni DD.MM.YYYY HH:mm formatiga o'zgartirish funksiyasi
+	function formatDateTime(dateString) {
+		if (!dateString) return 'N/A'
+		const date = new Date(dateString)
+		if (isNaN(date.getTime())) return 'N/A'
+		const day = String(date.getDate()).padStart(2, '0')
+		const month = String(date.getMonth() + 1).padStart(2, '0')
+		const year = date.getFullYear()
+		const hours = String(date.getHours()).padStart(2, '0')
+		const minutes = String(date.getMinutes()).padStart(2, '0')
+		return `${day}.${month}.${year} ${hours}:${minutes}`
+	}
 
-// 	// Modalni yopish
-// 	closeModalBtn.addEventListener('click', () => {
-// 		modal.style.display = 'none'
-// 		chatHistory.innerHTML = ''
-// 		messageInput.value = ''
-// 		fileUpload.value = ''
-// 		document.querySelector('.task.active')?.classList.remove('active')
-// 	})
+	// Foydalanuvchi FISH ni random ID bilan almashtirish
+	function getUserFish() {
+		return Promise.resolve(currentUserId) // FISH o'rniga #123524
+	}
 
-// 	// Chat tarixini yuklash
-// 	function loadChatHistory(taskId) {
-// 		fetch(`http://localhost:5000/api/chat-history/${taskId}`)
-// 			.then(response => {
-// 				if (!response.ok) throw new Error('Server xatosi')
-// 				return response.json()
-// 			})
-// 			.then(data => {
-// 				chatHistory.innerHTML = data
-// 					.map(
-// 						message => `
-// 									<p>${message.fish}: ${message.matn || ''} <small>(${message.vaqt})</small>
-// 									${
-// 										message.file_paths
-// 											? '<br>Fayllar: ' +
-// 											  JSON.parse(message.file_paths).join(', ')
-// 											: ''
-// 									}</p>
-// 							`
-// 					)
-// 					.join('')
-// 			})
-// 			.catch(error => console.error('Tarixni yuklashda xatolik:', error))
-// 	}
+	// Modalni vazifalar.js dan signal orqali ochish
+	if (taskList) {
+		taskList.addEventListener('modalOpen', e => {
+			currentTaskId = e.taskId // Global o'zgaruvchiga saqlash
+			console.log('Modal ochildi, currentTaskId:', currentTaskId) // Debugging
+			if (currentTaskId) {
+				modal.style.display = 'block'
+				loadChatHistory(currentTaskId).then(() => {
+					return getUserFish().then(fish => {
+						userFish.textContent = fish || '#123524'
+					})
+				})
+				const activeRow = taskList.querySelector(
+					`tr[data-id="${currentTaskId}"]`
+				)
+				if (activeRow) activeRow.classList.add('active')
+				else console.error('Active row topilmadi:', currentTaskId)
+			}
+		})
+	} else {
+		console.error(
+			'task-list elementi topilmadi! HTML da \'id="task-list"\' tekshirilsin.'
+		)
+	}
 
-// 	// Xabar yuborish va bazada saqlash
-// 	window.sendMessage = function () {
-// 		const taskId = document
-// 			.querySelector('.task.active')
-// 			?.getAttribute('data-task-id')
-// 		const text = messageInput.value.trim()
-// 		const files = fileUpload.files
-// 		const fish = getUserFish() // User FISH ni olish
+	// Modalni yopish
+	if (closeModalBtn) {
+		closeModalBtn.addEventListener('click', () => {
+			modal.style.display = 'none'
+			document.querySelector('.task.active')?.classList.remove('active')
+			currentTaskId = null // Modal yopilganda taskId ni tozalash
+		})
+	} else {
+		console.error('close-modal elementi topilmadi!')
+	}
 
-// 		if (!taskId) {
-// 			alert('Iltimos, biror vazifani tanlang!')
-// 			return
-// 		}
+	// Modalni modaldan tashqari yopish (overlay)
+	window.addEventListener('click', event => {
+		if (event.target === modal) {
+			modal.style.display = 'none'
+			document.querySelector('.task.active')?.classList.remove('active')
+			currentTaskId = null // Modal yopilganda taskId ni tozalash
+		}
+	})
 
-// 		if (!text && files.length === 0) {
-// 			alert('Iltimos, matn yoki fayl yuklang!')
-// 			return
-// 		}
+	// Esc tugmasi bilan yopish
+	document.addEventListener('keydown', event => {
+		if (event.key === 'Escape' && modal.style.display === 'block') {
+			modal.style.display = 'none'
+			document.querySelector('.task.active')?.classList.remove('active')
+			currentTaskId = null // Modal yopilganda taskId ni tozalash
+		}
+	})
 
-// 		const formData = new FormData()
-// 		formData.append('taskId', taskId)
-// 		formData.append('fish', fish)
-// 		formData.append('matn', text)
-// 		for (let file of files) {
-// 			formData.append('files', file)
-// 		}
+	// Chat tarixini yuklash va joylashuvni aniqlash
+	function loadChatHistory(taskId) {
+		return fetch(`http://localhost:5000/api/chat-history/${taskId}`)
+			.then(response => {
+				if (!response.ok) throw new Error('Server xatosi: ' + response.status)
+				return response.json()
+			})
+			.then(data => {
+				console.log('Chat tarixi (xom ma’lumot):', data) // Debugging
+				chatHistory.innerHTML =
+					data.length > 0
+						? data
+								.slice() // Massivni ko'chirib olamiz
+								.reverse() // Yangi xabarlarni oxiriga joylashtirish uchun teskari tartib
+								.map(message => {
+									const isCurrentUser = message.fish === currentUserId // fish bilan solishtirish
+									console.log('Tekshirish:', {
+										messageFish: message.fish,
+										currentUserId,
+										isCurrentUser,
+									}) // Debugging
+									return `
+															<div class="chat-message ${isCurrentUser ? 'right' : 'left'}">
+																	<p><strong>${message.fish}</strong>: ${
+										message.matn || ''
+									} <small>(${formatDateTime(message.vaqt)})</small></p>
+																	${
+																		message.file_paths
+																			? '<br>Fayllar: ' +
+																			  JSON.parse(message.file_paths).join(
+																					', '
+																			  )
+																			: ''
+																	}
+															</div>
+													`
+								})
+								.join('')
+						: '<p>Chat tarixi mavjud emas.</p>'
+			})
+			.catch(error => {
+				console.error('Tarixni yuklashda xatolik:', error)
+				chatHistory.innerHTML = '<p>Tarix yuklanmadi: ' + error.message + '</p>'
+			})
+	}
 
-// 		fetch('http://localhost:5000/api/send-message', {
-// 			method: 'POST',
-// 			body: formData,
-// 		})
-// 			.then(response => {
-// 				if (!response.ok) throw new Error('Yuborishda xatolik')
-// 				return response.json()
-// 			})
-// 			.then(data => {
-// 				alert(data.message)
-// 				loadChatHistory(taskId) // Yangilangan tarixni yuklash
-// 				messageInput.value = ''
-// 				fileUpload.value = ''
-// 			})
-// 			.catch(error => console.error('Xabar yuborishda xatolik:', error))
-// 	}
-// })
+	// Xabar yuborish va bazada saqlash
+	window.sendMessage = function () {
+		console.log('Yuborish boshlandi, currentTaskId:', currentTaskId) // Debugging
+		const taskId = currentTaskId // Global o'zgaruvchidan olish
+		const userId = sessionStorage.getItem('userId') || null
+		console.log('Yuborish uchun task_id:', taskId, 'user_task_id:', userId) // Debugging
+		const text = messageInput.value.trim()
+		const files = fileUpload.files
+
+		if (!taskId) {
+			alert('Iltimos, biror vazifani tanlang!')
+			return
+		}
+
+		if (!userId) {
+			alert('Foydalanuvchi ID si topilmadi!')
+			return
+		}
+
+		if (!text && files.length === 0) {
+			alert('Iltimos, matn yoki fayl yuklang!')
+			return
+		}
+
+		getUserFish().then(fish => {
+			const formData = new FormData()
+			formData.append('task_id', userFish) // Jadvaldagi task_id
+			formData.append('user_task_id', userId) // Jadvaldagi user_task_id
+			formData.append('fish', fish)
+			formData.append('matn', text)
+			for (let file of files) {
+				formData.append('files', file)
+			}
+
+			// So'rovni tekshirish uchun log
+			for (let pair of formData.entries()) {
+				console.log(
+					'FormData:',
+					pair[0] + ': ' + (pair[1] instanceof File ? pair[1].name : pair[1])
+				)
+			}
+
+			fetch('http://localhost:5000/api/send-message', {
+				method: 'POST',
+				body: formData,
+			})
+				.then(response => {
+					if (!response.ok) {
+						console.error(
+							'Server javobi:',
+							response.status,
+							response.statusText
+						)
+						return response.text().then(text => {
+							throw new Error(
+								'Yuborishda xatolik: ' + response.status + ' - ' + text
+							)
+						})
+					}
+					return response.json()
+				})
+				.then(data => {
+					console.log('Yuborish natijasi:', data) // Debugging
+					alert(data.message)
+					loadChatHistory(taskId) // Yangilangan tarixni modalda ko‘rsatish
+					messageInput.value = ''
+					fileUpload.value = ''
+				})
+				.catch(error => {
+					console.error('Xabar yuborishda xatolik:', error)
+					alert('Xabar yuborishda xatolik: ' + error.message)
+				})
+		})
+	}
+
+	// Modalni yopish funksiyasi (onclick uchun)
+	window.closeModal = function () {
+		if (closeModalBtn) {
+			closeModalBtn.click()
+		} else {
+			console.error('close-modal elementi topilmadi!')
+			modal.style.display = 'none'
+			document.querySelector('.task.active')?.classList.remove('active')
+			currentTaskId = null // Modal yopilganda taskId ni tozalash
+		}
+	}
+})

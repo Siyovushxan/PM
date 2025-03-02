@@ -171,8 +171,8 @@
   background-color: white;
   margin: 5% auto;
   padding: 20px;
-  width: 70%;
-  max-height: 80%;
+  width: 80%;
+  max-height: 100%;
   overflow-y: auto;
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -184,8 +184,33 @@
   margin-bottom: 10px;
   border: 1px solid #ccc;
   padding: 10px;
-  max-height: 200px;
+  max-height: 500px;
   overflow-y: auto;
+}
+.task-modal-tarix .modal-content #chat-history .chat-message {
+  margin: 10px 0; /* Xabarlar orasidagi masofa */
+  padding: 10px;
+  border-radius: 5px;
+  max-width: 70%;
+  clear: both;
+}
+.task-modal-tarix .modal-content #chat-history .chat-message.left {
+  background-color: #e9ecef; /* Chap tomon uchun rang */
+  float: left;
+  text-align: left;
+}
+.task-modal-tarix .modal-content #chat-history .chat-message.right {
+  background-color: #d1e7dd; /* O'ng tomon uchun rang */
+  float: right;
+  text-align: right;
+}
+.task-modal-tarix .modal-content #chat-history .chat-message p {
+  margin: 0;
+}
+.task-modal-tarix .modal-content #chat-history .chat-message small {
+  display: block;
+  font-size: 0.8em;
+  color: #666;
 }
 .task-modal-tarix .modal-content #message-input {
   width: 70%;
