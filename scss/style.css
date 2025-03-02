@@ -7,6 +7,9 @@
 body {
   font-family: "Arial", sans-serif;
   background-color: #f4f4f4;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .navbar {
@@ -26,13 +29,97 @@ body {
   gap: 1rem;
 }
 .navbar .navbar-container .div1 .img_logo {
-  align-items: center;
   width: 3rem;
   height: 3rem;
 }
 .navbar .navbar-container .div2 {
   display: flex;
   align-items: center;
+}
+.navbar .navbar-container .div2 .navbar-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+.navbar .navbar-container .div2 .navbar-links .nav-link {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+.navbar .navbar-container .div2 .navbar-links .nav-link:hover {
+  color: #3a5c64;
+}
+.navbar .navbar-container .div2 .navbar-links .nav-link:last-child {
+  position: relative;
+  cursor: pointer;
+}
+.navbar .navbar-container .div2 .navbar-links .nav-link:last-child #profile-image {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+.navbar .navbar-container .div2 .navbar-links .nav-link:last-child #profile-image:hover {
+  transform: scale(1.1);
+}
+.navbar .navbar-container .div2 .navbar-links .nav-link:last-child #profile-modal {
+  display: none;
+  position: absolute;
+  top: 60px;
+  left: -228px;
+  background-color: #123524;
+  z-index: 1000;
+  width: 300px;
+  padding: 10px;
+}
+.navbar .navbar-container .div2 .navbar-links .nav-link:last-child #profile-modal .close-btn {
+  color: #ffffff;
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.navbar .navbar-container .div2 .navbar-links .nav-link:last-child #profile-modal .close-btn:hover {
+  color: #3a5c64;
+}
+.navbar .navbar-container .div2 .navbar-links .nav-link:last-child #profile-modal .modal-content {
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.navbar .navbar-container .div2 .navbar-links .nav-link:last-child #profile-modal .modal-content #profile-fish,
+.navbar .navbar-container .div2 .navbar-links .nav-link:last-child #profile-modal .modal-content #profile-bulim,
+.navbar .navbar-container .div2 .navbar-links .nav-link:last-child #profile-modal .modal-content #profile-lavozim {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #123524;
+  text-align: left;
+  font-size: 1.2rem;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.navbar .navbar-container .div2 .navbar-links .nav-link:last-child #profile-modal .modal-content div {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+.navbar .navbar-container .div2 .navbar-links .nav-link:last-child #profile-modal .modal-content div img {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.navbar .navbar-container .div2 .navbar-links .nav-link:last-child #profile-modal .modal-content div a {
+  color: #123524;
+  text-decoration: none;
 }
 .navbar .logo {
   color: #ffffff;
@@ -43,6 +130,7 @@ body {
 .navbar .navbar-links {
   list-style: none;
   display: flex;
+  align-items: center;
   gap: 2rem;
 }
 .navbar .navbar-links .nav-link {
@@ -57,19 +145,20 @@ body {
 }
 
 .yaratuvchi {
-  margin-top: 2rem;
   background-color: #123524;
-  padding: 2rem;
-  color: #fff;
-}
-.yaratuvchi div {
-  margin: 2rem auto;
+  color: #ffffff;
   text-align: center;
-  margin-bottom: 1rem;
+  padding: 1rem;
+  flex-shrink: 0;
+  width: 100%;
+  margin-top: auto;
 }
-.yaratuvchi div h2 {
-  margin-top: 1rem;
-  text-transform: uppercase;
+.yaratuvchi h2 {
+  font-size: 1.2rem;
+  margin: 0;
+}
+.yaratuvchi h2:last-child {
+  margin-top: 0.5rem;
 }
 
 .container {
@@ -96,7 +185,9 @@ body {
 .container .project-form label {
   font-weight: 600;
 }
-.container .project-form input, .container .project-form select, .container .project-form textarea {
+.container .project-form input,
+.container .project-form select,
+.container .project-form textarea {
   padding: 0.8rem;
   border: 1px solid #ccc;
   border-radius: 4px;

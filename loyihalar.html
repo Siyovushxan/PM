@@ -1,121 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loyihalar</title>
-    <link rel="stylesheet" href="loyihalar_SASS/style.css">
-    <link rel="stylesheet" href="scss/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loyihalar</title>
+  <link rel="stylesheet" href="loyihalar_SASS/style.css">
+  <link rel="stylesheet" href="scss/style.css">
 </head>
+
 <body>
-    <header>
-        <nav class="navbar">
-            <div class="navbar-container">
-                <div class="div1">
-                    <img class="img_logo" src="img/Рисунок1.png" alt="">
-                    <a href="#" class="logo">"Navoiyuran" DK</a>
+  <header>
+    <nav class="navbar">
+      <div class="navbar-container">
+        <div class="div1">
+          <img class="img_logo" src="img/Рисунок1.png" alt="">
+          <a href="#" class="logo">"Navoiyuran" DK</a>
+        </div>
+        <div class="div2">
+          <ul class="navbar-links">
+            <li><a href="index.html" class="nav-link">Bosh sahifa</a></li>
+            <li><a href="#" class="nav-link">Loyihalar</a></li>
+            <li><a href="#" class="nav-link">Yo'l xaritalari</a></li>
+            <li class="nav-link">
+              <img id="profile-image" src="img/user.png" alt="Profil rasmi">
+              <div id="profile-modal" class="profile-modal">
+                <span class="close-btn" onclick="toggleProfile()">×</span>
+                <div class="modal-content">
+                  <h3 id="profile-fish">Lorem ipsum dolor sit amet.</h3>
+                  <p id="profile-bulim">Lorem ipsum dolor sit amet.</p>
+                  <p id="profile-lavozim">Lorem ipsum dolor sit amet.</p>
+                  <div>
+                    <img src="img/logout.png" alt="">
+                    <a id="logout-link" href="login.html">Tizimdan chiqish</a>
+                  </div>
                 </div>
-                <div class="div2">
-                    <ul class="navbar-links">
-                        <li><a href="index.html" class="nav-link">Bosh sahifa</a></li>
-                        <li><a href="#" class="nav-link">Loyihalar</a></li>
-                        <li><a href="vazifa_qushish.html" class="nav-link">Vazifa qo'shish</a></li>
-                        <li><a href="#" class="nav-link">Yo'l xaritalari</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <main>
-        <div class="container-projects">
-            <h2 class="title_vazifa">Bajarilishi Rejalashtirilgan Loyihalar</h2>
-            <h3 class="title_vazifa">Qo'shilgan Vazifalarni Ko'rish Uchun VAZIFALAR Sahifasiga O'ting!</h3>
-            
-            <!-- Loyiha kartalari -->
-            <div class="projects"></div>
+              </div>
+            </li>
+          </ul>
         </div>
-    </main>
+      </div>
+    </nav>
+  </header>
 
-    <!-- Loyiha tahrirlash modal oynasi -->
-    <div id="editModal" class="modal">
-        <div class="modal-content">
-            <span class="close">×</span>
-            <h2>Loyihani Tahrirlash</h2>
-            <form id="edit-form">
-                <input type="hidden" id="edit-index">
-                <label for="edit-project-name">Loyiha nomi</label>
-                <input type="text" id="edit-project-name" required>
-                <label for="edit-project-description">Izoh</label>
-                <textarea id="edit-project-description" required></textarea>
-                <label for="edit-start-date">Boshlanish sanasi</label>
-                <input type="date" id="edit-start-date" required>
-                <label for="edit-end-date">Tugash sanasi</label>
-                <input type="date" id="edit-end-date" required>
-                <label for="edit-status">Status</label>
-                <select id="edit-status" required>
-                    <option value="rejalashtirilmoqda">Rejalashtirilmoqda</option>
-                    <option value="bajarilmoqda">Bajarilmoqda</option>
-                    <option value="yakunlandi">Yakunlandi</option>
-                    <option value="to'xtatildi">To'xtatilgan</option>
-                </select>
-                <label for="edit-statusMasul">Mas'ul hodim</label>
-                <select id="edit-statusMasul" required>
-                    <option value="masul">Mas'ul hodimni tanlang</option>
-                    <option value="J.Xafizov">J. Xafizov</option>
-                    <option value="S.Adizov">S. Adizov</option>
-                    <option value="S.Abdullayev">S. Abdullayev</option>
-                    <option value="J.G'iyosov">J. G'iyosov</option>
-                    <option value="J.Toshboyev">J. Toshboyev</option>
-                </select>
-                <button type="submit">Saqlash</button>
-            </form>
-        </div>
+  <main>
+    <div class="container-projects">
+      <h2 class="title_vazifa">Bajarilishi Rejalashtirilgan Loyihalar</h2>
+
+      <!-- Loyiha kartalari -->
+      <div class="projects"></div>
     </div>
+  </main>
 
-    <!-- Yangi vazifa qo'shish modal -->
-    <div id="taskModal" class="modal">
-        <div class="modal-content">
-            <span class="close-task">×</span>
-            <h2>Yangi Vazifa Qo'shish</h2>
-            <form id="task-form">
-                <input type="hidden" id="task-index">
-                <label for="task-name">Vazifa nomi</label>
-                <input type="text" id="task-name" placeholder="Vazifa nomini kiriting" required>
-                <label for="task-description">Izoh</label>
-                <textarea id="task-description" placeholder="Vazifa haqida izoh kiriting" required></textarea>
-                <label for="task-start-date">Boshlanish sanasi</label>
-                <input type="date" id="task-start-date" required>
-                <label for="task-end-date">Tugash sanasi</label>
-                <input type="date" id="task-end-date" required>
-                <label for="vazifa">Status</label>
-                <select id="vazifa" required>
-                    <option value="status-tanlash">Loyiha statusini tanlang</option>
-                    <option value="rejalashtirilmoqda">Rejalashtirilmoqda</option>
-                    <option value="bajarilmoqda">Bajarilmoqda</option>
-                    <option value="yakunlandi">Yakunlandi</option>
-                    <option value="to'xtatildi">To'xtatilgan</option>
-                </select>
-                <label for="vazifa-masul-hodim">Mas'ul hodim</label>
-                <select id="vazifa-masul-hodim" required>
-                    <option value="masul">Mas'ul hodimni tanlang</option>
-                    <option value="S.Adizov">S. Adizov</option>
-                    <option value="S.Abdullayev">S. Abdullayev</option>
-                    <option value="J.G'iyosov">J. G'iyosov</option>
-                    <option value="J.Toshboyev">J. Toshboyev</option>
-                </select>
-                <button type="submit">Qo'shish</button>
-            </form>
-        </div>
+  <!-- Loyiha tahrirlash modal oynasi -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <span class="close">×</span>
+      <h2>Loyihani Tahrirlash</h2>
+      <form id="edit-form">
+        <input type="hidden" id="edit-index">
+        <label for="edit-project-name">Loyiha nomi</label>
+        <input type="text" id="edit-project-name" required>
+        <label for="edit-project-description">Izoh</label>
+        <textarea id="edit-project-description" required></textarea>
+        <label for="edit-start-date">Boshlanish sanasi</label>
+        <input type="date" id="edit-start-date" required>
+        <label for="edit-end-date">Tugash sanasi</label>
+        <input type="date" id="edit-end-date" required>
+        <label for="edit-status">Status</label>
+        <select id="edit-status" required>
+          <option value="rejalashtirilmoqda">Rejalashtirilmoqda</option>
+          <option value="bajarilmoqda">Bajarilmoqda</option>
+          <option value="yakunlandi">Yakunlandi</option>
+          <option value="to'xtatildi">To'xtatilgan</option>
+        </select>
+        <label for="edit-statusMasul">Mas'ul hodim</label>
+        <select id="edit-statusMasul" required>
+          <option value="masul">Mas'ul hodimni tanlang</option>
+          <option value="J.Xafizov">J. Xafizov</option>
+          <option value="S.Adizov">S. Adizov</option>
+          <option value="S.Abdullayev">S. Abdullayev</option>
+          <option value="J.G'iyosov">J. G'iyosov</option>
+          <option value="J.Toshboyev">J. Toshboyev</option>
+        </select>
+        <button type="submit">Saqlash</button>
+      </form>
     </div>
+  </div>
 
-    <section class="yaratuvchi">
-        <div>
-            <h2>Loyiha yaratuvchisi: Raqamli transformatsiyani joriy etish bo'limi bosh mutaxassisi</h2>
-            <h2>S. Abdullayev</h2>
-        </div>
-    </section>
+  <!-- Yangi vazifa qo'shish modal -->
+  <div id="taskModal" class="modal">
+    <div class="modal-content">
+      <span class="close-task">×</span>
+      <h2>Yangi Vazifa Qo'shish</h2>
+      <form id="task-form">
+        <input type="hidden" id="task-index">
+        <label for="task-name">Vazifa nomi</label>
+        <input type="text" id="task-name" placeholder="Vazifa nomini kiriting" required>
+        <label for="task-description">Izoh</label>
+        <textarea id="task-description" placeholder="Vazifa haqida izoh kiriting" required></textarea>
+        <label for="task-start-date">Boshlanish sanasi</label>
+        <input type="date" id="task-start-date" required>
+        <label for="task-end-date">Tugash sanasi</label>
+        <input type="date" id="task-end-date" required>
+        <label for="vazifa">Status</label>
+        <select id="vazifa" required>
+          <option value="status-tanlash">Loyiha statusini tanlang</option>
+          <option value="rejalashtirilmoqda">Rejalashtirilmoqda</option>
+          <option value="bajarilmoqda">Bajarilmoqda</option>
+          <option value="yakunlandi">Yakunlandi</option>
+          <option value="to'xtatildi">To'xtatilgan</option>
+        </select>
+        <label for="vazifa-masul-hodim">Mas'ul hodim</label>
+        <select id="vazifa-masul-hodim" required>
+          <option value="masul">Mas'ul hodimni tanlang</option>
+          <option value="S.Adizov">S. Adizov</option>
+          <option value="S.Abdullayev">S. Abdullayev</option>
+          <option value="J.G'iyosov">J. G'iyosov</option>
+          <option value="J.Toshboyev">J. Toshboyev</option>
+        </select>
+        <button type="submit">Qo'shish</button>
+      </form>
+    </div>
+  </div>
 
-    <script src="js/loyihalar.js"></script>
+  <section class="yaratuvchi">
+    <div>
+      <h2>Loyiha yaratuvchisi: Raqamli transformatsiyani joriy etish bo'limi bosh mutaxassisi</h2>
+      <h2>S. Abdullayev</h2>
+    </div>
+  </section>
+
+  <script src="js/loyihalar.js"></script>
+  <script src="js/index.js"></script>
 </body>
+
 </html>
