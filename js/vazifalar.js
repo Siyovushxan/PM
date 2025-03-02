@@ -119,6 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			console.log('Vazifalar:', tasks) // Debugging
 			taskList.innerHTML = `
 							<h3 style="text-align: center; margin-bottom: 20px; color: #2c3e50; font-size: 1.5em;">${projectName} loyihasiga tegishli vazifalar ro'yxati</h3>
+							<h4 style="text-align: center; margin-bottom: 1rem"> Vazifalar tarixini ko'rish uchun vazifa nomini bosing! </h4>
 							${
 								tasks.length > 0
 									? `

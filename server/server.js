@@ -20,7 +20,9 @@ const storage = multer.diskStorage({
 		cb(null, dir)
 	},
 	filename: (req, file, cb) => {
-		cb(null, Date.now() + '-' + file.originalname)
+		const fileName = Date.now() + '-' + file.originalname
+		console.log('Saqlanayotgan fayl nomi:', fileName) // Debugging
+		cb(null, fileName)
 	},
 })
 const upload = multer({ storage: storage })
@@ -348,91 +350,6 @@ app.get('/api/chat-history/:taskId', (req, res) => {
 	})
 })
 
-// Vaqtni MySQL formatiga o'zgartirish funksiyasi
-// function formatDateToMySQL(date) {
-// 	return date.toISOString().slice(0, 19).replace('T', ' ') // YYYY-MM-DD HH:mm:ss
-// }
-
-// Chat tarixini olish (users jadvalidan fish ni olish uchun JOIN)
-// app.get('/api/chat-history/:taskId', (req, res) => {
-// 	const taskId = req.params.taskId
-// 	const sql = `
-// 			SELECT ch.user_task_id, ch.task_id, u.fish, ch.matn, ch.vaqt, ch.file_paths
-// 			FROM chat_history ch
-// 			LEFT JOIN users u ON ch.user_task_id = u.id
-// 			WHERE ch.task_id = ?
-// 			ORDER BY ch.vaqt DESC
-// 	`
-// 	db.query(sql, [taskId], (err, results) => {
-// 		if (err) {
-// 			console.error('Chat tarixi olishda xatolik:', err)
-// 			return res
-// 				.status(500)
-// 				.json({ message: 'Chat tarixi yuklanmadi', error: err.message })
-// 		}
-// 		console.log('Chat tarixi javobi:', results) // Debugging
-// 		results.forEach(result => {
-// 			if (!result.fish)
-// 				console.warn('Fish topilmadi, user_task_id:', result.user_task_id)
-// 		})
-// 		res.json(results || [])
-// 	})
-// })
-
-// Xabar yuborish va saqlash
-// app.post('/api/send-message', upload.array('files', 5), (req, res) => {
-// 	const { task_id, user_task_id, fish, matn } = req.body
-// 	const files = req.files
-// 		? req.files.map(file => `/uploads/${file.filename}`)
-// 		: []
-// 	const filePaths = JSON.stringify(files)
-// 	const vaqt = formatDateToMySQL(new Date())
-
-// 	console.log('Keldi:', { task_id, user_task_id, fish, matn, files }) // Debugging
-
-// 	if (!task_id || !user_task_id) {
-// 		console.error('Talab qilinmagan maydonlar:', { task_id, user_task_id })
-// 		return res
-// 			.status(400)
-// 			.json({ message: 'task_id va user_task_id talab qilinadi' })
-// 	}
-
-// 	// Fish ni tekshirish uchun users jadvalidan olish
-// 	const checkFishSql = 'SELECT fish FROM users WHERE id = ?'
-// 	db.query(checkFishSql, [user_task_id], (err, userResult) => {
-// 		if (err) {
-// 			console.error('Foydalanuvchi tekshirishda xatolik:', err)
-// 			return res
-// 				.status(500)
-// 				.json({ message: 'Foydalanuvchi topilmadi', error: err.message })
-// 		}
-// 		const actualFish =
-// 			userResult.length > 0 ? userResult[0].fish : fish || "Noma'lum"
-
-// 		const sql =
-// 			'INSERT INTO chat_history (user_task_id, task_id, fish, matn, file_paths, vaqt) VALUES (?, ?, ?, ?, ?, ?)'
-// 		db.query(
-// 			sql,
-// 			[user_task_id, task_id, actualFish, matn, filePaths, vaqt],
-// 			(err, result) => {
-// 				if (err) {
-// 					console.error(
-// 						'Xabar saqlashda xatolik:',
-// 						err.sqlMessage || err.message
-// 					)
-// 					return res
-// 						.status(500)
-// 						.json({
-// 							message: 'Xabar saqlanmadi',
-// 							error: err.sqlMessage || err.message,
-// 						})
-// 				}
-// 				console.log('Xabar muvaffaqiyatli saqlandi:', result)
-// 				res.json({ message: 'Xabar muvaffaqiyatli yuborildi' })
-// 			}
-// 		)
-// 	})
-// })
 
 // Vaqtni MySQL formatiga o'zgartirish funksiyasi
 function formatDateToMySQL(date) {
@@ -460,6 +377,8 @@ app.get('/api/chat-history/:taskId', (req, res) => {
 		results.forEach(result => {
 			if (!result.fish)
 				console.warn('Fish topilmadi, user_task_id:', result.user_task_id)
+			if (result.file_paths)
+				console.log("Fayl yo'llari:", JSON.parse(result.file_paths)) // Debugging
 		})
 		res.json(results || [])
 	})

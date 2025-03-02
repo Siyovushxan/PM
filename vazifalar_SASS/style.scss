@@ -42,6 +42,12 @@ $status-paused: #e74c3c;
 				}
 
 				tbody {
+					.task-name {
+						text-decoration: underline;
+						text-decoration-color: #123524;
+						font-weight: bold;
+					}
+
 					tr.task-row {
 						transition: background-color 0.3s ease;
 
@@ -225,7 +231,7 @@ $status-paused: #e74c3c;
 // 			margin-bottom: 10px;
 // 			border: 1px solid #ccc;
 // 			padding: 10px;
-// 			max-height: 200px;
+// 			max-height: 500px;
 // 			overflow-y: auto;
 
 // 			.chat-message {
@@ -329,7 +335,7 @@ $status-paused: #e74c3c;
 			margin-bottom: 10px;
 			border: 1px solid #ccc;
 			padding: 10px;
-			max-height: 500px;
+			max-height: 30rem;
 			overflow-y: auto;
 
 			.chat-message {
@@ -359,6 +365,16 @@ $status-paused: #e74c3c;
 					display: block;
 					font-size: 0.8em;
 					color: #666;
+				}
+
+				a {
+					color: #007bff;
+					text-decoration: none;
+					word-break: break-all; // Uzun URL larni sindirish
+
+					&:hover {
+						text-decoration: underline;
+					}
 				}
 			}
 		}
@@ -406,8 +422,6 @@ $status-paused: #e74c3c;
 }
 
 .task-list {
-	margin: 20px;
-
 	.task {
 		padding: 10px;
 		cursor: pointer;

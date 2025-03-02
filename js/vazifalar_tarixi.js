@@ -112,9 +112,23 @@ document.addEventListener('DOMContentLoaded', () => {
 																		${
 																			message.file_paths
 																				? '<br>Fayllar: ' +
-																				  JSON.parse(message.file_paths).join(
-																						', '
-																				  )
+																				  JSON.parse(message.file_paths)
+																						.map(filePath => {
+																							const fileName = filePath
+																								.split('/')
+																								.pop()
+																							const fullUrl = `/uploads/${encodeURIComponent(
+																								fileName
+																							)}`
+																							console.log(
+																								"To'liq fayl URL:",
+																								fullUrl,
+																								"Asl fayl yo'li:",
+																								filePath
+																							) // Debugging
+																							return `<a href="${fullUrl}" download="${fileName}">${fileName}</a>`
+																						})
+																						.join(', ')
 																				: ''
 																		}
 																</div>

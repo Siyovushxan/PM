@@ -25,6 +25,11 @@
   font-weight: bold;
   border-bottom: 2px solid #34495e;
 }
+.task-main .container-projects #task-list .task-table tbody .task-name {
+  text-decoration: underline;
+  text-decoration-color: #123524;
+  font-weight: bold;
+}
 .task-main .container-projects #task-list .task-table tbody tr.task-row {
   transition: background-color 0.3s ease;
 }
@@ -184,7 +189,7 @@
   margin-bottom: 10px;
   border: 1px solid #ccc;
   padding: 10px;
-  max-height: 500px;
+  max-height: 30rem;
   overflow-y: auto;
 }
 .task-modal-tarix .modal-content #chat-history .chat-message {
@@ -211,6 +216,14 @@
   display: block;
   font-size: 0.8em;
   color: #666;
+}
+.task-modal-tarix .modal-content #chat-history .chat-message a {
+  color: #007bff;
+  text-decoration: none;
+  word-break: break-all;
+}
+.task-modal-tarix .modal-content #chat-history .chat-message a:hover {
+  text-decoration: underline;
 }
 .task-modal-tarix .modal-content #message-input {
   width: 70%;
@@ -247,9 +260,6 @@
   color: black;
 }
 
-.task-list {
-  margin: 20px;
-}
 .task-list .task {
   padding: 10px;
   cursor: pointer;
