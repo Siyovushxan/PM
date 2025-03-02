@@ -48,30 +48,43 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	// Profil oynasini ochish/yopish
-	profileImage.addEventListener('click', e => {
-		e.preventDefault()
-		profileModal.style.display =
-			profileModal.style.display === 'block' ? 'none' : 'block'
-		if (profileModal.style.display === 'block') {
-			history.replaceState(null, '', 'index.html') // Modal ochilganda qaytishni bloklash
-		}
-		updateProfile()
-	})
+	if (profileImage) {
+		profileImage.addEventListener('click', e => {
+			e.preventDefault()
+			profileModal.style.display =
+				profileModal.style.display === 'block' ? 'none' : 'block'
+			if (profileModal.style.display === 'block') {
+				history.replaceState(null, '', window.location.pathname) // Modal ochilganda qaytishni bloklash
+			}
+			updateProfile()
+		})
+	} else {
+		console.error('profile-image elementi topilmadi!')
+	}
 
 	// Yopish tugmasi
-	document.querySelector('.close-btn').addEventListener('click', () => {
-		profileModal.style.display = 'none'
-		history.replaceState(null, '', 'index.html') // Yopilganda ham bloklash
-	})
+	const closeBtn = document.querySelector('.close-btn')
+	if (closeBtn) {
+		closeBtn.addEventListener('click', () => {
+			profileModal.style.display = 'none'
+			history.replaceState(null, '', window.location.pathname) // Yopilganda ham bloklash
+		})
+	} else {
+		console.error('close-btn elementi topilmadi!')
+	}
 
 	// Tizimdan chiqish havolasi uchun
-	logoutLink.addEventListener('click', e => {
-		e.preventDefault() // Havola havolasini to‘xtatish
-		sessionStorage.removeItem('userId') // Sessiyani tozalash
-		history.replaceState(null, '', 'login.html') // Tarixni yangilash
-		window.location.href = 'login.html' // Login sahifasiga o‘tish
-		history.pushState(null, '', 'login.html') // Login sahifasida ham qaytishni bloklash
-	})
+	if (logoutLink) {
+		logoutLink.addEventListener('click', e => {
+			e.preventDefault() // Havola havolasini to‘xtatish
+			sessionStorage.removeItem('userId') // Sessiyani tozalash
+			history.replaceState(null, '', 'login.html') // Tarixni yangilash
+			window.location.href = 'login.html' // Login sahifasiga o‘tish
+			history.pushState(null, '', 'login.html') // Login sahifasida ham qaytishni bloklash
+		})
+	} else {
+		console.error('logout-link elementi topilmadi!')
+	}
 
 	// Sahifa yuklanganda profilni tekshirish va ortga qaytishni bloklash
 	window.onload = () => {
@@ -81,11 +94,17 @@ document.addEventListener('DOMContentLoaded', () => {
 			window.location.href = 'login.html'
 		} else {
 			updateProfile()
-			history.replaceState(null, '', 'index.html') // Yuklanganda qaytishni bloklash
+			// Faqat index.html va login.html uchun qaytishni bloklash
+			if (
+				window.location.pathname.includes('index.html') ||
+				window.location.pathname.includes('login.html')
+			) {
+				history.replaceState(null, '', window.location.pathname) // Yuklanganda qaytishni bloklash
+			}
 		}
 	}
 
-	// Ortga qaytishni doimiy bloklash
+	// Ortga qaytishni faqat index.html va login.html uchun bloklash
 	window.onpopstate = function (event) {
 		const userId = getUserId()
 		if (window.location.pathname.includes('index.html') && userId) {
@@ -93,57 +112,62 @@ document.addEventListener('DOMContentLoaded', () => {
 			return false // Index.html da qaytishni to‘xtatish
 		} else if (window.location.pathname.includes('login.html')) {
 			history.replaceState(null, '', 'login.html')
-			return false // Login.html da ham qaytishni to‘xtatish
+			return false // Login.html da qaytishni to‘xtatish
 		}
+		// Loyihalar.html va vazifalar.html uchun bloklamaydi
 	}
 
 	// Loyiha qo‘shish formasi
-	form.addEventListener('submit', async event => {
-		event.preventDefault()
+	if (form) {
+		form.addEventListener('submit', async event => {
+			event.preventDefault()
 
-		const name = document.getElementById('project-name').value
-		const description = document.getElementById('project-description').value
-		const startDate = document.getElementById('start-date').value
-		const endDate = document.getElementById('end-date').value
-		const status = document.getElementById('status').value
-		const responsible = document.getElementById('statusMasul').value
+			const name = document.getElementById('project-name').value
+			const description = document.getElementById('project-description').value
+			const startDate = document.getElementById('start-date').value
+			const endDate = document.getElementById('end-date').value
+			const status = document.getElementById('status').value
+			const responsible = document.getElementById('statusMasul').value
 
-		if (
-			!name ||
-			!description ||
-			!startDate ||
-			!endDate ||
-			!status ||
-			!responsible
-		) {
-			alert('Iltimos, barcha maydonlarni to‘ldiring!')
-			return
-		}
+			if (
+				!name ||
+				!description ||
+				!startDate ||
+				!endDate ||
+				!status ||
+				!responsible
+			) {
+				alert('Iltimos, barcha maydonlarni to‘ldiring!')
+				return
+			}
 
-		const projectData = {
-			name,
-			description,
-			startDate,
-			endDate,
-			status,
-			responsible,
-		}
+			const projectData = {
+				name,
+				description,
+				startDate,
+				endDate,
+				status,
+				responsible,
+			}
 
-		try {
-			const response = await fetch('http://localhost:5000/api/projects', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(projectData),
-			})
+			try {
+				const response = await fetch('http://localhost:5000/api/projects', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(projectData),
+				})
 
-			const data = await response.json()
-			alert(data.message)
-			form.reset() // Formani tozalash
-		} catch (error) {
-			console.error('Xatolik:', error)
-			alert('Serverga ulanishda xatolik yuz berdi!')
-		}
-	})
+				const data = await response.json()
+				alert(data.message)
+				form.reset() // Formani tozalash
+			} catch (error) {
+				console.error('Xatolik:', error)
+				alert('Serverga ulanishda xatolik yuz berdi!')
+			}
+		})
+	} else {
+		console.warn('project-form elementi topilmadi! Formani tekshiring.')
+	}
 })
