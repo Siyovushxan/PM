@@ -19,9 +19,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	let currentTaskId = null
 	const serverUrl = 'http://localhost:5000'
-	const currentUserId = sessionStorage.getItem('userId') // Sessiondan foydalanuvchi ID si
+	let currentUserId = sessionStorage.getItem('userId') // Sessiondan foydalanuvchi ID si
 
-	console.log('Joriy foydalanuvchi ID (session):', currentUserId) // Debugging
+	// Login holatini tekshirish
+	if (!currentUserId) {
+		console.warn('Sessiondan userId topilmadi, login tekshiruvi boshlanadi...')
+		fetch(`${serverUrl}/api/check-session`, {
+			method: 'GET',
+			credentials: 'include', // Sessionni ko‘rish uchun
+		})
+			.then(res => {
+				if (!res.ok) throw new Error('Session tekshiruvi xatolik')
+				return res.json()
+			})
+			.then(data => {
+				if (data.userId) {
+					currentUserId = data.userId
+					sessionStorage.setItem('userId', currentUserId)
+					console.log(
+						'Session tekshiruvi muvaffaqiyatli, Joriy foydalanuvchi ID:',
+						currentUserId
+					)
+				} else {
+					console.warn('Foydalanuvchi tizimga kirmagan!')
+					alert('Iltimos, avval tizimga kiring!')
+					window.location.href = '/login.html' // Login sahifasiga yo‘naltirish
+					return
+				}
+			})
+			.catch(error => {
+				console.error('Session tekshiruvi xatoligi:', error)
+				alert('Iltimos, avval tizimga kiring!')
+				window.location.href = '/login.html'
+				return
+			})
+	} else {
+		console.log('Joriy foydalanuvchi ID (session):', currentUserId) // Debugging
+	}
 
 	// Elementlarni tekshirish
 	console.log('Elementlar tekshiruvi:', {
@@ -46,11 +80,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	// Modal ochish funksiyasi
 	function openModal(taskId) {
+		if (!currentUserId) {
+			console.error('Foydalanuvchi ID si mavjud emas, modal ochilmadi!')
+			alert('Iltimos, avval tizimga kiring!')
+			window.location.href = '/login.html'
+			return
+		}
+
 		console.log(
 			'Modal ochishga harakat qilinyapti, taskId:',
 			taskId,
 			'Modal:',
-			modal
+			modal,
+			'User ID:',
+			currentUserId
 		)
 		if (!modal) {
 			console.error(
@@ -78,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
 					return res.json()
 				})
 				.then(data => {
-					console.log("Vazifa ma'lumotlari (JSON):", data) // Debugging
+					console.log("Vazifa ma'lumotlari (JSON):", data)
 					return data
 				})
 				.catch(error => {
@@ -87,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
 						id: taskId,
 						name: "Noma'lum vazifa",
 						description: 'Izoh mavjud emas',
-					} // Defolt qiymat
+					}
 				}),
 			fetch(`${serverUrl}/api/vazifalar-details-right/${taskId}`)
 				.then(res => {
@@ -104,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
 						start_date: null,
 						end_date: null,
 						status: "Noma'lum",
-					} // Defolt qiymat
+					}
 				}),
 		])
 			.then(([basicDetails, rightDetails]) => {
@@ -114,7 +157,6 @@ document.addEventListener('DOMContentLoaded', () => {
 					"O'ng tomon ma'lumotlari:",
 					rightDetails
 				)
-				// Ma'lumotlarni to'g'ri yuklash
 				taskName.textContent = `Vazifa nomi: ${
 					basicDetails.name || basicDetails.vazifa_nomi || "Noma'lum vazifa"
 				}`
@@ -122,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
 					basicDetails.id !== null && basicDetails.id !== undefined
 						? basicDetails.id.toString()
 						: "Noma'lum"
-				}` // ID ni string sifatida yuklash
+				}`
 				taskDescription.textContent = `Vazifa izohi: ${
 					basicDetails.description || basicDetails.izoh || 'Izoh mavjud emas'
 				}`
@@ -157,12 +199,13 @@ document.addEventListener('DOMContentLoaded', () => {
 				return res.json()
 			})
 			.then(chatData => {
-				console.log("Chat ma'lumotlari:", chatData) // Debugging
+				console.log("Chat ma'lumotlari:", chatData)
 				taskHistory.innerHTML =
 					chatData.length > 0
 						? chatData
 								.map(message => {
-									const isCurrentUser = message.user_task_id === currentUserId
+									const isCurrentUser =
+										message.user_task_id.toString() === currentUserId.toString()
 									console.log(
 										`Xabar: ${message.matn}, Foydalanuvchi: ${
 											message.user_task_id
@@ -205,6 +248,11 @@ document.addEventListener('DOMContentLoaded', () => {
 			alert('Iltimos, vazifani tanlang!')
 			return
 		}
+		if (!currentUserId) {
+			alert('Iltimos, avval tizimga kiring!')
+			window.location.href = '/login.html'
+			return
+		}
 
 		const text = messageInput.value.trim()
 		const files = fileUpload.files
@@ -222,11 +270,23 @@ document.addEventListener('DOMContentLoaded', () => {
 			formData.append('file_paths', file)
 		}
 
+		console.log("Yuborilayotgan ma'lumotlar:", {
+			task_id: currentTaskId,
+			user_task_id: currentUserId,
+			fish: 'Foydalanuvchi',
+			matn: text,
+			files: files.length,
+		})
+
 		fetch(`${serverUrl}/api/chat-history`, {
 			method: 'POST',
 			body: formData,
 		})
-			.then(response => response.json())
+			.then(response => {
+				console.log(`Xabar yuborish javobi: Status ${response.status}`)
+				if (!response.ok) throw new Error(`HTTP xatolik: ${response.status}`)
+				return response.json()
+			})
 			.then(data => {
 				console.log('Xabar yuborildi:', data)
 				alert(data.message || 'Xabar muvaffaqiyatli yuborildi!')
@@ -234,7 +294,10 @@ document.addEventListener('DOMContentLoaded', () => {
 				fileUpload.value = ''
 				openModal(currentTaskId) // Chat tarixini yangilash
 			})
-			.catch(error => console.error('Xabar yuborishda xatolik:', error))
+			.catch(error => {
+				console.error('Xabar yuborishda xatolik:', error)
+				alert('Xabar yuborishda xatolik yuz berdi: ' + error.message)
+			})
 	}
 
 	// modalOpen hodisasini qabul qilish

@@ -5,10 +5,19 @@ const bcrypt = require('bcrypt')
 const path = require('path')
 const multer = require('multer')
 const fs = require('fs')
+const session = require('express-session')
 
 const app = express()
 app.use(cors())
 app.use(express.json())
+app.use(
+	session({
+		secret: 'secret-key', // Maxfiy kalit, loyiha uchun o‘zgartiring
+		resave: false,
+		saveUninitialized: false,
+		cookie: { secure: false }, // HTTPS uchun true qiling
+	})
+)
 
 // Multer konfiguratsiyasi
 const storage = multer.diskStorage({
@@ -21,7 +30,7 @@ const storage = multer.diskStorage({
 	},
 	filename: (req, file, cb) => {
 		const fileName = Date.now() + '-' + file.originalname
-		console.log('Saqlanayotgan fayl nomi:', fileName) // Debugging
+		console.log('Saqlanayotgan fayl nomi:', fileName)
 		cb(null, fileName)
 	},
 })
@@ -47,13 +56,21 @@ db.connect(err => {
 	console.log('✅ MySQLga muvaffaqiyatli ulandi!')
 })
 
+// Sessionni tekshirish endpointi
+app.get('/api/check-session', (req, res) => {
+	if (req.session.userId) {
+		res.json({ userId: req.session.userId })
+	} else {
+		res.status(401).json({ message: 'Foydalanuvchi tizimga kirmagan' })
+	}
+})
+
 // Loyihaga tegishli barcha vazifalarni olish API
 app.get('/api/vazifalar', (req, res) => {
 	const projectId = req.query.project_id
 	if (!projectId) {
 		return res.status(400).json({ message: 'project_id majburiy parametr!' })
 	}
-
 	const sql = 'SELECT * FROM vazifalar WHERE project_id = ?'
 	db.query(sql, [projectId], (err, results) => {
 		if (err) {
@@ -75,7 +92,6 @@ app.post('/api/vazifalar', (req, res) => {
 		vazifa_status,
 		vazifa_masul_hodimi,
 	} = req.body
-
 	if (
 		!project_id ||
 		!vazifa_nomi ||
@@ -88,7 +104,6 @@ app.post('/api/vazifalar', (req, res) => {
 			.status(400)
 			.json({ message: 'Barcha majburiy maydonlarni to‘ldiring!' })
 	}
-
 	const sql =
 		'INSERT INTO vazifalar (project_id, vazifa_nomi, izoh, vazifa_boshlanish_sanasi, vazifa_tugash_sanasi, vazifa_status, vazifa_masul_hodimi) VALUES (?, ?, ?, ?, ?, ?, ?)'
 	db.query(
@@ -164,7 +179,7 @@ app.post('/api/projects', (req, res) => {
 		!status ||
 		!responsible
 	) {
-		return res.status(400).json({ message: 'Barcha maydonlarni to‘ldiring!' })
+		return res.status(500).json({ message: 'Barcha maydonlarni to‘ldiring!' })
 	}
 	const sql =
 		'INSERT INTO projects (name, description, startDate, endDate, status, responsible) VALUES (?, ?, ?, ?, ?, ?)'
@@ -299,7 +314,8 @@ app.post('/api/login', (req, res) => {
 			const isMatch = await bcrypt.compare(password, user.password)
 			if (isMatch) {
 				console.log('Muvaffaqiyatli login: ' + user.username)
-				return res.json({
+				req.session.userId = user.id // Sessionga userId saqlash
+				res.json({
 					message: 'Tizimga muvaffaqiyatli kirdingiz!',
 					userId: user.id,
 				})
@@ -330,6 +346,15 @@ app.get('/api/user/:id', (req, res) => {
 	})
 })
 
+// Sessionni tekshirish endpointi
+app.get('/api/check-session', (req, res) => {
+	if (req.session.userId) {
+		res.json({ userId: req.session.userId })
+	} else {
+		res.status(401).json({ message: 'Foydalanuvchi tizimga kirmagan' })
+	}
+})
+
 // Chat tarixini olish
 app.get('/api/chat-history/:taskId', (req, res) => {
 	const taskId = req.params.taskId
@@ -349,6 +374,46 @@ app.get('/api/chat-history/:taskId', (req, res) => {
 		})
 		res.json(results || [])
 	})
+})
+
+// Chat tarixiga xabar qo‘shish
+app.post('/api/chat-history', upload.array('file_paths', 5), (req, res) => {
+	const { task_id, user_task_id, fish, matn } = req.body
+	const vaqt = new Date().toISOString().slice(0, 19).replace('T', ' ')
+	const filePaths = req.files
+		? req.files.map(file => file.filename).join(',')
+		: ''
+
+	console.log("Kiritilgan ma'lumotlar:", {
+		task_id,
+		user_task_id,
+		fish,
+		matn,
+		filePaths,
+	}) // Debugging
+
+	if (!task_id || !user_task_id || !fish || !matn) {
+		return res
+			.status(400)
+			.json({ message: 'Barcha majburiy maydonlarni to‘ldiring!' })
+	}
+
+	const sql =
+		'INSERT INTO chat_history (task_id, user_task_id, fish, matn, vaqt, file_paths) VALUES (?, ?, ?, ?, ?, ?)'
+	db.query(
+		sql,
+		[task_id, user_task_id, fish, matn, vaqt, filePaths],
+		(err, result) => {
+			if (err) {
+				console.error('Xabar saqlashda xatolik:', err) // Xatolikni loglash
+				return res
+					.status(500)
+					.json({ message: 'Xabar saqlanmadi', error: err.message })
+			}
+			console.log('Xabar muvaffaqiyatli saqlandi:', result)
+			res.json({ message: 'Xabar muvaffaqiyatli yuborildi' })
+		}
+	)
 })
 
 const PORT = 5000
