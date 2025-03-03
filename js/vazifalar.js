@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	// Loyihaga tegishli vazifalarni olish va ko‘rsatish
-	async function loadTasks() {
+	async function loadTasks(index=1) {
 		if (!projectId) {
 			taskList.innerHTML = '<p>Loyiha ID topilmadi.</p>'
 			return
@@ -126,6 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
 											<table class="task-table" style="width: 95%; margin: 0 auto;">
 													<thead>
 															<tr>
+																	<th>id</th>
 																	<th>Vazifa nomi</th>
 																	<th>Izoh</th>
 																	<th>Boshlanish sanasi</th>
@@ -140,6 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
 																.map(
 																	task => `
 																	<tr class="task-row" data-id="${task.id || ''}">
+																			<td>${index++}</td>
 																			<td class="task-name" data-task-id="${task.id}">${
 																		task.vazifa_nomi || 'N/A'
 																	}</td>

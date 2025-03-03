@@ -52,17 +52,22 @@
             </div>
         </div>
     </main>
-
-    <!-- Har bir vaziafa click bulganida modal ochiladi va vazifalar yuzasidan yozishmalar tarixi kurinadi -->
+    
     <div id="task-modal-tarix" class="task-modal-tarix">
-        <span class="close-modal" onclick="closeModal()">×</span>
         <div class="modal-content">
-            <h3>Vazifa tarixi</h3>
-            <p id="user-fish"></p>
-            <div id="chat-history"></div>
-            <input type="text" id="message-input" placeholder="Xabar yozing...">
-            <input type="file" id="file-upload" multiple accept=".jpg,.png,.doc,.docx,.xls,.xlsx,.ppt,.pptx">
-            <button onclick="sendMessage()">Yuborish</button>
+            <span class="close-modal">×</span>
+            <div class="left-section">
+                <div id="task-name-display"></div>
+                <div id="task-id-display"></div>
+                <div id="task-description"></div>
+                <div id="results-section"></div>
+                <div id="chat-history"></div>
+                <input type="text" id="message-input" placeholder="Xabar yozing...">
+                <input type="file" id="file-upload" multiple>
+                <button onclick="sendMessage()">Yuborish</button>
+            </div>
+            <div class="right-section" id="task-details-right"></div>
+            <div id="user-fish"></div> <!-- Bu elementni qo'shish -->
         </div>
     </div>
 

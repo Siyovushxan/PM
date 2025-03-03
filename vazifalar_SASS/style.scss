@@ -203,127 +203,395 @@ $status-paused: #e74c3c;
 	}
 }
 
+// Modal task tarixi
+// .task-modal-tarix {
+// 	display: none;
+// 	position: fixed;
+// 	top: 0;
+// 	left: 0;
+// 	width: 100%;
+// 	height: 100%;
+// 	background-color: rgba(0, 0, 0, 0.5);
+// 	z-index: 1000;
+
+// 	.modal-content {
+// 		// background-color: white;
+// 		// background-color: rgba(255, 255, 255, 0.5);
+// 		background-color: rgba(18, 53, 36, 0.5);
+// 		margin: 5% auto;
+// 		padding: 20px;
+// 		width: 75%;
+// 		max-height: 90%;
+// 		overflow-y: auto;
+// 		border-radius: 5px;
+// 		box-shadow: 0 5px 8px rgba(0, 0, 0, 0.8);
+
+// 		h3 {
+// 			margin-bottom: 1rem;
+// 			font-size: 2rem;
+// 			color: #ffffff;
+// 		}
+
+// 		#chat-history {
+// 			margin-bottom: 1rem;
+// 			border: 1px solid #ffffff;
+// 			padding: 20px;
+// 			max-height: 30rem;
+// 			overflow-y: auto;
+// 			border-radius: 5px;
+// 			// color: #ffffff;
+
+// 			.chat-message {
+// 				margin: 10px 0; /* Xabarlar orasidagi masofa */
+// 				padding: 10px;
+// 				border-radius: 5px;
+// 				max-width: 70%;
+// 				clear: both;
+
+// 				&.left {
+// 					background-color: #e9ecef; /* Chap tomon uchun rang */
+// 					float: left;
+// 					text-align: left;
+// 				}
+
+// 				&.right {
+// 					background-color: #d1e7dd; /* O'ng tomon uchun rang */
+// 					float: right;
+// 					text-align: right;
+// 				}
+
+// 				p {
+// 					margin: 0;
+// 				}
+
+// 				small {
+// 					display: block;
+// 					font-size: 0.8em;
+// 					color: #666;
+// 				}
+
+// 				a {
+// 					color: #007bff;
+// 					text-decoration: none;
+// 					word-break: break-all; // Uzun URL larni sindirish
+
+// 					&:hover {
+// 						text-decoration: underline;
+// 					}
+// 				}
+// 			}
+// 		}
+
+// 		#message-input {
+// 			width: 70%;
+// 			height: 5rem;
+// 			padding: 10px;
+// 			margin-right: 10px;
+// 			border-radius: 10px;
+// 			border: 1px solid #ffffff;
+// 			background-color: #ffffff;
+// 			outline: none;
+// 			box-shadow: none;
+// 			font-size: 1.2rem;
+// 		}
+
+// 		.custom-file-upload {
+// 			color: #ffffff;
+// 			margin-right: 2rem;
+// 		}
+
+// 		#file-upload {
+// 			margin-top: 10px;
+// 			padding: 10px 10px;
+// 			cursor: pointer;
+// 			display: none;
+// 		}
+
+// 		button {
+// 			padding: 15px 15px;
+// 			background-color: #123524;
+// 			color: white;
+// 			border: none;
+// 			border-radius: 5px;
+// 			cursor: pointer;
+
+// 			&:hover {
+// 				background-color: #123524;
+// 			}
+// 		}
+
+// 		.close-modal {
+// 			color: #aaa;
+// 			float: right;
+// 			font-size: 28px;
+// 			font-weight: bold;
+// 			cursor: pointer;
+
+// 			&:hover {
+// 				color: black;
+// 			}
+// 		}
+// 	}
+// }
+
+
+
+
+
+
 .task-modal-tarix {
-	display: none;
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.5);
-	z-index: 1000;
+    display: none;
+    // position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
 
-	.modal-content {
-		// background-color: white;
-		// background-color: rgba(255, 255, 255, 0.5);
-		background-color: rgba(18, 53, 36, 0.5);
-		margin: 5% auto;
-		padding: 20px;
-		width: 75%;
-		max-height: 90%;
-		overflow-y: auto;
-		border-radius: 5px;
-		box-shadow: 0 5px 8px rgba(0, 0, 0, 0.8);
+    &.modal-open {
+        display: block;
+        animation: slideFromRight 0.3s ease-out forwards;
+    }
 
-		h3 {
-			margin-bottom: 1rem;
-			font-size: 2rem;
-			color: #ffffff;
-		}
+    &.modal-close {
+        animation: slideToRight 0.3s ease-in forwards;
+    }
 
-		#chat-history {
-			margin-bottom: 1rem;
-			border: 1px solid #ffffff;
-			padding: 20px;
-			max-height: 30rem;
-			overflow-y: auto;
-			border-radius: 5px;
+    .modal-content {
+        background-color: #ffffff;
+        position: absolute;
+        top: 0%; // Tasvirdagi joylashuvga mos
+        right: -75%; // Boshlang‘ich holatda o‘ngdan tashqarida, 80% kenglikka mos
+        width: 75%; // Tasvirdagi qizil chiziq kengligiga mos
+        height: 100%; // Ekranning katta qismini egallash
+        padding: 20px;
+        overflow-y: auto;
+        border-radius: 10px 0 0 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: row;
 
-			.chat-message {
-				margin: 10px 0; /* Xabarlar orasidagi masofa */
-				padding: 10px;
-				border-radius: 5px;
-				max-width: 70%;
-				clear: both;
+        .left-section {
+            flex: 1;
+            padding-right: 20px;
+            border-right: 1px solid #ddd;
 
-				&.left {
-					background-color: #e9ecef; /* Chap tomon uchun rang */
-					float: left;
-					text-align: left;
-				}
+            #task-name-display {
+                font-size: 1.2em;
+                font-weight: bold;
+                color: #333;
+                margin-bottom: 10px;
+                text-align: left;
+            }
 
-				&.right {
-					background-color: #d1e7dd; /* O'ng tomon uchun rang */
-					float: right;
-					text-align: right;
-				}
+            #task-id-display {
+                font-size: 0.9em;
+                color: #666;
+                margin-bottom: 10px;
+                text-align: left;
+            }
 
-				p {
-					margin: 0;
-				}
+            #task-description {
+                font-size: 0.9em;
+                color: #444;
+                margin-bottom: 15px;
+                padding: 10px;
+                background-color: #f9f9f9;
+                border-radius: 5px;
+            }
 
-				small {
-					display: block;
-					font-size: 0.8em;
-					color: #666;
-				}
+            #results-section {
+                margin-bottom: 20px;
+                padding: 10px;
+                background-color: #f5f5f5;
+                border-radius: 5px;
 
-				a {
-					color: #007bff;
-					text-decoration: none;
-					word-break: break-all; // Uzun URL larni sindirish
+                .result-item {
+                    margin-bottom: 10px;
 
-					&:hover {
-						text-decoration: underline;
-					}
-				}
-			}
-		}
+                    p {
+                        margin: 0;
+                        font-size: 0.9em;
+                        color: #444;
+                    }
 
-		#message-input {
-			width: 70%;
-			height: 5rem;
-			padding: 10px;
-			margin-right: 10px;
-			border-radius: 10px;
-			border: 1px solid #ffffff;
-			background-color: #ffffff;
-			outline: none;
-			box-shadow: none;
-		}
+                    a {
+                        color: #007bff;
+                        text-decoration: none;
+                        word-break: break-all;
 
-		#file-upload {
-			margin-top: 10px;
-			padding: 10px 10px;
-			cursor: pointer;
-		}
+                        &:hover {
+                            text-decoration: underline;
+                        }
+                    }
 
-		button {
-			padding: 15px 15px;
-			background-color: #123524;
-			color: white;
-			border: none;
-			border-radius: 5px;
-			cursor: pointer;
+                    label {
+                        font-size: 0.9em;
+                        color: #666;
+                        margin-left: 5px;
 
-			&:hover {
-				background-color: #123524;
-			}
-		}
+                        input[type="checkbox"] {
+                            margin-right: 5px;
+                        }
+                    }
+                }
+            }
 
-		.close-modal {
-			color: #aaa;
-			float: right;
-			font-size: 28px;
-			font-weight: bold;
-			cursor: pointer;
+            #chat-history {
+                margin-bottom: 15px;
+                padding: 10px 0;
+                max-height: 30vh;
+                overflow-y: auto;
 
-			&:hover {
-				color: black;
-			}
-		}
-	}
+                .chat-message {
+                    margin: 8px 0;
+                    padding: 10px 15px;
+                    border-radius: 8px;
+                    max-width: 80%;
+                    clear: both;
+                    border: 1px solid #ddd;
+
+                    &.left {
+                        background-color: #f5f5f5;
+                        float: left;
+                        text-align: left;
+                        margin-left: 5px;
+                    }
+
+                    &.right {
+                        background-color: #e3f2fd;
+                        float: right;
+                        text-align: right;
+                        margin-right: 5px;
+                    }
+
+                    p {
+                        margin: 0;
+                        font-size: 0.9em;
+                        color: #444;
+                        word-wrap: break-word;
+                    }
+
+                    small {
+                        display: block;
+                        font-size: 0.75em;
+                        color: #777;
+                        margin-top: 5px;
+                    }
+
+                    a {
+                        color: #007bff;
+                        text-decoration: none;
+                        word-break: break-all;
+
+                        &:hover {
+                            text-decoration: underline;
+                        }
+                    }
+                }
+            }
+
+            #message-input {
+                width: 70%;
+                height: 36px;
+                padding: 8px;
+                border-radius: 6px;
+                border: 1px solid #ccc;
+                font-size: 0.9em;
+                vertical-align: middle;
+                margin-right: 10px;
+                box-sizing: border-box;
+            }
+
+            #file-upload {
+                margin-top: 10px;
+                padding: 8px 12px;
+                cursor: pointer;
+                border: 1px solid #ccc;
+                border-radius: 6px;
+                background-color: #f9f9f9;
+                font-size: 0.9em;
+                display: inline-block;
+                vertical-align: middle;
+            }
+
+            button {
+                padding: 8px 18px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 0.9em;
+                vertical-align: middle;
+
+                &:hover {
+                    background-color: #0056b3;
+                }
+            }
+        }
+
+        .right-section {
+            flex: 0 0 30%;
+            padding-left: 20px;
+
+            p {
+                font-size: 0.9em;
+                color: #444;
+                margin-bottom: 10px;
+
+                strong {
+                    color: #333;
+                }
+            }
+        }
+
+        .close-modal {
+            color: #999;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+
+            &:hover {
+                color: #666;
+            }
+        }
+    }
+
+    @keyframes slideFromRight {
+        from {
+            right: -80%; // O‘ngdan boshlanadi, tasvirdagi kenglikka mos
+        }
+        to {
+            right: 0; // Chapga o‘tadi
+        }
+    }
+
+    @keyframes slideToRight {
+        from {
+            right: 0;
+        }
+        to {
+            right: -80%; // Yopilganda o‘ngga yashiriladi
+        }
+    }
 }
+
+/* Yangi xabarlar soni uchun CSS */
+.unread-count {
+    color: red !important;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+
+
+
 
 .task-list {
 	.task {

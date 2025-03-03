@@ -164,106 +164,218 @@
 
 .task-modal-tarix {
   display: none;
-  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.7);
   z-index: 1000;
 }
+.task-modal-tarix.modal-open {
+  display: block;
+  animation: slideFromRight 0.3s ease-out forwards;
+}
+.task-modal-tarix.modal-close {
+  animation: slideToRight 0.3s ease-in forwards;
+}
 .task-modal-tarix .modal-content {
-  background-color: rgba(18, 53, 36, 0.5);
-  margin: 5% auto;
-  padding: 20px;
+  background-color: #ffffff;
+  position: absolute;
+  top: 0%;
+  right: -75%;
   width: 75%;
-  max-height: 90%;
-  overflow-y: auto;
-  border-radius: 5px;
-  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.8);
-}
-.task-modal-tarix .modal-content h3 {
-  margin-bottom: 1rem;
-  font-size: 2rem;
-  color: #ffffff;
-}
-.task-modal-tarix .modal-content #chat-history {
-  margin-bottom: 1rem;
-  border: 1px solid #ffffff;
+  height: 100%;
   padding: 20px;
-  max-height: 30rem;
   overflow-y: auto;
-  border-radius: 5px;
+  border-radius: 10px 0 0 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: row;
 }
-.task-modal-tarix .modal-content #chat-history .chat-message {
-  margin: 10px 0; /* Xabarlar orasidagi masofa */
-  padding: 10px;
-  border-radius: 5px;
-  max-width: 70%;
-  clear: both;
+.task-modal-tarix .modal-content .left-section {
+  flex: 1;
+  padding-right: 20px;
+  border-right: 1px solid #ddd;
 }
-.task-modal-tarix .modal-content #chat-history .chat-message.left {
-  background-color: #e9ecef; /* Chap tomon uchun rang */
-  float: left;
+.task-modal-tarix .modal-content .left-section #task-name-display {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
   text-align: left;
 }
-.task-modal-tarix .modal-content #chat-history .chat-message.right {
-  background-color: #d1e7dd; /* O'ng tomon uchun rang */
-  float: right;
-  text-align: right;
-}
-.task-modal-tarix .modal-content #chat-history .chat-message p {
-  margin: 0;
-}
-.task-modal-tarix .modal-content #chat-history .chat-message small {
-  display: block;
-  font-size: 0.8em;
+.task-modal-tarix .modal-content .left-section #task-id-display {
+  font-size: 0.9em;
   color: #666;
+  margin-bottom: 10px;
+  text-align: left;
 }
-.task-modal-tarix .modal-content #chat-history .chat-message a {
+.task-modal-tarix .modal-content .left-section #task-description {
+  font-size: 0.9em;
+  color: #444;
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+}
+.task-modal-tarix .modal-content .left-section #results-section {
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+}
+.task-modal-tarix .modal-content .left-section #results-section .result-item {
+  margin-bottom: 10px;
+}
+.task-modal-tarix .modal-content .left-section #results-section .result-item p {
+  margin: 0;
+  font-size: 0.9em;
+  color: #444;
+}
+.task-modal-tarix .modal-content .left-section #results-section .result-item a {
   color: #007bff;
   text-decoration: none;
   word-break: break-all;
 }
-.task-modal-tarix .modal-content #chat-history .chat-message a:hover {
+.task-modal-tarix .modal-content .left-section #results-section .result-item a:hover {
   text-decoration: underline;
 }
-.task-modal-tarix .modal-content #message-input {
+.task-modal-tarix .modal-content .left-section #results-section .result-item label {
+  font-size: 0.9em;
+  color: #666;
+  margin-left: 5px;
+}
+.task-modal-tarix .modal-content .left-section #results-section .result-item label input[type=checkbox] {
+  margin-right: 5px;
+}
+.task-modal-tarix .modal-content .left-section #chat-history {
+  margin-bottom: 15px;
+  padding: 10px 0;
+  max-height: 30vh;
+  overflow-y: auto;
+}
+.task-modal-tarix .modal-content .left-section #chat-history .chat-message {
+  margin: 8px 0;
+  padding: 10px 15px;
+  border-radius: 8px;
+  max-width: 80%;
+  clear: both;
+  border: 1px solid #ddd;
+}
+.task-modal-tarix .modal-content .left-section #chat-history .chat-message.left {
+  background-color: #f5f5f5;
+  float: left;
+  text-align: left;
+  margin-left: 5px;
+}
+.task-modal-tarix .modal-content .left-section #chat-history .chat-message.right {
+  background-color: #e3f2fd;
+  float: right;
+  text-align: right;
+  margin-right: 5px;
+}
+.task-modal-tarix .modal-content .left-section #chat-history .chat-message p {
+  margin: 0;
+  font-size: 0.9em;
+  color: #444;
+  word-wrap: break-word;
+}
+.task-modal-tarix .modal-content .left-section #chat-history .chat-message small {
+  display: block;
+  font-size: 0.75em;
+  color: #777;
+  margin-top: 5px;
+}
+.task-modal-tarix .modal-content .left-section #chat-history .chat-message a {
+  color: #007bff;
+  text-decoration: none;
+  word-break: break-all;
+}
+.task-modal-tarix .modal-content .left-section #chat-history .chat-message a:hover {
+  text-decoration: underline;
+}
+.task-modal-tarix .modal-content .left-section #message-input {
   width: 70%;
-  height: 5rem;
-  padding: 10px;
+  height: 36px;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.9em;
+  vertical-align: middle;
   margin-right: 10px;
-  border-radius: 10px;
-  border: 1px solid #ffffff;
-  background-color: #ffffff;
-  outline: none;
-  box-shadow: none;
+  box-sizing: border-box;
 }
-.task-modal-tarix .modal-content #file-upload {
+.task-modal-tarix .modal-content .left-section #file-upload {
   margin-top: 10px;
-  padding: 10px 10px;
+  padding: 8px 12px;
   cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  font-size: 0.9em;
+  display: inline-block;
+  vertical-align: middle;
 }
-.task-modal-tarix .modal-content button {
-  padding: 15px 15px;
-  background-color: #123524;
+.task-modal-tarix .modal-content .left-section button {
+  padding: 8px 18px;
+  background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
+  font-size: 0.9em;
+  vertical-align: middle;
 }
-.task-modal-tarix .modal-content button:hover {
-  background-color: #123524;
+.task-modal-tarix .modal-content .left-section button:hover {
+  background-color: #0056b3;
+}
+.task-modal-tarix .modal-content .right-section {
+  flex: 0 0 30%;
+  padding-left: 20px;
+}
+.task-modal-tarix .modal-content .right-section p {
+  font-size: 0.9em;
+  color: #444;
+  margin-bottom: 10px;
+}
+.task-modal-tarix .modal-content .right-section p strong {
+  color: #333;
 }
 .task-modal-tarix .modal-content .close-modal {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
+  color: #999;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
   font-weight: bold;
   cursor: pointer;
+  line-height: 1;
 }
 .task-modal-tarix .modal-content .close-modal:hover {
-  color: black;
+  color: #666;
+}
+@keyframes slideFromRight {
+  from {
+    right: -80%;
+  }
+  to {
+    right: 0;
+  }
+}
+@keyframes slideToRight {
+  from {
+    right: 0;
+  }
+  to {
+    right: -80%;
+  }
+}
+
+/* Yangi xabarlar soni uchun CSS */
+.unread-count {
+  color: red !important;
+  font-weight: bold;
+  margin-right: 5px;
 }
 
 .task-list .task {
