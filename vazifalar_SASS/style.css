@@ -24,11 +24,13 @@
   font-size: 1em;
   font-weight: bold;
   border-bottom: 2px solid #34495e;
+  background-color: #123524;
 }
 .task-main .container-projects #task-list .task-table tbody .task-name {
   text-decoration: underline;
   text-decoration-color: #123524;
   font-weight: bold;
+  cursor: pointer;
 }
 .task-main .container-projects #task-list .task-table tbody tr.task-row {
   transition: background-color 0.3s ease;
@@ -46,6 +48,9 @@
 .task-main .container-projects #task-list .task-table tbody tr.task-row:hover {
   background-color: #ccc;
   cursor: pointer;
+}
+.task-main .container-projects #task-list .task-table tbody tr.active {
+  background-color: #d5d5d5;
 }
 .task-main .container-projects #task-list .task-table th,
 .task-main .container-projects #task-list .task-table td {
@@ -93,7 +98,7 @@
   position: relative;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
-.modal .modal-content h2 {
+.modal .modal-content \ h2 {
   font-size: 1.5em;
   color: #2c3e50;
   margin-bottom: 20px;
@@ -131,7 +136,6 @@
   box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
 }
 .modal .modal-content form textarea {
-  height: 100px;
   resize: vertical;
 }
 .modal .modal-content form button[type=submit] {
@@ -162,233 +166,198 @@
   color: #333;
 }
 
-.task-modal-tarix {
+.task-modal {
   display: none;
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 80%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  margin-left: 20%;
   z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.5);
 }
-.task-modal-tarix.modal-open {
+.task-modal.modal-open {
   display: block;
-  animation: slideFromRight 0.3s ease-out forwards;
 }
-.task-modal-tarix.modal-close {
-  animation: slideToRight 0.3s ease-in forwards;
-}
-.task-modal-tarix .modal-content {
-  background-color: #ffffff;
-  position: absolute;
-  top: 0%;
-  right: -75%;
-  width: 75%;
+.task-modal .modal-content {
+  background-color: #fff;
+  position: relative;
+  width: 100%;
   height: 100%;
   padding: 20px;
   overflow-y: auto;
-  border-radius: 10px 0 0 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   display: flex;
-  flex-direction: row;
 }
-.task-modal-tarix .modal-content .left-section {
+.task-modal .modal-content .modal-left {
   flex: 1;
   padding-right: 20px;
   border-right: 1px solid #ddd;
 }
-.task-modal-tarix .modal-content .left-section #task-name-display {
-  font-size: 1.2em;
+.task-modal .modal-content .modal-left #task-name {
+  font-size: 1.5em;
   font-weight: bold;
   color: #333;
   margin-bottom: 10px;
-  text-align: left;
 }
-.task-modal-tarix .modal-content .left-section #task-id-display {
-  font-size: 0.9em;
+.task-modal .modal-content .modal-left #task-id {
+  font-size: 1em;
   color: #666;
   margin-bottom: 10px;
-  text-align: left;
 }
-.task-modal-tarix .modal-content .left-section #task-description {
-  font-size: 0.9em;
+.task-modal .modal-content .modal-left #task-description {
+  font-size: 1em;
   color: #444;
-  margin-bottom: 15px;
   padding: 10px;
   background-color: #f9f9f9;
   border-radius: 5px;
+  margin-bottom: 15px;
 }
-.task-modal-tarix .modal-content .left-section #results-section {
-  margin-bottom: 20px;
+.task-modal .modal-content .modal-left .task-section {
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
   padding: 10px;
-  background-color: #f5f5f5;
   border-radius: 5px;
 }
-.task-modal-tarix .modal-content .left-section #results-section .result-item {
-  margin-bottom: 10px;
-}
-.task-modal-tarix .modal-content .left-section #results-section .result-item p {
-  margin: 0;
-  font-size: 0.9em;
-  color: #444;
-}
-.task-modal-tarix .modal-content .left-section #results-section .result-item a {
-  color: #007bff;
-  text-decoration: none;
-  word-break: break-all;
-}
-.task-modal-tarix .modal-content .left-section #results-section .result-item a:hover {
-  text-decoration: underline;
-}
-.task-modal-tarix .modal-content .left-section #results-section .result-item label {
-  font-size: 0.9em;
-  color: #666;
-  margin-left: 5px;
-}
-.task-modal-tarix .modal-content .left-section #results-section .result-item label input[type=checkbox] {
-  margin-right: 5px;
-}
-.task-modal-tarix .modal-content .left-section #chat-history {
-  margin-bottom: 15px;
-  padding: 10px 0;
-  max-height: 30vh;
+.task-modal .modal-content .modal-left .task-section#task-result {
+  height: 25vh;
   overflow-y: auto;
 }
-.task-modal-tarix .modal-content .left-section #chat-history .chat-message {
-  margin: 8px 0;
-  padding: 10px 15px;
-  border-radius: 8px;
-  max-width: 80%;
-  clear: both;
-  border: 1px solid #ddd;
+.task-modal .modal-content .modal-left .task-section#task-history {
+  height: 45vh;
+  overflow-y: auto;
 }
-.task-modal-tarix .modal-content .left-section #chat-history .chat-message.left {
-  background-color: #f5f5f5;
+.task-modal .modal-content .modal-left .task-section#task-history .chat-message {
+  margin: 8px 0;
+  padding: 10px;
+  border-radius: 5px;
+  max-width: 80%;
+}
+.task-modal .modal-content .modal-left .task-section#task-history .chat-message.left {
+  background-color: #f1f1f1;
   float: left;
   text-align: left;
   margin-left: 5px;
+  width: 60%;
 }
-.task-modal-tarix .modal-content .left-section #chat-history .chat-message.right {
-  background-color: #e3f2fd;
+.task-modal .modal-content .modal-left .task-section#task-history .chat-message.right {
+  background-color: #e0f7fa;
   float: right;
   text-align: right;
+  width: 60%;
   margin-right: 5px;
 }
-.task-modal-tarix .modal-content .left-section #chat-history .chat-message p {
+.task-modal .modal-content .modal-left .task-section#task-history .chat-message p {
   margin: 0;
   font-size: 0.9em;
-  color: #444;
-  word-wrap: break-word;
+  color: #333;
 }
-.task-modal-tarix .modal-content .left-section #chat-history .chat-message small {
+.task-modal .modal-content .modal-left .task-section#task-history .chat-message small {
   display: block;
-  font-size: 0.75em;
-  color: #777;
+  font-size: 0.7em;
+  color: #666;
   margin-top: 5px;
 }
-.task-modal-tarix .modal-content .left-section #chat-history .chat-message a {
+.task-modal .modal-content .modal-left .task-section#task-history .chat-message a {
   color: #007bff;
   text-decoration: none;
-  word-break: break-all;
 }
-.task-modal-tarix .modal-content .left-section #chat-history .chat-message a:hover {
+.task-modal .modal-content .modal-left .task-section#task-history .chat-message a:hover {
   text-decoration: underline;
 }
-.task-modal-tarix .modal-content .left-section #message-input {
-  width: 70%;
-  height: 36px;
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 0.9em;
-  vertical-align: middle;
-  margin-right: 10px;
-  box-sizing: border-box;
-}
-.task-modal-tarix .modal-content .left-section #file-upload {
+.task-modal .modal-content .modal-left #message-input-container {
   margin-top: 10px;
-  padding: 8px 12px;
-  cursor: pointer;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background-color: #f9f9f9;
-  font-size: 0.9em;
-  display: inline-block;
-  vertical-align: middle;
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
-.task-modal-tarix .modal-content .left-section button {
-  padding: 8px 18px;
-  background-color: #007bff;
+.task-modal .modal-content .modal-left #message-input-container #result-checkbox {
+  margin-right: 5px;
+}
+.task-modal .modal-content .modal-left #message-input-container #message-input {
+  flex: 1;
+  padding: 1.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  outline: none;
+  box-shadow: none;
+}
+.task-modal .modal-content .modal-left #message-input-container #file-upload {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+.task-modal .modal-content .modal-left #message-input-container button {
+  padding: 8px 15px;
+  background-color: #3498db;
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 4px;
   cursor: pointer;
-  font-size: 0.9em;
-  vertical-align: middle;
 }
-.task-modal-tarix .modal-content .left-section button:hover {
-  background-color: #0056b3;
+.task-modal .modal-content .modal-left #message-input-container button:hover {
+  background-color: #2980b9;
 }
-.task-modal-tarix .modal-content .right-section {
+.task-modal .modal-content .modal-right {
   flex: 0 0 30%;
   padding-left: 20px;
 }
-.task-modal-tarix .modal-content .right-section p {
-  font-size: 0.9em;
+.task-modal .modal-content .modal-right p {
+  font-size: 1em;
   color: #444;
   margin-bottom: 10px;
 }
-.task-modal-tarix .modal-content .right-section p strong {
+.task-modal .modal-content .modal-right p strong {
   color: #333;
 }
-.task-modal-tarix .modal-content .close-modal {
-  color: #999;
+.task-modal .modal-content .modal-right p #responsible,
+.task-modal .modal-content .modal-right p #start-date,
+.task-modal .modal-content .modal-right p #end-date,
+.task-modal .modal-content .modal-right p #days-diff,
+.task-modal .modal-content .modal-right p #creator {
+  display: block;
+}
+.task-modal .modal-content .close-modal {
   position: absolute;
   top: 10px;
-  right: 15px;
-  font-size: 24px;
+  right: 20px;
+  font-size: 30px;
   font-weight: bold;
+  color: #999;
   cursor: pointer;
-  line-height: 1;
 }
-.task-modal-tarix .modal-content .close-modal:hover {
+.task-modal .modal-content .close-modal:hover {
   color: #666;
 }
-@keyframes slideFromRight {
-  from {
-    right: -80%;
-  }
-  to {
-    right: 0;
-  }
-}
-@keyframes slideToRight {
-  from {
-    right: 0;
-  }
-  to {
-    right: -80%;
-  }
-}
 
-/* Yangi xabarlar soni uchun CSS */
-.unread-count {
-  color: red !important;
-  font-weight: bold;
-  margin-right: 5px;
+.task-list {
+  width: 100%;
+  margin-top: 20px;
 }
-
-.task-list .task {
-  padding: 10px;
-  cursor: pointer;
+.task-list .task-table {
+  width: 95%;
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+.task-list .task-table th,
+.task-list .task-table td {
   border: 1px solid #ddd;
-  margin: 5px 0;
+  padding: 8px;
+  text-align: left;
 }
-.task-list .task:hover {
-  background-color: #f5f5f5;
+.task-list .task-table th {
+  background-color: #f2f2f2;
 }
-.task-list .task.active {
+.task-list .task-table tr {
+  cursor: pointer;
+}
+.task-list .task-table tr.active {
   background-color: #e0e0e0;
+}
+.task-list .task-table tr .task-name {
+  color: #3498db;
 }
 
 .yaratuvchi {
