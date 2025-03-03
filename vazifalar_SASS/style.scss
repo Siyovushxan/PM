@@ -203,110 +203,6 @@ $status-paused: #e74c3c;
 	}
 }
 
-// .task-modal-tarix {
-// 	display: none;
-// 	position: fixed;
-// 	top: 0;
-// 	left: 0;
-// 	width: 100%;
-// 	height: 100%;
-// 	background-color: rgba(0, 0, 0, 0.5);
-// 	z-index: 1000;
-
-// 	.modal-content {
-// 		background-color: white;
-// 		margin: 5% auto;
-// 		padding: 20px;
-// 		width: 70%;
-// 		max-height: 80%;
-// 		overflow-y: auto;
-// 		border-radius: 5px;
-// 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-
-// 		h3 {
-// 			margin-bottom: 1rem;
-// 		}
-
-// 		#chat-history {
-// 			margin-bottom: 10px;
-// 			border: 1px solid #ccc;
-// 			padding: 10px;
-// 			max-height: 500px;
-// 			overflow-y: auto;
-
-// 			.chat-message {
-// 				margin: 10px 0; /* Xabarlar orasidagi masofa */
-// 				padding: 10px;
-// 				border-radius: 5px;
-// 				max-width: 70%;
-// 				clear: both;
-
-// 				&.left {
-// 					background-color: #e9ecef; /* Chap tomon uchun rang */
-// 					float: left;
-// 					text-align: left;
-// 				}
-
-// 				&.right {
-// 					background-color: #d1e7dd; /* O'ng tomon uchun rang */
-// 					float: right;
-// 					text-align: right;
-// 				}
-
-// 				p {
-// 					margin: 0;
-// 				}
-
-// 				small {
-// 					display: block;
-// 					font-size: 0.8em;
-// 					color: #666;
-// 				}
-// 			}
-// 		}
-
-// 		#message-input {
-// 			width: 70%;
-// 			height: 5rem;
-// 			padding: 5px;
-// 			margin-right: 10px;
-// 			border-radius: 10px;
-// 			border: 1px solid #123524;
-// 		}
-
-// 		#file-upload {
-// 			margin-top: 10px;
-// 			padding: 10px 10px;
-// 			cursor: pointer;
-// 		}
-
-// 		button {
-// 			padding: 15px 15px;
-// 			background-color: #4caf50;
-// 			color: white;
-// 			border: none;
-// 			border-radius: 3px;
-// 			cursor: pointer;
-
-// 			&:hover {
-// 				background-color: #45a049;
-// 			}
-// 		}
-
-// 		.close-modal {
-// 			color: #aaa;
-// 			float: right;
-// 			font-size: 28px;
-// 			font-weight: bold;
-// 			cursor: pointer;
-
-// 			&:hover {
-// 				color: black;
-// 			}
-// 		}
-// 	}
-// }
-
 .task-modal-tarix {
 	display: none;
 	position: fixed;
@@ -318,25 +214,30 @@ $status-paused: #e74c3c;
 	z-index: 1000;
 
 	.modal-content {
-		background-color: white;
+		// background-color: white;
+		// background-color: rgba(255, 255, 255, 0.5);
+		background-color: rgba(18, 53, 36, 0.5);
 		margin: 5% auto;
 		padding: 20px;
-		width: 70%;
-		max-height: 80%;
+		width: 75%;
+		max-height: 90%;
 		overflow-y: auto;
 		border-radius: 5px;
-		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+		box-shadow: 0 5px 8px rgba(0, 0, 0, 0.8);
 
 		h3 {
 			margin-bottom: 1rem;
+			font-size: 2rem;
+			color: #ffffff;
 		}
 
 		#chat-history {
-			margin-bottom: 10px;
-			border: 1px solid #ccc;
-			padding: 10px;
+			margin-bottom: 1rem;
+			border: 1px solid #ffffff;
+			padding: 20px;
 			max-height: 30rem;
 			overflow-y: auto;
+			border-radius: 5px;
 
 			.chat-message {
 				margin: 10px 0; /* Xabarlar orasidagi masofa */
@@ -382,10 +283,13 @@ $status-paused: #e74c3c;
 		#message-input {
 			width: 70%;
 			height: 5rem;
-			padding: 5px;
+			padding: 10px;
 			margin-right: 10px;
 			border-radius: 10px;
-			border: 1px solid #123524;
+			border: 1px solid #ffffff;
+			background-color: #ffffff;
+			outline: none;
+			box-shadow: none;
 		}
 
 		#file-upload {
@@ -396,14 +300,14 @@ $status-paused: #e74c3c;
 
 		button {
 			padding: 15px 15px;
-			background-color: #4caf50;
+			background-color: #123524;
 			color: white;
 			border: none;
-			border-radius: 3px;
+			border-radius: 5px;
 			cursor: pointer;
 
 			&:hover {
-				background-color: #45a049;
+				background-color: #123524;
 			}
 		}
 

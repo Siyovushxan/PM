@@ -97,14 +97,20 @@ body {
   flex-direction: column;
   gap: 0.2rem;
 }
-.navbar .navbar-container .div2 .navbar-links .nav-link:last-child #profile-modal .modal-content #profile-fish,
-.navbar .navbar-container .div2 .navbar-links .nav-link:last-child #profile-modal .modal-content #profile-bulim,
-.navbar .navbar-container .div2 .navbar-links .nav-link:last-child #profile-modal .modal-content #profile-lavozim {
+.navbar .navbar-container .div2 .navbar-links .nav-link:last-child #profile-modal .modal-content #profile-fish {
   margin: 5px 0;
-  font-size: 14px;
   color: #123524;
   text-align: left;
   font-size: 1.2rem;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.navbar .navbar-container .div2 .navbar-links .nav-link:last-child #profile-modal .modal-content #profile-bulim,
+.navbar .navbar-container .div2 .navbar-links .nav-link:last-child #profile-modal .modal-content #profile-lavozim {
+  margin: 5px 0;
+  color: #123524;
+  text-align: left;
+  font-size: 0.8rem;
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -120,6 +126,7 @@ body {
 .navbar .navbar-container .div2 .navbar-links .nav-link:last-child #profile-modal .modal-content div a {
   color: #123524;
   text-decoration: none;
+  font-size: 1rem;
 }
 .navbar .logo {
   color: #ffffff;

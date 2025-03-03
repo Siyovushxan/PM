@@ -236,7 +236,7 @@ body {
   box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
 }
 .modal .modal-content form textarea {
-  height: 100px;
+  height: 70px;
   resize: vertical;
 }
 .modal .modal-content form button[type=submit] {

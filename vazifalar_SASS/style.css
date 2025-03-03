@@ -173,24 +173,27 @@
   z-index: 1000;
 }
 .task-modal-tarix .modal-content {
-  background-color: white;
+  background-color: rgba(18, 53, 36, 0.5);
   margin: 5% auto;
   padding: 20px;
-  width: 70%;
-  max-height: 80%;
+  width: 75%;
+  max-height: 90%;
   overflow-y: auto;
   border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.8);
 }
 .task-modal-tarix .modal-content h3 {
   margin-bottom: 1rem;
+  font-size: 2rem;
+  color: #ffffff;
 }
 .task-modal-tarix .modal-content #chat-history {
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  padding: 10px;
+  margin-bottom: 1rem;
+  border: 1px solid #ffffff;
+  padding: 20px;
   max-height: 30rem;
   overflow-y: auto;
+  border-radius: 5px;
 }
 .task-modal-tarix .modal-content #chat-history .chat-message {
   margin: 10px 0; /* Xabarlar orasidagi masofa */
@@ -228,10 +231,13 @@
 .task-modal-tarix .modal-content #message-input {
   width: 70%;
   height: 5rem;
-  padding: 5px;
+  padding: 10px;
   margin-right: 10px;
   border-radius: 10px;
-  border: 1px solid #123524;
+  border: 1px solid #ffffff;
+  background-color: #ffffff;
+  outline: none;
+  box-shadow: none;
 }
 .task-modal-tarix .modal-content #file-upload {
   margin-top: 10px;
@@ -240,14 +246,14 @@
 }
 .task-modal-tarix .modal-content button {
   padding: 15px 15px;
-  background-color: #4caf50;
+  background-color: #123524;
   color: white;
   border: none;
-  border-radius: 3px;
+  border-radius: 5px;
   cursor: pointer;
 }
 .task-modal-tarix .modal-content button:hover {
-  background-color: #45a049;
+  background-color: #123524;
 }
 .task-modal-tarix .modal-content .close-modal {
   color: #aaa;
