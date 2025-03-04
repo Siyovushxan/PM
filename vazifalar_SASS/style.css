@@ -242,6 +242,18 @@
   height: 20vh;
   overflow-y: auto;
 }
+.task-modal .modal-content .modal-left .task-section#task-result .chat-tarix-natija-ijobiy {
+  background-color: #edf1f3;
+  width: 80%;
+  height: 6rem;
+  border-radius: 10px;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  justify-content: center;
+}
 .task-modal .modal-content .modal-left .task-section#task-history {
   height: 40vh;
   overflow-y: auto;
@@ -252,6 +264,7 @@
   padding: 10px;
   border-radius: 10px;
   max-width: 80%;
+  background-color: #edf1f3;
 }
 .task-modal .modal-content .modal-left .task-section#task-history .chat-message.left {
   background-color: #edf1f3;

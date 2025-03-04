@@ -456,12 +456,10 @@ app.post('/api/chat-history', upload.array('file_paths', 5), (req, res) => {
 									'Xabar saqlashda xatolik:',
 									err.sqlMessage || err.message
 								)
-								return res
-									.status(500)
-									.json({
-										message: 'Xabar saqlanmadi',
-										error: err.sqlMessage || err.message,
-									})
+								return res.status(500).json({
+									message: 'Xabar saqlanmadi',
+									error: err.sqlMessage || err.message,
+								})
 							}
 							console.log('Xabar muvaffaqiyatli saqlandi:', result)
 							res

@@ -246,8 +246,8 @@ document.addEventListener('DOMContentLoaded', () => {
 									const isCurrentUser =
 										message.user_task_id.toString() === currentUserId.toString()
 									return `
-											<div class="chat-message ${isCurrentUser ? 'right' : 'left'} result-message">
-													<p><strong>[Natija]</strong> <strong>${message.fish || "Noma'lum"}</strong>: ${
+											<div class="chat-message ${isCurrentUser ? 'right' : 'left'} result-message chat-tarix-natija-ijobiy">
+													<p> <strong>${message.fish || "Noma'lum"}</strong>: ${
 										message.matn || ''
 									} <small>(${
 										formatDateTime(message.vaqt) || 'N/A'
