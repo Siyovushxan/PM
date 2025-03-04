@@ -53,40 +53,29 @@
         </div>
     </main>
 
-    <!-- <div id="task-modal" class="task-modal">
-        <div class="modal-content">
-            <span class="close-modal">×</span>
-            <div class="modal-left">
-                <div id="task-name"></div>
-                <div id="task-id"></div>
-                <div id="task-description"></div>
-            </div>
-            <div class="modal-right" id="task-details"></div>
-        </div>
-    </div> -->
-
     <div id="task-modal" class="task-modal">
+        <div class="nav-task" id="task-name"></div>
+        <span class="close-modal">×</span>
         <div class="modal-content">
-            <span class="close-modal">×</span>
             <div class="modal-left">
-                <div id="task-name">Vazifa nomi:</div>
-                <div id="task-id">Vazifa raqami:</div>
+                <div id="task-id">Vazifa raqami: </div>
                 <div id="task-description">Vazifa izohi:</div>
                 <div id="task-result" class="task-section">Natija:</div>
-                <div id="task-history" class="task-section">Tarix: Vazifa bo‘yicha yozishmalar tarixi</div>
+                <div id="task-history" class="task-section">Tarix: Vazifa bo'yicha yozishmalar tarixi</div>
                 <div id="message-input-container">
-                    <input type="checkbox" id="result-checkbox"> Ijobiy natija
                     <input type="text" id="message-input" placeholder="Xabar yozing...">
-                    <input type="file" id="file-upload" multiple>
+                    <input type="file" id="file-upload" multiple> <br>
+                    <input type="checkbox" id="result-checkbox"> Ijobiy natija
                     <button onclick="sendMessage()">Yuborish</button>
                 </div>
             </div>
             <div class="modal-right" id="task-details">
-                <p><strong>Masul hodim:</strong> <span id="responsible"></span></p>
+                <p class="modal-right-umumiy">Qo'shimcha ma'lumotlar</p>
                 <p><strong>Boshlanish vaqti:</strong> <span id="start-date"></span></p>
                 <p><strong>Tugash vaqti:</strong> <span id="end-date"></span></p>
-                <p><strong>Muddat:</strong> <span id="days-diff"></span> kun</p>
-                <p><strong>Vazifa qo‘shgan hodim:</strong> <span id="creator"></span></p>
+                <p><strong>Muddat: </strong> <span id="days-diff"> </span> KUN</p>
+                <p><strong>Mas'ul hodim:</strong> <span id="responsible"></span></p>
+                <p><strong>Loyihaga mas'ul hodim:</strong> <span id="creator"></span></p>
             </div>
         </div>
     </div>
