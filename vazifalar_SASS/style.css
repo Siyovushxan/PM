@@ -172,7 +172,6 @@
   top: 0;
   left: 0;
   width: 80%;
-  height: 100%;
   margin-left: 20%;
   z-index: 1000;
   background-color: rgba(0, 0, 0, 0.5);
@@ -202,7 +201,6 @@
   background-color: #eef2f4 !important;
   position: relative;
   width: 100%;
-  height: 100%;
   padding: 20px;
   overflow-y: auto;
   display: flex;
@@ -239,12 +237,12 @@
   background-color: rgb(247, 251, 227);
 }
 .task-modal .modal-content .modal-left .task-section#task-result {
-  height: 20vh;
+  height: 24vh;
   overflow-y: auto;
 }
 .task-modal .modal-content .modal-left .task-section#task-result .chat-tarix-natija-ijobiy {
   background-color: #edf1f3;
-  width: 80%;
+  max-width: 60%;
   height: 6rem;
   border-radius: 10px;
   padding: 0.5rem;

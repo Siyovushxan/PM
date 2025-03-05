@@ -212,9 +212,9 @@ document.addEventListener('DOMContentLoaded', () => {
 											<div class="chat-message ${isCurrentUser ? 'right' : 'left'} ${
 										isResult ? 'result-message' : ''
 									}">
-													<p><strong>${isResult ? '[Natija] ' : ''}${
+													<p><strong>${isResult ? 'Natija:' : ''}${
 										message.fish || "Noma'lum"
-									}</strong>: ${message.matn || ''} <small>(${
+									}</strong>: <br> ${message.matn || ''} <small>(${
 										formatDateTime(message.vaqt) || 'N/A'
 									})</small></p>
 													${
