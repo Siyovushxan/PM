@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
 					"O'ng tomon ma'lumotlari:",
 					rightDetails
 				)
-				taskName.textContent = `Vazifa nomi: ${
+				taskName.textContent = `${
 					basicDetails.name || basicDetails.vazifa_nomi || "Noma'lum vazifa"
 				}`
 				taskId.textContent = `Vazifa raqami: ${
@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
 						? basicDetails.id.toString()
 						: "Noma'lum"
 				}`
-				taskDescription.textContent = `Vazifa izohi: ${
+				taskDescription.textContent = `IZOH: ${
 					basicDetails.description || basicDetails.izoh || 'Izoh mavjud emas'
 				}`
 				responsible.textContent = rightDetails.responsible || "Noma'lum"
@@ -247,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
 										message.user_task_id.toString() === currentUserId.toString()
 									return `
 											<div class="chat-message ${isCurrentUser ? 'right' : 'left'} result-message chat-tarix-natija-ijobiy">
-													<p> <strong>${message.fish || "Noma'lum"}</strong>: ${
+                                            <p> <strong>${message.fish || "Noma'lum"}</strong>: ${
 										message.matn || ''
 									} <small>(${
 										formatDateTime(message.vaqt) || 'N/A'

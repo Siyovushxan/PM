@@ -98,7 +98,7 @@
   position: relative;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
-.modal .modal-content \ h2 {
+.modal .modal-content h2 {
   font-size: 1.5em;
   color: #2c3e50;
   margin-bottom: 20px;
@@ -172,6 +172,7 @@
   top: 0;
   left: 0;
   width: 80%;
+  height: 100%;
   margin-left: 20%;
   z-index: 1000;
   background-color: rgba(0, 0, 0, 0.5);
@@ -184,6 +185,7 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   font-size: 2.4rem;
   padding: 1.111rem 1rem;
+  border-bottom: 1px solid #123524;
 }
 .task-modal .close-modal {
   position: absolute;
@@ -203,6 +205,7 @@
   width: 100%;
   padding: 20px;
   overflow-y: auto;
+  height: 100%;
   display: flex;
 }
 .task-modal .modal-content .modal-left {
@@ -217,8 +220,13 @@
 }
 .task-modal .modal-content .modal-left #task-id {
   font-size: 1em;
-  color: #666;
-  margin-bottom: 10px;
+  color: #444;
+  padding: 10px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
 }
 .task-modal .modal-content .modal-left #task-description {
   font-size: 1em;
@@ -228,41 +236,55 @@
   border-radius: 5px;
   margin-bottom: 15px;
   border-radius: 10px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+}
+.task-modal .modal-content .modal-left .natija {
+  font-size: 1.5rem;
+  font-weight: bold;
+  border: 1px solid #ddd;
+  background-color: rgb(247, 251, 227);
+  padding: 1rem;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom: 0;
+}
+.task-modal .modal-content .modal-left #view-chat-btn {
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  background-color: #123524;
+  color: #ffffff;
+  border-radius: 4px;
 }
 .task-modal .modal-content .modal-left .task-section {
   margin-bottom: 15px;
   border: 1px solid #ddd;
-  padding: 10px;
-  border-radius: 10px;
   background-color: rgb(247, 251, 227);
+  border-radius: 10px;
+  border-top: none;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+}
+.task-modal .modal-content .modal-left .task-section p {
+  padding: 1rem;
 }
 .task-modal .modal-content .modal-left .task-section#task-result {
-  height: 24vh;
   overflow-y: auto;
+  padding-left: 1rem;
 }
 .task-modal .modal-content .modal-left .task-section#task-result .chat-tarix-natija-ijobiy {
   background-color: #edf1f3;
   max-width: 60%;
-  height: 6rem;
   border-radius: 10px;
-  padding: 0.5rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   margin-bottom: 0.5rem;
   justify-content: center;
 }
-.task-modal .modal-content .modal-left .task-section#task-history {
-  height: 40vh;
-  overflow-y: auto;
-  background-color: #ffffff;
-}
 .task-modal .modal-content .modal-left .task-section#task-history .chat-message {
-  margin: 8px 0;
-  padding: 10px;
+  margin: 1.5rem 0 0 0;
   border-radius: 10px;
-  max-width: 80%;
-  background-color: #edf1f3;
 }
 .task-modal .modal-content .modal-left .task-section#task-history .chat-message.left {
   background-color: #edf1f3;
@@ -284,7 +306,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
-  padding: 1.2rem;
+  padding: 1rem;
 }
 .task-modal .modal-content .modal-left .task-section#task-history .chat-message p {
   margin: 0;
@@ -305,11 +327,13 @@
   text-decoration: underline;
 }
 .task-modal .modal-content .modal-left #message-input-container {
-  margin-top: 10px;
   align-items: center;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
 }
 .task-modal .modal-content .modal-left #message-input-container #result-checkbox {
-  margin-left: 0.5rem;
+  margin-left: 1rem;
   width: 1rem;
   height: 1rem;
 }
@@ -320,13 +344,15 @@
   border-radius: 10px;
   outline: none;
   box-shadow: none;
-  width: 45rem;
+  width: 53rem;
   height: 6rem;
   margin-bottom: 1rem;
-  font-size: 1.2rem;
+  font-size: 1rem;
+  margin-left: 1rem;
+  margin-top: 2rem;
 }
 .task-modal .modal-content .modal-left #message-input-container #file-upload {
-  padding: 8px;
+  padding: 12px 12PX;
   border: 1px solid #ddd;
   border-radius: 4px;
   background-color: #f9f9f9;
@@ -340,23 +366,24 @@
   border-radius: 4px;
   cursor: pointer;
   margin-left: 1rem;
+  margin-bottom: 8rem;
 }
 .task-modal .modal-content .modal-left #message-input-container button:hover {
   background-color: #2980b9;
 }
 .task-modal .modal-content .modal-right {
-  flex: 0 0 30%;
-  padding-left: 1.5rem;
+  flex: 0 0 20%;
+  padding-left: 1rem;
   background-color: #ffffff;
   border-radius: 10px;
-  height: 87vh;
+  height: 60vh;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
 }
 .task-modal .modal-content .modal-right .modal-right-umumiy {
   background-color: #123524;
   padding: 1rem;
   margin: 0 !important;
-  margin-left: -1.5rem !important;
+  margin-left: -1rem !important;
   color: #ffffff;
   font-size: 1.2rem;
   border-top-left-radius: 10px;

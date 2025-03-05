@@ -53,7 +53,7 @@
         </div>
     </main>
 
-    <div id="task-modal" class="task-modal">
+    <!-- <div id="task-modal" class="task-modal">
         <div class="nav-task" id="task-name"></div>
         <span class="close-modal">×</span>
         <div class="modal-content">
@@ -61,6 +61,35 @@
                 <div id="task-id">Vazifa raqami: </div>
                 <div id="task-description">Vazifa izohi:</div>
                 <div id="task-result" class="task-section">Natija:</div>
+                <div id="task-history" class="task-section">Tarix: Vazifa bo'yicha yozishmalar tarixi</div>
+                <div id="message-input-container">
+                    <input type="text" id="message-input" placeholder="Xabar yozing...">
+                    <input type="file" id="file-upload" multiple> <br>
+                    <input type="checkbox" id="result-checkbox"> Ijobiy natija
+                    <button onclick="sendMessage()">Yuborish</button>
+                </div>
+            </div>
+            <div class="modal-right" id="task-details">
+                <p class="modal-right-umumiy">Qo'shimcha ma'lumotlar</p>
+                <p><strong>Boshlanish vaqti:</strong> <span id="start-date"></span></p>
+                <p><strong>Tugash vaqti:</strong> <span id="end-date"></span></p>
+                <p><strong>Muddat: </strong> <span id="days-diff"> </span> KUN</p>
+                <p><strong>Mas'ul hodim:</strong> <span id="responsible"></span></p>
+                <p><strong>Loyihaga mas'ul hodim:</strong> <span id="creator"></span></p>
+            </div>
+        </div>
+    </div> -->
+
+    <div id="task-modal" class="task-modal">
+        <div class="nav-task" id="task-name"></div>
+        <span class="close-modal">×</span>
+        <div class="modal-content">
+            <div class="modal-left">
+                <div id="task-id">Vazifa raqami: </div>
+                <div id="task-description">Vazifa izohi:</div>
+                <div class="natija">NATIJALAR</div>
+                <div id="task-result" class="task-section">Natija:</div>
+                <button id="view-chat-btn" style="margin: 10px 0;">Chat tarixini kurish</button>
                 <div id="task-history" class="task-section">Tarix: Vazifa bo'yicha yozishmalar tarixi</div>
                 <div id="message-input-container">
                     <input type="text" id="message-input" placeholder="Xabar yozing...">
