@@ -56,6 +56,23 @@ db.connect(err => {
 	console.log('✅ MySQLga muvaffaqiyatli ulandi!')
 })
 
+// Static fayllarni xizmat qilish (to'g'ri yo'nalish)
+const publicPath = path.join(__dirname, '..') // Server papkasidan bir yuqoriga chiqish
+app.use(express.static(publicPath))
+
+// Root route
+app.get('/', (req, res) => {
+	res.sendFile(path.join(publicPath, 'index.html'))
+})
+
+app.get('/api/check-session', (req, res) => {
+	if (req.session.userId) {
+		res.json({ userId: req.session.userId })
+	} else {
+		res.status(401).json({ message: 'Foydalanuvchi tizimga kirmagan!' })
+	}
+})
+
 // Sessionni tekshirish endpointi
 app.get('/api/check-session', (req, res) => {
 	if (req.session.userId) {
@@ -471,6 +488,26 @@ app.post('/api/chat-history', upload.array('file_paths', 5), (req, res) => {
 			)
 		}
 	)
+})
+
+// Vazifa statusini yangilash (yangi endpoint)
+app.post('/api/update-task-status', (req, res) => {
+	const { taskId } = req.body
+	if (!taskId) {
+		return res.status(400).json({ message: 'Task ID is required' })
+	}
+
+	const query = 'UPDATE vazifalar SET vazifa_status = ? WHERE id = ?'
+	db.query(query, ['Yakunlandi', taskId], (err, result) => {
+		if (err) {
+			console.error('Vazifa statusini yangilashda xatolik:', err)
+			return res.status(500).json({ message: 'Server xatosi' })
+		}
+		if (result.affectedRows === 0) {
+			return res.status(404).json({ message: 'Vazifa topilmadi' })
+		}
+		res.json({ message: 'Vazifa statusi muvaffaqiyatli yangilandi' })
+	})
 })
 
 const PORT = 5000

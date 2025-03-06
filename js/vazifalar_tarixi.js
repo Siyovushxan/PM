@@ -16,10 +16,13 @@ document.addEventListener('DOMContentLoaded', () => {
 	const fileUpload = document.getElementById('file-upload')
 	const resultCheckbox = document.getElementById('result-checkbox')
 	const closeModalBtn = document.querySelector('.close-modal')
+	const viewChatBtn = document.getElementById('view-chat-btn')
 
 	let currentTaskId = null
 	const serverUrl = 'http://localhost:5000'
-	let currentUserId = sessionStorage.getItem('userId') // Sessiondan foydalanuvchi ID si
+	let currentUserId = sessionStorage.getItem('userId')
+	let currentChatData = []
+	let isFullHistoryVisible = false
 
 	// Login holatini tekshirish
 	if (!currentUserId) {
@@ -76,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		fileUpload: !!fileUpload,
 		resultCheckbox: !!resultCheckbox,
 		closeModalBtn: !!closeModalBtn,
+		viewChatBtn: !!viewChatBtn,
 	})
 
 	// Modal ochish funksiyasi
@@ -189,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				console.error("Ma'lumot yuklashda umumiy xatolik:", error)
 			)
 
-		// Chat tarixini va natijani yuklash
+		// Chat tarixini yuklash
 		fetch(`${serverUrl}/api/chat-history/${taskId}`)
 			.then(res => {
 				console.log(
@@ -200,79 +204,92 @@ document.addEventListener('DOMContentLoaded', () => {
 			})
 			.then(chatData => {
 				console.log("Chat ma'lumotlari:", chatData)
-				// Hamma xabarlar chat tarixida ko'rinadi, shu jumladan natijalar
-				taskHistory.innerHTML =
-					chatData.length > 0
-						? chatData
-								.map(message => {
-									const isCurrentUser =
-										message.user_task_id.toString() === currentUserId.toString()
-									const isResult = message.is_result === 1
-									const messageContent = `
-											<div class="chat-message ${isCurrentUser ? 'right' : 'left'} ${
-										isResult ? 'result-message' : ''
-									}">
-													<p><strong>${isResult ? 'Natija:' : ''}${
-										message.fish || "Noma'lum"
-									}</strong>: <br> ${message.matn || ''} <small>(${
-										formatDateTime(message.vaqt) || 'N/A'
-									})</small></p>
-													${
-														message.file_paths
-															? `<p>Fayllar: ${message.file_paths
-																	.split(',')
-																	.map(
-																		file => `
-															<a href="${serverUrl}/uploads/${file.trim()}" download="${file.trim()}">${file.trim()}</a>`
-																	)
-																	.join(', ')}</p>`
-															: ''
-													}
-											</div>
-									`
-									return messageContent
-								})
-								.join('')
-						: '<p>Chat tarixi mavjud emas.</p>'
-
-				// Faqat natijalar Natija bo'limida ko'rinadi
-				const resultMessages = chatData.filter(
-					message => message.is_result === 1
-				)
-				taskResult.innerHTML =
-					resultMessages.length > 0
-						? resultMessages
-								.map(message => {
-									const isCurrentUser =
-										message.user_task_id.toString() === currentUserId.toString()
-									return `
-											<div class="chat-message ${isCurrentUser ? 'right' : 'left'} result-message chat-tarix-natija-ijobiy">
-                                            <p> <strong>${message.fish || "Noma'lum"}</strong>: ${
-										message.matn || ''
-									} <small>(${
-										formatDateTime(message.vaqt) || 'N/A'
-									})</small></p>
-													${
-														message.file_paths
-															? `<p>Fayllar: ${message.file_paths
-																	.split(',')
-																	.map(
-																		file => `
-															<a href="${serverUrl}/uploads/${file.trim()}" download="${file.trim()}">${file.trim()}</a>`
-																	)
-																	.join(', ')}</p>`
-															: ''
-													}
-											</div>
-									`
-								})
-								.join('')
-						: '<p>Natija mavjud emas.</p>'
+				currentChatData = chatData // Ma'lumotlarni saqlash
+				updateChatDisplay() // 3 ta oxirgi xabar ko‘rish
 			})
 			.catch(error => console.error('Chat tarixi yuklashda xatolik:', error))
 	}
 
-	// Xabar yuborish funksiyasi
+	// Chatni yangilash funksiyasi
+	function updateChatDisplay() {
+		if (!currentChatData.length) {
+			taskHistory.innerHTML = '<p>Chat tarixi mavjud emas.</p>'
+			return
+		}
+
+		// Faqat eng oxirgi natija Natija bo'limida ko'rinadi
+		const resultMessages = currentChatData.filter(
+			message => message.is_result === 1
+		)
+		taskResult.innerHTML =
+			resultMessages.length > 0
+				? [resultMessages[resultMessages.length - 1]]
+						.map(message => {
+							const isCurrentUser =
+								message.user_task_id.toString() === currentUserId.toString()
+							return `
+									<div class="chat-message ${
+										isCurrentUser ? 'right' : 'left'
+									} result-message chat-tarix-natija-ijobiy">
+											<p><strong>${message.fish || "Noma'lum"}</strong>: ${
+								message.matn || ''
+							} <small>(${formatDateTime(message.vaqt) || 'N/A'})</small></p>
+											${
+												message.file_paths
+													? `<p>Fayllar: ${message.file_paths
+															.split(',')
+															.map(
+																file =>
+																	`<a href="${serverUrl}/uploads/${file.trim()}" download="${file.trim()}">${file.trim()}</a>`
+															)
+															.join(', ')}</p>`
+													: ''
+											}
+									</div>
+							`
+						})
+						.join('')
+				: '<p>Natija mavjud emas.</p>'
+
+		// Chat tarixi: boshida 3 ta oxirgi xabar, tugma bosilganda hammasi
+		const displayData = isFullHistoryVisible
+			? currentChatData
+			: currentChatData.slice(-3)
+		taskHistory.innerHTML =
+			displayData.length > 0
+				? displayData
+						.map(message => {
+							const isCurrentUser =
+								message.user_task_id.toString() === currentUserId.toString()
+							const isResult = message.is_result === 1
+							return `
+									<div class="chat-message ${isCurrentUser ? 'right' : 'left'} ${
+								isResult ? 'result-message' : ''
+							}">
+											<p><strong>${isResult ? 'Natija:' : ''}${
+								message.fish || "Noma'lum"
+							}</strong>: <br> ${message.matn || ''} <small>(${
+								formatDateTime(message.vaqt) || 'N/A'
+							})</small></p>
+											${
+												message.file_paths
+													? `<p>Fayllar: ${message.file_paths
+															.split(',')
+															.map(
+																file =>
+																	`<a href="${serverUrl}/uploads/${file.trim()}" download="${file.trim()}">${file.trim()}</a>`
+															)
+															.join(', ')}</p>`
+													: ''
+											}
+									</div>
+							`
+						})
+						.join('')
+				: '<p>Chat tarixi mavjud emas.</p>'
+	}
+
+	// Xabar yuborish funksiyasi (yangilangan)
 	window.sendMessage = function () {
 		if (!currentTaskId) {
 			alert('Iltimos, vazifani tanlang!')
@@ -286,9 +303,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		const text = messageInput.value.trim()
 		const files = fileUpload.files
-		const isResult = resultCheckbox.checked ? 1 : 0 // Ijobiy natija statusi
+		const isResult = resultCheckbox.checked ? 1 : 0
 
-		// Matn yoki fayl kamida biri bo'lishi kerak
 		if (!text && files.length === 0) {
 			alert('Iltimos, matn yoki fayl kiriting!')
 			return
@@ -296,22 +312,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		const formData = new FormData()
 		formData.append('task_id', currentTaskId)
-		formData.append('user_task_id', currentUserId) // Son sifatida
-		formData.append('is_result', isResult) // Ijobiy natija qo'shildi
+		formData.append('user_task_id', currentUserId)
+		formData.append('is_result', isResult)
 
-		// Foydalanuvchi nomini serverdan olish
 		fetch(`${serverUrl}/api/user/${currentUserId}`)
 			.then(res => res.json())
 			.then(userData => {
 				const fish = userData.FISH || "Noma'lum"
 				formData.append('fish', fish)
-				formData.append('matn', text || '') // Matn bo'sh bo'lsa ham yuborilsin
+				formData.append('matn', text || '')
 
-				// Fayllarni qo'shish
 				if (files.length > 0) {
 					for (let file of files) {
-						formData.append('file_paths', file) // Fayllarni original shaklda yuborish
-						console.log('Yuborilayotgan fayl:', file.name) // Debugging
+						formData.append('file_paths', file)
+						console.log('Yuborilayotgan fayl:', file.name)
 					}
 				}
 
@@ -343,15 +357,46 @@ document.addEventListener('DOMContentLoaded', () => {
 					.then(data => {
 						console.log('Xabar yuborildi:', data)
 						alert(data.message || 'Xabar muvaffaqiyatli yuborildi!')
+
+						// Ijobiy natija bo'lsa, vazifa statusini yangilash
+						if (isResult === 1) {
+							fetch(`${serverUrl}/api/update-task-status`, {
+								method: 'POST',
+								headers: {
+									'Content-Type': 'application/json',
+								},
+								body: JSON.stringify({ taskId: currentTaskId }),
+							})
+								.then(response => response.json())
+								.then(updateData => {
+									console.log('Status yangilandi:', updateData.message)
+									// Jadvalni yangilash uchun qatorni yangilash
+									const taskRow = taskList.querySelector(
+										`tr[data-id="${currentTaskId}"]`
+									)
+									if (taskRow) {
+										const statusCell = taskRow.querySelector('td:nth-child(6)') // Status 6-ustun
+										statusCell.textContent = 'Yakunlandi'
+										taskRow.style.backgroundColor = '#d4edda' // Yashil rang (success)
+										taskRow.style.color = '#155724' // Matn rangi
+									}
+									// Modalni yangilash
+									openModal(currentTaskId)
+								})
+								.catch(error =>
+									console.error('Status yangilashda xatolik:', error)
+								)
+						}
+
 						messageInput.value = ''
 						fileUpload.value = ''
-						resultCheckbox.checked = false // Checkboxni tozalash
+						resultCheckbox.checked = false
 						openModal(currentTaskId) // Chat va natija yangilanishi
 					})
 					.catch(error => {
 						console.error('Xabar yuborishda xatolik:', error.message)
 						alert('Xabar yuborishda xatolik yuz berdi: ' + error.message)
-						openModal(currentTaskId) // Xatolik bo'lsa ham yangilash
+						openModal(currentTaskId)
 					})
 			})
 			.catch(error => {
@@ -379,13 +424,13 @@ document.addEventListener('DOMContentLoaded', () => {
 						alert(data.message || 'Xabar muvaffaqiyatli yuborildi!')
 						messageInput.value = ''
 						fileUpload.value = ''
-						resultCheckbox.checked = false // Checkboxni tozalash
-						openModal(currentTaskId) // Chat va natija yangilanishi
+						resultCheckbox.checked = false
+						openModal(currentTaskId)
 					})
 					.catch(error => {
 						console.error('Xabar yuborishda xatolik:', error.message)
 						alert('Xabar yuborishda xatolik yuz berdi: ' + error.message)
-						openModal(currentTaskId) // Xatolik bo'lsa ham yangilash
+						openModal(currentTaskId)
 					})
 			})
 	}
@@ -458,6 +503,23 @@ document.addEventListener('DOMContentLoaded', () => {
 			currentTaskId = null
 		}
 	})
+
+	// "Chat tarixi" tugmasi hodisasi (toggle logikasi)
+	if (viewChatBtn) {
+		viewChatBtn.addEventListener('click', () => {
+			if (currentTaskId) {
+				isFullHistoryVisible = !isFullHistoryVisible
+				updateChatDisplay()
+				if (isFullHistoryVisible) {
+					viewChatBtn.textContent = 'Chat tarixini yopish'
+				} else {
+					viewChatBtn.textContent = 'Chat tarixini kurish'
+				}
+			} else {
+				alert('Iltimos, vazifani tanlang!')
+			}
+		})
+	}
 
 	// Yordamchi funksiyalar
 	function formatDateTime(dateString) {

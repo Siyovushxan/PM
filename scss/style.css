@@ -160,12 +160,21 @@ body {
   width: 100%;
   margin-top: auto;
 }
-.yaratuvchi h2 {
+.yaratuvchi div {
+  padding: 0.5rem;
+}
+.yaratuvchi div h2 {
   font-size: 1.2rem;
   margin: 0;
 }
-.yaratuvchi h2:last-child {
+.yaratuvchi div h2:last-child {
   margin-top: 0.5rem;
+}
+.yaratuvchi div {
+  margin: 0.5rem;
+}
+.yaratuvchi div p {
+  text-align: center;
 }
 
 .container {

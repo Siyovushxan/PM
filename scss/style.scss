@@ -339,14 +339,25 @@ body {
 	width: 100%;
 	margin-top: auto; // Doim pastda joylashishini ta’minlaydi
 
-	h2 {
-		font-size: 1.2rem;
-		margin: 0;
-
-		&:last-child {
-			margin-top: 0.5rem;
+	div {
+		padding: 0.5rem;
+		h2 {
+			font-size: 1.2rem;
+			margin: 0;
+	
+			&:last-child {
+				margin-top: 0.5rem;
+			}
 		}
 	}
+
+	div {
+		margin: 0.5rem;
+		p {
+			text-align: center;
+		}
+	}
+
 }
 
 // Main content styles
