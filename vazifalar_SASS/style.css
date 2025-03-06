@@ -38,6 +38,26 @@
 .task-main .container-projects #task-list .task-table tbody tr.task-row:hover {
   background-color: #f1f1f1;
 }
+.task-main .container-projects #task-list .task-table tbody tr.task-row.planned {
+  background-color: #f39c12 !important;
+  color: #fff !important;
+}
+.task-main .container-projects #task-list .task-table tbody tr.task-row.ongoing {
+  background-color: #3498db !important;
+  color: #fff !important;
+}
+.task-main .container-projects #task-list .task-table tbody tr.task-row.completed {
+  background-color: #82f39c !important;
+  color: #155724 !important;
+}
+.task-main .container-projects #task-list .task-table tbody tr.task-row.edited-completed {
+  background-color: #c1ffdb !important;
+  color: #155724 !important;
+}
+.task-main .container-projects #task-list .task-table tbody tr.task-row.paused {
+  background-color: #e74c3c !important;
+  color: #fff !important;
+}
 .task-main .container-projects #task-list .task-table tbody tr.task-row td {
   padding: 10px;
   font-size: 0.9em;
@@ -260,27 +280,49 @@
   margin-bottom: 15px;
   border: 1px solid #ddd;
   background-color: rgb(247, 251, 227);
-  border-radius: 10px;
-  border-top: none;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-top: 0.5px solid #123524;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
 }
 .task-modal .modal-content .modal-left .task-section p {
-  padding: 1rem;
+  padding: 0rem;
 }
 .task-modal .modal-content .modal-left .task-section#task-result {
   overflow-y: auto;
   padding-left: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+.task-modal .modal-content .modal-left .task-section#task-result .task-umumiy {
+  display: flex;
+}
+.task-modal .modal-content .modal-left .task-section#task-result .task-umumiy .task-send-img {
+  margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.task-modal .modal-content .modal-left .task-section#task-result .task-umumiy .task-send-img img {
+  width: 2rem;
+  height: 2rem;
 }
 .task-modal .modal-content .modal-left .task-section#task-result .chat-tarix-natija-ijobiy {
-  background-color: #edf1f3;
+  margin-top: 1rem;
   max-width: 60%;
   border-radius: 10px;
-  padding: 1rem;
+  padding: 0.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
   margin-bottom: 0.5rem;
   justify-content: center;
+  margin-bottom: 1rem;
+}
+.task-modal .modal-content .modal-left .task-section#task-result .chat-tarix-natija-ijobiy p {
+  padding: 0.3rem;
+}
+.task-modal .modal-content .modal-left .task-section#task-result .chat-tarix-natija-ijobiy a {
+  font-size: rem;
 }
 .task-modal .modal-content .modal-left .task-section#task-history .chat-message {
   margin: 1.5rem 0 0 0;
@@ -290,32 +332,42 @@
   background-color: #edf1f3;
   float: left;
   text-align: left;
-  margin-left: 5px;
+  margin-left: 1rem;
   width: 51%;
   display: flex;
-  flex-direction: column;
   gap: 1.2rem;
-  padding: 1.2rem;
+  padding: 1rem;
+}
+.task-modal .modal-content .modal-left .task-section#task-history .chat-message.left .task-javob-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .task-modal .modal-content .modal-left .task-section#task-history .chat-message.right {
   background-color: #edf1f3;
   float: right;
   text-align: left;
   width: 51%;
-  margin-right: 5px;
+  margin-right: 1rem;
   display: flex;
-  flex-direction: column;
   gap: 1.2rem;
   padding: 1rem;
+  margin-top: 2rem;
+}
+.task-modal .modal-content .modal-left .task-section#task-history .chat-message.right .task-javob-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .task-modal .modal-content .modal-left .task-section#task-history .chat-message p {
   margin: 0;
   font-size: 0.9em;
   color: #333;
+  padding-top: 0.5rem;
 }
 .task-modal .modal-content .modal-left .task-section#task-history .chat-message small {
   display: block;
-  font-size: 0.7em;
+  font-size: 1em;
   color: #666;
   margin-top: 5px;
 }
@@ -400,7 +452,7 @@
 }
 .task-modal .modal-content .modal-right p strong {
   color: #333;
-  border-bottom: 0.1px solid #123524;
+  border-bottom: 0.001px solid #123524;
   width: 95%;
 }
 .task-modal .modal-content .modal-right p #responsible,
