@@ -90,7 +90,7 @@ body {
 .navbar .navbar-container .div2 .navbar-links .nav-link:last-child #profile-modal .modal-content {
   background-color: #ffffff;
   padding: 15px;
-  border-radius: 8px;
+  border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
   display: flex;
@@ -151,32 +151,186 @@ body {
   color: #3a5c64;
 }
 
-.yaratuvchi {
-  background-color: #123524;
-  color: #ffffff;
-  text-align: center;
-  padding: 1rem;
-  flex-shrink: 0;
-  width: 100%;
-  margin-top: auto;
-}
-.yaratuvchi div {
-  padding: 0.5rem;
-}
-.yaratuvchi div h2 {
-  font-size: 1.2rem;
-  margin: 0;
-}
-.yaratuvchi div h2:last-child {
-  margin-top: 0.5rem;
-}
-.yaratuvchi div {
-  margin: 0.5rem;
-}
-.yaratuvchi div p {
-  text-align: center;
+body {
+  background-color: #ffffff;
+  font-family: Arial, sans-serif;
 }
 
+.dashboard-container {
+  padding: 3rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  border-radius: 12px;
+}
+.dashboard-container .dashboard-title {
+  font-size: 2.5rem;
+  color: #123524;
+  text-align: center;
+}
+.dashboard-container .projects-section,
+.dashboard-container .tasks-section {
+  margin-bottom: 4rem;
+}
+.dashboard-container .projects-section h2,
+.dashboard-container .tasks-section h2 {
+  font-size: 2rem;
+  color: #123524;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+.dashboard-container .projects-section .chart-container,
+.dashboard-container .tasks-section .chart-container {
+  position: relative;
+  width: 600px;
+  height: 600px;
+  margin: 0 auto;
+}
+.dashboard-container .projects-section .chart-container canvas,
+.dashboard-container .tasks-section .chart-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+}
+.dashboard-container .projects-section .chart-container .chart-labels,
+.dashboard-container .tasks-section .chart-container .chart-labels {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.dashboard-container .projects-section .chart-container .chart-labels .label,
+.dashboard-container .tasks-section .chart-container .chart-labels .label {
+  position: absolute;
+  font-size: 1.2rem;
+  color: #123524;
+  text-align: center;
+  padding: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+.dashboard-container .projects-section .chart-container .chart-labels .label:hover,
+.dashboard-container .tasks-section .chart-container .chart-labels .label:hover {
+  transform: scale(1.1);
+}
+.dashboard-container .projects-section .chart-container .chart-labels .label:before,
+.dashboard-container .tasks-section .chart-container .chart-labels .label:before {
+  content: "";
+  position: absolute;
+  background-color: #123524;
+  z-index: -1;
+}
+.dashboard-container .projects-section .chart-container .chart-labels .label.top,
+.dashboard-container .tasks-section .chart-container .chart-labels .label.top {
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.dashboard-container .projects-section .chart-container .chart-labels .label.top:before,
+.dashboard-container .tasks-section .chart-container .chart-labels .label.top:before {
+  width: 2px;
+  height: 50px;
+  left: 50%;
+  top: 100%;
+}
+.dashboard-container .projects-section .chart-container .chart-labels .label.top-right,
+.dashboard-container .tasks-section .chart-container .chart-labels .label.top-right {
+  top: 10%;
+  right: -120px;
+}
+.dashboard-container .projects-section .chart-container .chart-labels .label.top-right:before,
+.dashboard-container .tasks-section .chart-container .chart-labels .label.top-right:before {
+  width: 120px;
+  height: 2px;
+  right: 100%;
+  top: 50%;
+}
+.dashboard-container .projects-section .chart-container .chart-labels .label.bottom-right,
+.dashboard-container .tasks-section .chart-container .chart-labels .label.bottom-right {
+  bottom: 10%;
+  right: -120px;
+}
+.dashboard-container .projects-section .chart-container .chart-labels .label.bottom-right:before,
+.dashboard-container .tasks-section .chart-container .chart-labels .label.bottom-right:before {
+  width: 120px;
+  height: 2px;
+  right: 100%;
+  top: 50%;
+}
+.dashboard-container .projects-section .chart-container .chart-labels .label.bottom,
+.dashboard-container .tasks-section .chart-container .chart-labels .label.bottom {
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.dashboard-container .projects-section .chart-container .chart-labels .label.bottom:before,
+.dashboard-container .tasks-section .chart-container .chart-labels .label.bottom:before {
+  width: 2px;
+  height: 50px;
+  left: 50%;
+  bottom: 100%;
+}
+.dashboard-container .projects-section .chart-container .chart-labels .label.bottom-left,
+.dashboard-container .tasks-section .chart-container .chart-labels .label.bottom-left {
+  bottom: 10%;
+  left: -120px;
+}
+.dashboard-container .projects-section .chart-container .chart-labels .label.bottom-left:before,
+.dashboard-container .tasks-section .chart-container .chart-labels .label.bottom-left:before {
+  width: 120px;
+  height: 2px;
+  left: 100%;
+  top: 50%;
+}
+.dashboard-container .projects-section .chart-container .chart-labels .label.top-left,
+.dashboard-container .tasks-section .chart-container .chart-labels .label.top-left {
+  top: 10%;
+  left: -120px;
+}
+.dashboard-container .projects-section .chart-container .chart-labels .label.top-left:before,
+.dashboard-container .tasks-section .chart-container .chart-labels .label.top-left:before {
+  width: 120px;
+  height: 2px;
+  left: 100%;
+  top: 50%;
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 1.5rem;
+  }
+  .dashboard-container .chart-container {
+    width: 400px;
+    height: 400px;
+  }
+  .dashboard-container .chart-labels .label {
+    font-size: 1rem;
+  }
+  .dashboard-container .chart-labels .label.top-right, .dashboard-container .chart-labels .label.bottom-right {
+    right: -80px;
+  }
+  .dashboard-container .chart-labels .label.top-left, .dashboard-container .chart-labels .label.bottom-left {
+    left: -80px;
+  }
+  .dashboard-container .chart-labels .label:before {
+    width: 80px !important;
+    height: 2px !important;
+  }
+}
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 1rem;
+  }
+  .dashboard-container .health-section {
+    grid-template-columns: 1fr;
+  }
+  .dashboard-container .projects-section .projects-list {
+    grid-template-columns: 1fr;
+  }
+}
 .container {
   padding: 3rem;
   max-width: 70rem;
@@ -228,60 +382,28 @@ body {
   background-color: #2f4f4f;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: "Arial", sans-serif;
-  background-color: #f4f4f4;
-}
-
-.container-hisobotlar {
-  padding: 1.5rem;
-  max-width: auto;
-  margin-bottom: 2rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-}
-.container-hisobotlar h2 {
+.yaratuvchi {
+  background-color: #123524;
+  color: #ffffff;
   text-align: center;
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
+  padding: 1rem;
+  flex-shrink: 0;
+  width: 100%;
+  margin-top: auto;
 }
-.container-hisobotlar .reports {
-  display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-  justify-content: center;
+.yaratuvchi div {
+  padding: 0.5rem;
 }
-.container-hisobotlar .report-card {
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 23%;
-  padding: 1.5rem;
-  transition: transform 0.3s, box-shadow 0.3s;
+.yaratuvchi div h2 {
+  font-size: 1.2rem;
+  margin: 0;
 }
-.container-hisobotlar .report-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+.yaratuvchi div h2:last-child {
+  margin-top: 0.5rem;
 }
-.container-hisobotlar .report-card h3 {
-  font-size: 1.6rem;
-  font-weight: bold;
-  color: #123524;
-  margin-bottom: 1rem;
+.yaratuvchi div {
+  margin: 0.5rem;
 }
-.container-hisobotlar .report-card .report-count {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #123524;
-  margin-bottom: 1rem;
-}
-.container-hisobotlar .report-card .report-description {
-  font-size: 1rem;
-  color: #555;
+.yaratuvchi div p {
+  text-align: center;
 }/*# sourceMappingURL=style.css.map */

@@ -16,6 +16,10 @@ $card-shadow: rgba(0, 0, 0, 0.1);
 $modal-bg: rgba(0, 0, 0, 0.5); // Modal uchun fon
 $border-radius: 8px;
 
+// Mavjud o‘zgaruvchilar (index.html SASS dan olingan)
+$border-radius: 12px;
+$shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+
 * {
 	margin: 0;
 	padding: 0;
@@ -36,135 +40,6 @@ body {
 	justify-content: center;
 	align-items: center;
 }
-
-// Navbar styles
-// .navbar {
-// 	margin-bottom: 1rem;
-// 	background-color: $primary-color;
-// 	padding: 1rem 2rem;
-// 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-
-// 	.navbar-container {
-// 		display: flex;
-// 		justify-content: space-between;
-// 		align-items: center;
-
-// 		.div1 {
-// 			display: flex;
-// 			align-items: center;
-// 			gap: 1rem;
-
-// 			.img_logo {
-// 				align-items: center;
-// 				width: 3rem;
-// 				height: 3rem;
-// 			}
-// 		}
-
-// 		.div2 {
-// 			display: flex;
-// 			align-items: center;
-// 		}
-// 	}
-
-// 	.logo {
-// 		color: $secondary-color;
-// 		font-size: 1.6rem;
-// 		font-weight: bold;
-// 		text-decoration: none;
-// 	}
-
-// 	.navbar-links {
-// 		list-style: none;
-// 		display: flex;
-// 		gap: 2rem;
-
-// 		li {
-// 			display: flex;
-// 			align-items: center;
-// 		}
-
-// 		.nav-link {
-// 			color: $secondary-color;
-// 			text-decoration: none;
-// 			font-size: 1.2rem;
-// 			font-weight: 500;
-// 			transition: color 0.3s;
-
-// 			&:hover {
-// 				color: $hover-color;
-// 			}
-
-// 			// Profil ikonasini stilizatsiya
-// 			#profile-image {
-// 				width: 2.5rem;
-// 				height: 2.5rem;
-// 				border-radius: 50%;
-// 				cursor: pointer;
-// 				transition: transform 0.3s;
-
-// 				&:hover {
-// 					transform: scale(1.1);
-// 				}
-// 			}
-
-// 			// Profil modalini stilizatsiya
-// 			#profile-modal {
-// 				display: none;
-// 				position: absolute;
-// 				top: -200px; // Headerning ustidan ochilishi uchun (balandlikka qarab moslashtirish)
-// 				right: 0;
-// 				background-color: $primary-color;
-// 				z-index: 1000;
-// 				width: 300px;
-
-// 				.close-btn {
-// 					color: $secondary-color;
-// 					position: absolute;
-// 					top: 10px;
-// 					right: 15px;
-// 					font-size: 24px;
-// 					font-weight: bold;
-// 					cursor: pointer;
-
-// 					&:hover {
-// 						color: $hover-color;
-// 					}
-// 				}
-
-// 				.modal-content {
-// 					background-color: $card-bg;
-// 					padding: 20px;
-// 					border-radius: $primary-color;
-// 					// @include card-shadow;
-// 					text-align: center;
-
-// 					#profile-fish,
-// 					#profile-bulim,
-// 					#profile-lavozim {
-// 						margin: 10px 0;
-// 						font-size: 14px;
-// 						color: $secondary-color;
-// 					}
-
-// 					a {
-// 						display: inline-block;
-// 						background-color: $button-bg;
-// 						color: $secondary-color;
-// 						text-decoration: none;
-// 						padding: 8px 15px;
-// 						border-radius: $primary-color;
-// 						margin-top: 10px;
-
-// 						&:hover {
-// 							background-color: $button-hover-bg;
-// 						}
-// 					}
-// 				}
-// 			}
-// 		}
-// 	}
-// }
 
 // Navbar styles
 .navbar {
@@ -329,38 +204,191 @@ body {
 	}
 }
 
-// Yaratuvchi section
-.yaratuvchi {
-	background-color: #123524; // $primary-color ga moslashtirilgan
-	color: #ffffff; // $secondary-color ga moslashtirilgan
-	text-align: center;
-	padding: 1rem;
-	flex-shrink: 0; // Footer hajmini saqlab qoladi
-	width: 100%;
-	margin-top: auto; // Doim pastda joylashishini ta’minlaydi
-
-	div {
-		padding: 0.5rem;
-		h2 {
-			font-size: 1.2rem;
-			margin: 0;
-	
-			&:last-child {
-				margin-top: 0.5rem;
-			}
-		}
-	}
-
-	div {
-		margin: 0.5rem;
-		p {
-			text-align: center;
-		}
-	}
-
+// Umumiy dizayn
+body {
+    background-color: $card-bg;
+    font-family: Arial, sans-serif;
 }
 
-// Main content styles
+.dashboard-container {
+    padding: 3rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    border-radius: $border-radius;
+
+    .dashboard-title {
+        font-size: 2.5rem;
+        color: $primary-color;
+        text-align: center;
+        // margin-bottom: 20rem;
+    }
+
+    .projects-section,
+    .tasks-section {
+        margin-bottom: 4rem;
+
+        h2 {
+            font-size: 2rem;
+            color: $primary-color;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 600px;
+            height: 600px;
+            margin: 0 auto;
+
+            canvas {
+                width: 100% !important;
+                height: 100% !important;
+                filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3)); // 3D effekt uchun soya
+            }
+
+            .chart-labels {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+
+                .label {
+                    position: absolute;
+                    font-size: 1.2rem;
+                    color: $primary-color;
+                    text-align: center;
+                    padding: 0.5rem;
+                    background-color: rgba(255, 255, 255, 0.8);
+                    border-radius: 5px;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                    transition: transform 0.3s ease;
+
+                    &:hover {
+                        transform: scale(1.1);
+                    }
+
+                    // Chiziqlar qo'shish
+                    &:before {
+                        content: '';
+                        position: absolute;
+                        background-color: $primary-color;
+                        z-index: -1;
+                    }
+
+                    &.top {
+                        top: -50px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        &:before {
+                            width: 2px;
+                            height: 50px;
+                            left: 50%;
+                            top: 100%;
+                        }
+                    }
+
+                    &.top-right {
+                        top: 10%;
+                        right: -120px;
+                        &:before {
+                            width: 120px;
+                            height: 2px;
+                            right: 100%;
+                            top: 50%;
+                        }
+                    }
+
+                    &.bottom-right {
+                        bottom: 10%;
+                        right: -120px;
+                        &:before {
+                            width: 120px;
+                            height: 2px;
+                            right: 100%;
+                            top: 50%;
+                        }
+                    }
+
+                    &.bottom {
+                        bottom: -50px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        &:before {
+                            width: 2px;
+                            height: 50px;
+                            left: 50%;
+                            bottom: 100%;
+                        }
+                    }
+
+                    &.bottom-left {
+                        bottom: 10%;
+                        left: -120px;
+                        &:before {
+                            width: 120px;
+                            height: 2px;
+                            left: 100%;
+                            top: 50%;
+                        }
+                    }
+
+                    &.top-left {
+                        top: 10%;
+                        left: -120px;
+                        &:before {
+                            width: 120px;
+                            height: 2px;
+                            left: 100%;
+                            top: 50%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Responsive dizayn
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 1.5rem;
+
+        .chart-container {
+            width: 400px;
+            height: 400px;
+        }
+
+        .chart-labels .label {
+            font-size: 1rem;
+
+            &.top-right, &.bottom-right { right: -80px; }
+            &.top-left, &.bottom-left { left: -80px; }
+            &:before {
+                width: 80px !important;
+                height: 2px !important;
+            }
+        }
+    }
+}
+
+// Responsive dizayn
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 1rem;
+
+        .health-section {
+            grid-template-columns: 1fr;
+        }
+
+        .projects-section .projects-list {
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+// Loyiha qushish styles
 .container {
 	padding: 3rem;
 	max-width: 70rem;
@@ -420,71 +448,33 @@ body {
 	}
 }
 
-// Global reset
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
+// Yaratuvchi section
+.yaratuvchi {
+	background-color: #123524; // $primary-color ga moslashtirilgan
+	color: #ffffff; // $secondary-color ga moslashtirilgan
+	text-align: center;
+	padding: 1rem;
+	flex-shrink: 0; // Footer hajmini saqlab qoladi
+	width: 100%;
+	margin-top: auto; // Doim pastda joylashishini ta’minlaydi
 
-body {
-	font-family: 'Arial', sans-serif;
-	background-color: #f4f4f4;
-}
-
-// Main content styles
-.container-hisobotlar {
-	padding: 1.5rem;
-	max-width: auto;
-	margin-bottom: 2rem;
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-	border-radius: 8px;
-
-	h2 {
-		text-align: center;
-		font-size: 2rem;
-		margin-bottom: 1.5rem;
-	}
-
-	.reports {
-		display: flex;
-		gap: 2rem;
-		flex-wrap: wrap;
-		justify-content: center;
-	}
-
-	.report-card {
-		background-color: $card-bg;
-		border-radius: 8px;
-		box-shadow: 0 4px 6px $card-shadow;
-		width: 23%;
-		padding: 1.5rem;
-		transition: transform 0.3s, box-shadow 0.3s;
-
-		&:hover {
-			transform: translateY(-10px);
-			box-shadow: 0 6px 12px $card-shadow;
-		}
-
-		h3 {
-			font-size: 1.6rem;
-			font-weight: bold;
-			color: $primary-color;
-			margin-bottom: 1rem;
-		}
-
-		.report-count {
-			font-size: 2rem;
-			font-weight: bold;
-			color: $primary-color;
-			margin-bottom: 1rem;
-		}
-
-		.report-description {
-			font-size: 1rem;
-			color: #555;
+	div {
+		padding: 0.5rem;
+		h2 {
+			font-size: 1.2rem;
+			margin: 0;
+	
+			&:last-child {
+				margin-top: 0.5rem;
+			}
 		}
 	}
-}
 
-// Modal vazifa qo'shish
+	div {
+		margin: 0.5rem;
+		p {
+			text-align: center;
+		}
+	}
+
+}

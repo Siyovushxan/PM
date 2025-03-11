@@ -38,25 +38,25 @@
 .task-main .container-projects #task-list .task-table tbody tr.task-row:hover {
   background-color: #f1f1f1;
 }
-.task-main .container-projects #task-list .task-table tbody tr.task-row.planned {
-  background-color: #f39c12 !important;
-  color: #fff !important;
+.task-main .container-projects #task-list .task-table tbody tr.task-row.planned td:nth-child(6) {
+  background-color: #f39c12;
+  color: #fff;
 }
-.task-main .container-projects #task-list .task-table tbody tr.task-row.ongoing {
-  background-color: #3498db !important;
-  color: #fff !important;
+.task-main .container-projects #task-list .task-table tbody tr.task-row.ongoing td:nth-child(6) {
+  background-color: #3498db;
+  color: #fff;
 }
-.task-main .container-projects #task-list .task-table tbody tr.task-row.completed {
-  background-color: #82f39c !important;
-  color: #155724 !important;
+.task-main .container-projects #task-list .task-table tbody tr.task-row.completed td:nth-child(6) {
+  background-color: #82f39c;
+  color: #155724;
 }
-.task-main .container-projects #task-list .task-table tbody tr.task-row.edited-completed {
-  background-color: #c1ffdb !important;
-  color: #155724 !important;
+.task-main .container-projects #task-list .task-table tbody tr.task-row.edited-completed td:nth-child(6) {
+  background-color: #c1ffdb;
+  color: #155724;
 }
-.task-main .container-projects #task-list .task-table tbody tr.task-row.paused {
-  background-color: #e74c3c !important;
-  color: #fff !important;
+.task-main .container-projects #task-list .task-table tbody tr.task-row.paused td:nth-child(6) {
+  background-color: #e74c3c;
+  color: #fff;
 }
 .task-main .container-projects #task-list .task-table tbody tr.task-row td {
   padding: 10px;
@@ -322,7 +322,7 @@
   padding: 0.3rem;
 }
 .task-modal .modal-content .modal-left .task-section#task-result .chat-tarix-natija-ijobiy a {
-  font-size: rem;
+  font-size: 1rem;
 }
 .task-modal .modal-content .modal-left .task-section#task-history .chat-message {
   margin: 1.5rem 0 0 0;
@@ -404,7 +404,7 @@
   margin-top: 2rem;
 }
 .task-modal .modal-content .modal-left #message-input-container #file-upload {
-  padding: 12px 12PX;
+  padding: 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
   background-color: #f9f9f9;
