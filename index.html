@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PM Navoiyuran</title>
   <link rel="stylesheet" href="scss/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -45,38 +44,19 @@
 
   <!-- Dashboard -->
   <div class="dashboard-container">
-
-    <!-- Loyihalar holati -->
-    <div class="projects-section">
+    <div class="loyihalar-section">
       <h2>Loyihalar Holati</h2>
-      <div class="chart-container">
-        <canvas id="projectsChart" width="600" height="600"></canvas>
-        <div class="chart-labels">
-          <div class="label top" data-value="Umumiy loyihalar soni">0</div>
-          <div class="label top-right" data-value="Aktiv loyihalar soni">0</div>
-          <div class="label bottom-right" data-value="Bajarilayotgan loyihalar soni">0</div>
-          <div class="label bottom" data-value="Rejalashtirilgan loyihalar soni">0</div>
-          <div class="label bottom-left" data-value="To‘xtatilgan loyihalar soni">0</div>
-          <div class="label top-left" data-value="Yakunlangan loyihalar soni">0</div>
+      <div class="grafik-container">
+        <canvas id="loyihalarGrafik" width="600" height="600"></canvas>
+        <div class="belgilar">
+          <div class="belgi">Umumiy loyihalar soni</div>
+          <div class="belgi">Yakunlangan loyihalar soni</div>
+          <div class="belgi">Bajarilayotgan loyihalar soni</div>
+          <div class="belgi">Aktiv loyihalar soni</div>
+          <div class="belgi">To‘xtatilgan loyihalar soni</div>
         </div>
       </div>
     </div>
-
-      <!-- Vazifalar holati -->
-      <div class="tasks-section">
-          <h2>Vazifalar Holati</h2>
-          <div class="chart-container">
-              <canvas id="tasksChart" width="600" height="600"></canvas>
-              <div class="chart-labels">
-                  <div class="label top" data-value="Umumiy vazifalar soni">0</div>
-                  <div class="label top-right" data-value="Aktiv vazifalar soni">0</div>
-                  <div class="label bottom-right" data-value="Bajarilayotgan vazifalar soni">0</div>
-                  <div class="label bottom" data-value="Rejalashtirilgan vazifalar soni">0</div>
-                  <div class="label bottom-left" data-value="To‘xtatilgan vazifalar soni">0</div>
-                  <div class="label top-left" data-value="Yakunlangan vazifalar soni">0</div>
-              </div>
-          </div>
-      </div>
   </div>
 
   <!-- Loyiha qushish -->
@@ -138,8 +118,10 @@
   </section>
 
   <script src="js/index.js"></script>
-  <script src="js/dashboard.js"></script>
+  <!-- Chart.js skripti birinchi keladi -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- O‘z skriptimiz undan keyin -->
+  <script src="js/dashboard.js"></script>
 
 </body>
 

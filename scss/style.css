@@ -156,179 +156,118 @@ body {
   font-family: Arial, sans-serif;
 }
 
-.dashboard-container {
-  padding: 3rem;
-  max-width: 1400px;
-  margin: 0 auto;
-  border-radius: 12px;
-}
-.dashboard-container .dashboard-title {
-  font-size: 2.5rem;
-  color: #123524;
-  text-align: center;
-}
-.dashboard-container .projects-section,
-.dashboard-container .tasks-section {
-  margin-bottom: 4rem;
-}
-.dashboard-container .projects-section h2,
-.dashboard-container .tasks-section h2 {
-  font-size: 2rem;
-  color: #123524;
-  margin-bottom: 2rem;
-  text-align: center;
-}
-.dashboard-container .projects-section .chart-container,
-.dashboard-container .tasks-section .chart-container {
-  position: relative;
-  width: 600px;
-  height: 600px;
-  margin: 0 auto;
-}
-.dashboard-container .projects-section .chart-container canvas,
-.dashboard-container .tasks-section .chart-container canvas {
-  width: 100% !important;
-  height: 100% !important;
-  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
-}
-.dashboard-container .projects-section .chart-container .chart-labels,
-.dashboard-container .tasks-section .chart-container .chart-labels {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-.dashboard-container .projects-section .chart-container .chart-labels .label,
-.dashboard-container .tasks-section .chart-container .chart-labels .label {
-  position: absolute;
-  font-size: 1.2rem;
-  color: #123524;
-  text-align: center;
-  padding: 0.5rem;
-  background-color: rgba(255, 255, 255, 0.8);
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-.dashboard-container .projects-section .chart-container .chart-labels .label:hover,
-.dashboard-container .tasks-section .chart-container .chart-labels .label:hover {
-  transform: scale(1.1);
-}
-.dashboard-container .projects-section .chart-container .chart-labels .label:before,
-.dashboard-container .tasks-section .chart-container .chart-labels .label:before {
-  content: "";
-  position: absolute;
-  background-color: #123524;
-  z-index: -1;
-}
-.dashboard-container .projects-section .chart-container .chart-labels .label.top,
-.dashboard-container .tasks-section .chart-container .chart-labels .label.top {
-  top: -50px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-.dashboard-container .projects-section .chart-container .chart-labels .label.top:before,
-.dashboard-container .tasks-section .chart-container .chart-labels .label.top:before {
-  width: 2px;
-  height: 50px;
-  left: 50%;
-  top: 100%;
-}
-.dashboard-container .projects-section .chart-container .chart-labels .label.top-right,
-.dashboard-container .tasks-section .chart-container .chart-labels .label.top-right {
-  top: 10%;
-  right: -120px;
-}
-.dashboard-container .projects-section .chart-container .chart-labels .label.top-right:before,
-.dashboard-container .tasks-section .chart-container .chart-labels .label.top-right:before {
-  width: 120px;
-  height: 2px;
-  right: 100%;
-  top: 50%;
-}
-.dashboard-container .projects-section .chart-container .chart-labels .label.bottom-right,
-.dashboard-container .tasks-section .chart-container .chart-labels .label.bottom-right {
-  bottom: 10%;
-  right: -120px;
-}
-.dashboard-container .projects-section .chart-container .chart-labels .label.bottom-right:before,
-.dashboard-container .tasks-section .chart-container .chart-labels .label.bottom-right:before {
-  width: 120px;
-  height: 2px;
-  right: 100%;
-  top: 50%;
-}
-.dashboard-container .projects-section .chart-container .chart-labels .label.bottom,
-.dashboard-container .tasks-section .chart-container .chart-labels .label.bottom {
-  bottom: -50px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-.dashboard-container .projects-section .chart-container .chart-labels .label.bottom:before,
-.dashboard-container .tasks-section .chart-container .chart-labels .label.bottom:before {
-  width: 2px;
-  height: 50px;
-  left: 50%;
-  bottom: 100%;
-}
-.dashboard-container .projects-section .chart-container .chart-labels .label.bottom-left,
-.dashboard-container .tasks-section .chart-container .chart-labels .label.bottom-left {
-  bottom: 10%;
-  left: -120px;
-}
-.dashboard-container .projects-section .chart-container .chart-labels .label.bottom-left:before,
-.dashboard-container .tasks-section .chart-container .chart-labels .label.bottom-left:before {
-  width: 120px;
-  height: 2px;
-  left: 100%;
-  top: 50%;
-}
-.dashboard-container .projects-section .chart-container .chart-labels .label.top-left,
-.dashboard-container .tasks-section .chart-container .chart-labels .label.top-left {
-  top: 10%;
-  left: -120px;
-}
-.dashboard-container .projects-section .chart-container .chart-labels .label.top-left:before,
-.dashboard-container .tasks-section .chart-container .chart-labels .label.top-left:before {
-  width: 120px;
-  height: 2px;
-  left: 100%;
-  top: 50%;
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
 }
 
-@media (max-width: 768px) {
-  .dashboard-container {
-    padding: 1.5rem;
+.dashboard-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #ffffff;
+  padding: 20px;
+}
+
+.loyihalar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.loyihalar-section h2 {
+  color: #000000;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+.loyihalar-section .grafik-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 600px;
+  position: relative;
+}
+.loyihalar-section .grafik-container.hover-toxtagan canvas {
+  animation-play-state: paused;
+  transform: rotateY(180deg);
+}
+.loyihalar-section .grafik-container canvas {
+  width: 300px;
+  height: 300px;
+  perspective: 1000px;
+  animation: aylanish3D 10s linear infinite;
+  cursor: default;
+}
+.loyihalar-section .grafik-container.toxtagan canvas {
+  animation-play-state: paused;
+  transform: rotateY(180deg);
+  cursor: pointer;
+}
+.loyihalar-section .grafik-container .belgilar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 20px;
+}
+.loyihalar-section .grafik-container .belgilar .belgi {
+  color: #000000;
+  font-size: 14px;
+  margin: 10px 0;
+  position: relative;
+  padding-left: 20px;
+  cursor: default;
+}
+.loyihalar-section .grafik-container .belgilar .belgi:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 15px;
+  height: 2px;
+  background-color: #ff0000;
+  transition: width 0.3s ease;
+}
+.loyihalar-section .grafik-container .belgilar .belgi.hover-aktiv::before {
+  width: 0;
+  transform-origin: left;
+  animation: chiziqHarakati 1s forwards;
+}
+.loyihalar-section .grafik-container .belgilar .belgi:hover {
+  cursor: pointer;
+}
+
+@keyframes aylanish3D {
+  0% {
+    transform: rotateY(0deg);
   }
-  .dashboard-container .chart-container {
-    width: 400px;
-    height: 400px;
+  100% {
+    transform: rotateY(360deg);
   }
-  .dashboard-container .chart-labels .label {
-    font-size: 1rem;
+}
+@keyframes chiziqHarakati {
+  0% {
+    width: 0;
   }
-  .dashboard-container .chart-labels .label.top-right, .dashboard-container .chart-labels .label.bottom-right {
-    right: -80px;
-  }
-  .dashboard-container .chart-labels .label.top-left, .dashboard-container .chart-labels .label.bottom-left {
-    left: -80px;
-  }
-  .dashboard-container .chart-labels .label:before {
-    width: 80px !important;
-    height: 2px !important;
+  100% {
+    width: calc(100vw - 300px - 40px);
   }
 }
 @media (max-width: 768px) {
-  .dashboard-container {
-    padding: 1rem;
+  .grafik-container {
+    flex-direction: column;
+    align-items: center;
   }
-  .dashboard-container .health-section {
-    grid-template-columns: 1fr;
+  .belgilar {
+    margin-left: 0;
+    margin-top: 20px;
   }
-  .dashboard-container .projects-section .projects-list {
-    grid-template-columns: 1fr;
+  canvas {
+    width: 80%;
+    height: auto;
   }
 }
 .container {

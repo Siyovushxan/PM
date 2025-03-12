@@ -1,111 +1,109 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Loyihalar grafigi
-    function renderProjectsChart() {
-        const ctx = document.getElementById('projectsChart').getContext('2d');
-        const labels = [
-            'Umumiy loyihalar soni',
-            'Aktiv loyihalar soni',
-            'Bajarilayotgan loyihalar soni',
-            'Rejalashtirilgan loyihalar soni',
-            'To‘xtatilgan loyihalar soni',
-            'Yakunlangan loyihalar soni'
-        ];
-        const data = [33, 10, 5, 3, 2, 13]; // Test ma'lumotlari
-        const colors = ['#123524', '#3498db', '#f39c12', '#e74c3c', '#ff6f61', '#2ecc71'];
+const loyihalarCtx = document.getElementById('loyihalarGrafik').getContext('2d')
+let loyihalarChart = new Chart(loyihalarCtx, {
+	type: 'doughnut',
+	data: {
+		labels: [
+			'Umumiy loyihalar soni',
+			'Yakunlangan loyihalar soni',
+			'Bajarilayotgan loyihalar soni',
+			'Aktiv loyihalar soni',
+			'To‘xtatilgan loyihalar soni',
+		],
+		datasets: [
+			{
+				data: [30, 10, 5, 10, 5], // Namunaviy qiymatlar
+				backgroundColor: [
+					'#3498db',
+					'#2ecc71',
+					'#e74c3c',
+					'#9b59b6',
+					'#f1c40f',
+				],
+				borderWidth: 0,
+				cutout: '50%',
+			},
+			{
+				data: [50], // Markaz
+				backgroundColor: ['#27ae60'],
+				borderWidth: 0,
+			},
+		],
+	},
+	options: {
+		responsive: true,
+		maintainAspectRatio: false,
+		plugins: {
+			legend: {
+				display: false,
+			},
+			tooltip: {
+				enabled: false,
+			},
+		},
+		cutoutPercentage: 50,
+		onHover: (event, elements) => {
+			const canvas = event.chart.canvas
+			canvas.style.cursor = elements.length ? 'pointer' : 'default'
+		},
+	},
+})
 
-        const chart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: labels,
-                datasets: [{
-                    data: data,
-                    backgroundColor: colors,
-                    borderWidth: 2,
-                    borderColor: '#fff',
-                    // 3D effekt uchun soya
-                    shadowOffsetX: 5,
-                    shadowOffsetY: 5,
-                    shadowBlur: 10,
-                    shadowColor: 'rgba(0, 0, 0, 0.3)'
-                }]
-            },
-            options: {
-                responsive: true,
-                cutout: '70%', // Donatning ichki qismini katta qilish
-                rotation: -90, // Grafikni biroz aylantirish
-                animation: {
-                    animateRotate: true,
-                    animateScale: true,
-                    duration: 2000
-                },
-                plugins: {
-                    legend: { display: false },
-                    tooltip: { enabled: true }
-                }
-            }
-        });
+// Klik hodisasi (avvalgi funksiya saqlanadi)
+const grafikContainer = document.querySelector('.grafik-container')
+grafikContainer.addEventListener('click', function () {
+	grafikContainer.classList.toggle('toxtagan')
+})
 
-        // Label'larga qiymatlarni qo'shish
-        const labelsDiv = document.querySelectorAll('.projects-section .chart-labels .label');
-        labelsDiv.forEach((label, index) => {
-            label.textContent = `${labels[index]}: ${data[index]}`;
-        });
-    }
+// Hover effekti uchun
+const belgilar = document.querySelectorAll('.belgi')
+belgilar.forEach((belgi, belgiIndex) => {
+	belgi.addEventListener('mouseover', function () {
+		const index = parseInt(this.getAttribute('data-index'))
+		grafikContainer.classList.add('hover-toxtagan') // Hoverda grafik to‘xtaydi
 
-    // Vazifalar grafigi
-    function renderTasksChart() {
-        const ctx = document.getElementById('tasksChart').getContext('2d');
-        const labels = [
-            'Umumiy vazifalar soni',
-            'Aktiv vazifalar soni',
-            'Bajarilayotgan vazifalar soni',
-            'Rejalashtirilgan vazifalar soni',
-            'To‘xtatilgan vazifalar soni',
-            'Yakunlangan vazifalar soni'
-        ];
-        const data = [45, 15, 8, 5, 3, 14]; // Test ma'lumotlari
-        const colors = ['#123524', '#3498db', '#f39c12', '#e74c3c', '#ff6f61', '#2ecc71'];
+		const ctx = loyihalarChart.ctx
+		const chartArea = loyihalarChart.chartArea
+		const centerX = (chartArea.left + chartArea.right) / 2
+		const centerY = (chartArea.top + chartArea.bottom) / 2
+		const radius = ((chartArea.right - chartArea.left) / 2) * 0.8 // Tashqi radiusning 80%
+		const angle = (2 * Math.PI * index) / belgilar.length - Math.PI / 2
+		const endX = centerX + radius * Math.cos(angle)
+		const endY = centerY + radius * Math.sin(angle)
 
-        const chart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: labels,
-                datasets: [{
-                    data: data,
-                    backgroundColor: colors,
-                    borderWidth: 2,
-                    borderColor: '#fff',
-                    // 3D effekt uchun soya
-                    shadowOffsetX: 5,
-                    shadowOffsetY: 5,
-                    shadowBlur: 10,
-                    shadowColor: 'rgba(0, 0, 0, 0.3)'
-                }]
-            },
-            options: {
-                responsive: true,
-                cutout: '70%',
-                rotation: -90,
-                animation: {
-                    animateRotate: true,
-                    animateScale: true,
-                    duration: 2000
-                },
-                plugins: {
-                    legend: { display: false },
-                    tooltip: { enabled: true }
-                }
-            }
-        });
+		// Chiziqni tasvirdagi yo‘nalishda chizish
+		ctx.beginPath()
+		ctx.moveTo(endX, endY)
+		// Matnning Y koordinatasiga moslashtirish
+		const belgiRect = belgi.getBoundingClientRect()
+		const canvasRect = loyihalarChart.canvas.getBoundingClientRect()
+		const matnY = belgiRect.top + belgiRect.height / 2 - canvasRect.top
+		ctx.lineTo(ctx.canvas.width + 20, matnY) // Chiziq matnning o‘rtasiga boradi
+		ctx.lineWidth = 2
+		ctx.strokeStyle = '#ff0000'
+		ctx.stroke()
 
-        // Label'larga qiymatlarni qo'shish
-        const labelsDiv = document.querySelectorAll('.tasks-section .chart-labels .label');
-        labelsDiv.forEach((label, index) => {
-            label.textContent = `${labels[index]}: ${data[index]}`;
-        });
-    }
+		// Segmentni qalqib chiqarish
+		loyihalarChart.data.datasets[0].data.forEach((_, i) => {
+			if (i === index) {
+				loyihalarChart.data.datasets[0].offset =
+					loyihalarChart.data.datasets[0].offset || []
+				loyihalarChart.data.datasets[0].offset[i] = 20 // 3D qalqish effekti
+			} else {
+				loyihalarChart.data.datasets[0].offset[i] = 0 // Boshqa segmentlarni qaytarish
+			}
+		})
+		loyihalarChart.update()
 
-    // Grafiklarni ishga tushirish
-    renderProjectsChart();
-    renderTasksChart();
-});
+		this.classList.add('hover-aktiv')
+	})
+
+	belgi.addEventListener('mouseout', function () {
+		grafikContainer.classList.remove('hover-toxtagan') // Aylanishni qayta boshlash
+		this.classList.remove('hover-aktiv')
+		const ctx = loyihalarChart.ctx
+		ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height) // Chiziqni o‘chirish
+		loyihalarChart.data.datasets[0].offset =
+			loyihalarChart.data.datasets[0].offset.map(() => 0) // Qalqishni o‘chirish
+		loyihalarChart.render() // Grafikni qayta chizish
+	})
+})
