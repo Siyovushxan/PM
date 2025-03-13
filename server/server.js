@@ -99,6 +99,25 @@ app.get('/api/vazifalar', (req, res) => {
     });
 });
 
+// Barcha vazifalarni olish API
+app.get('/api/all-vazifalar', (req, res) => {
+    const sql = 'SELECT * FROM vazifalar';
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Xatolik:', err);
+            return res.status(500).json({ message: "Vazifalarni yuklab bo'lmadi" });
+        }
+
+        // Bazadan olingan vazifa_status qiymatlarini kichik harfga aylantiramiz
+        const normalizedResults = results.map(task => ({
+            ...task,
+            vazifa_status: task.vazifa_status ? task.vazifa_status.toLowerCase() : ''
+        }));
+
+        res.json(normalizedResults);
+    });
+});
+
 // Yangi vazifa qo‘shish API
 app.post('/api/vazifalar', (req, res) => {
     const {
@@ -231,6 +250,25 @@ app.get('/api/projects', (req, res) => {
         res.json(results)
     })
 })
+
+// Loyihalar statistikasi uchun endpoint (projects jadvalidan ma'lumotlarni olish)
+app.get('/api/loyihalar', (req, res) => {
+    const sql = 'SELECT * FROM projects';
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Xatolik:', err);
+            return res.status(500).json({ message: "Loyihalarni yuklab bo'lmadi" });
+        }
+
+        // Bazadan olingan status qiymatlarini kichik harfga aylantiramiz
+        const normalizedResults = results.map(project => ({
+            ...project,
+            status: project.status ? project.status.toLowerCase() : ''
+        }));
+
+        res.json(normalizedResults);
+    });
+});
 
 app.get('/api/projects/:id', (req, res) => {
     const projectId = req.params.id
@@ -517,6 +555,28 @@ app.post('/api/update-task-status', (req, res) => {
         res.json({ message: 'Vazifa statusi muvaffaqiyatli yangilandi' })
     })
 })
+
+// Rolga asoslangan ruxsatni tekshirish
+app.get('/api/check-permission', (req, res) => {
+    const userId = req.session.userId;
+    if (!userId) {
+        return res.status(401).json({ message: 'Foydalanuvchi tizimga kirmagan', authorized: false });
+    }
+
+    const sql = 'SELECT role FROM users WHERE id = ?';
+    db.query(sql, [userId], (err, results) => {
+        if (err) {
+            console.error("Ruxsatni tekshirishda xatolik:", err.message);
+            return res.status(500).json({ message: 'Server xatosi', authorized: false });
+        }
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'Foydalanuvchi topilmadi', authorized: false });
+        }
+        const role = results[0].role || 'user';
+        const authorized = role === 'admin'; // Faqat admin ruxsat oladi
+        res.json({ authorized, role });
+    });
+});
 
 const PORT = 5000
 app.listen(PORT, () => {

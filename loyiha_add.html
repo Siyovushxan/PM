@@ -14,13 +14,13 @@
       <div class="navbar-container">
         <div class="div1">
           <img class="img_logo" src="img/Рисунок1.png" alt="">
-          <a href="#" class="logo">"Navoiyuran" DK</a>
+          <a href="index.html" class="logo">"Navoiyuran" DK</a>
         </div>
         <div class="div2">
           <ul class="navbar-links">
-            <li><a href="#" class="nav-link">Bosh sahifa</a></li>
+            <li><a href="index.html" class="nav-link">Bosh sahifa</a></li>
             <li><a href="loyihalar.html" class="nav-link">Loyihalar</a></li>
-            <li><a href="loyiha_add.html" class="nav-link">Loyiha qo'shish</a></li>
+            <li><a href="#" class="nav-link">Loyiha qo'shish</a></li>
             <li><a href="#" class="nav-link">Yo'l xaritalari</a></li>
             <li class="nav-link">
               <img id="profile-image" src="img/user.png" alt="Profil rasmi">
@@ -43,32 +43,47 @@
     </nav>
   </header>
 
-  <!-- Statistika loyiha va vazifa Container -->
-  <div class="statistika-container">
-    <!-- Loyihalar Statistikasi -->
-    <div class="loyiha-statistika">
-      <h2>Loyihalar Statistikasi</h2>
-      <div class="total-header">
-        <span class="total-label">Umumiy loyihalar: </span>
-        <span class="total-value"></span>
-      </div>
-      <div class="chart-container">
-        <canvas id="loyihaStatistikaGrafik" width="600" height="400"></canvas>
-      </div>
-    </div>
+  <!-- Loyiha qushish -->
+  <main>
+    <div class="container">
+      <h2>Yangi Loyiha Qo'shish</h2>
+      <h3>Qo'shilgan loyihalarni ko'rish uchun LOYIHALAR sahifasiga o'ting!</h3>
+      <form class="project-form">
+        <label for="project-name">Loyiha nomi</label>
+        <input type="text" id="project-name" name="project-name" placeholder="Loyiha nomini kiriting" required>
+        <label for="project-description">Loyiha haqida izoh</label>
+        <textarea id="project-description" name="project-description" placeholder="Loyiha haqida izoh yozing"
+          required></textarea>
 
-    <!-- Vazifalar Status Statistikasi -->
-    <div class="vazifalar-status-statistika">
-      <h2>Vazifalar Statusi Statistikasi</h2>
-      <div class="total-header">
-        <span class="total-label">Umumiy vazifalar: </span>
-        <span class="total-value"></span>
-      </div>
-      <div class="chart-container">
-        <canvas id="vazifalarStatusGrafik" width="600" height="400"></canvas>
-      </div>
+        <label for="start-date">Boshlash sanasi</label>
+        <input type="date" id="start-date" name="start-date" required>
+
+        <label for="end-date">Tugash sanasi</label>
+        <input type="date" id="end-date" name="end-date" required>
+
+        <label for="status">Status</label>
+        <select id="status" name="status" required>
+          <option value="rejalashtirilmoqda">Loyiha statusini tanlang</option>
+          <option value="rejalashtirilmoqda">Rejalashtirilmoqda</option>
+          <option value="bajarilmoqda">Bajarilmoqda</option>
+          <option value="yakunlandi">Yakunlandi</option>
+          <option value="to'xtatildi">To'xtatilgan</option>
+        </select>
+
+        <label for="statusMasul">Mas'ul hodim</label>
+        <select id="statusMasul" name="statusMasul" required>
+          <option value="masul">Mas'ul hodimni tanlang</option>
+          <option value="J.Xafizov">J. Xafizov</option>
+          <option value="S.Adizov">S. Adizov</option>
+          <option value="S.Abdullayev">S. Abdullayev</option>
+          <option value="J.G'iyosov">J. G'iyosov</option>
+          <option value="J.Toshboyev">J. Toshboyev</option>
+        </select>
+
+        <button type="submit" class="btn-submit">Loyihani qo'shish</button>
+      </form>
     </div>
-  </div>
+  </main>
 
   <!-- Footer. Ishlab chiquvchi yuzasidan ma'lumot -->
   <section class="yaratuvchi">
@@ -94,6 +109,8 @@
   <!-- O‘z skriptimiz undan keyin -->
   <script src="js/dashboard_project.js"></script>
   <script src="js/dashboard_task.js"></script>
+  <script src="js/loyiha_add.js"></script>
+  <script src="js/common.js"></script>
 
 </body>
 </html>
