@@ -69,6 +69,10 @@ body {
       display: flex;
       align-items: center;
 
+      .navbar-links a[href="loyiha_add.html"] {
+        display: inline-block; // Boshlang‘ich holat
+      }
+
       .navbar-links {
         list-style: none;
         display: flex;
