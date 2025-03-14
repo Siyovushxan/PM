@@ -1,63 +1,102 @@
+// document.addEventListener('DOMContentLoaded', () => {
+//     const loginForm = document.querySelector('form'); // Formani topish (sizning HTML’da forma bo‘lishi kerak)
+
+//     if (loginForm) {
+//         loginForm.addEventListener('submit', async (e) => {
+//             e.preventDefault();
+
+//             const username = document.querySelector('input[type="text"]').value; // Username input
+//             const password = document.querySelector('input[type="password"]').value; // Password input
+
+//             if (!username || !password) {
+//                 alert('Iltimos, login va parolni kiriting!');
+//                 return;
+//             }
+
+//             try {
+//                 const response = await fetch('http://localhost:5000/api/login', {
+//                     method: 'POST',
+//                     headers: {
+//                         'Content-Type': 'application/json',
+//                     },
+//                     credentials: 'include', // Sessiya cookie’lari uchun
+//                     body: JSON.stringify({ username, password }),
+//                 });
+
+//                 const data = await response.json();
+//                 if (response.ok) {
+//                     // Muvaffaqiyatli login bo‘lsa, userId ni saqlash
+//                     if (data.userId) {
+//                         sessionStorage.setItem('userId', data.userId); // userId ni saqlash
+//                         window.location.href = 'index.html'; // Index.html ga o‘tish
+//                     } else {
+//                         alert('Login muvaffaqiyatli, lekin userId topilmadi!');
+//                     }
+//                 } else {
+//                     alert(data.message || 'Login yoki parol noto‘g‘ri!');
+//                 }
+//             } catch (error) {
+//                 console.error('Login so‘rovida xatolik:', error);
+//                 alert('Serverga ulanishda xatolik yuz berdi!');
+//             }
+//         });
+//     } else {
+//         console.error('Login formasi topilmadi!');
+//     }
+// });
+
+
+
+
+
+
+
+
+
 document.addEventListener('DOMContentLoaded', () => {
-	const loginForm = document.getElementById('login-form')
+    const loginForm = document.querySelector('form');
 
-	if (!loginForm) {
-		console.error(
-			"Login form topilmadi! HTML da 'login-form' ID si mavjudligini tekshiring."
-		)
-		return
-	}
+    if (loginForm) {
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-	loginForm.addEventListener('submit', async event => {
-		event.preventDefault()
+            const username = document.querySelector('input[type="text"]').value;
+            const password = document.querySelector('input[type="password"]').value;
 
-		const username = document.getElementById('login-username').value.trim()
-		const password = document.getElementById('login-password').value.trim()
+            if (!username || !password) {
+                alert('Iltimos, login va parolni kiriting!');
+                return;
+            }
 
-		if (!username || !password) {
-			alert('Iltimos, login va parolni kiriting!')
-			return
-		}
+            try {
+                const response = await fetch('http://localhost:5000/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include', // Sessiya cookie'lari uchun
+                    body: JSON.stringify({ username, password }),
+                });
 
-		try {
-			const response = await fetch('http://localhost:5000/api/login', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ username, password }),
-			})
-
-			if (!response.ok) {
-				const errorText = await response.text()
-				throw new Error('Server xatosi: ' + response.status + ' - ' + errorText)
-			}
-
-			const data = await response.json()
-			console.log('Login javobi:', data)
-
-			if (response.ok) {
-				alert(data.message)
-				sessionStorage.setItem('userId', data.userId) // User ID ni saqlash
-				history.replaceState(null, '', 'index.html') // Login muvaffaqiyatli bo‘lganda qaytishni bloklash
-				window.location.href = 'index.html'
-			} else {
-				alert(data.message || 'Tizimga kirish muvaffaqiyatsiz!')
-			}
-		} catch (error) {
-			console.error('Login xatolik:', error.message)
-			alert('Tizimga kirishda xatolik yuz berdi: ' + error.message)
-		}
-
-		// Sahifa yuklanganda qaytishni bloklash
-		window.onpopstate = function (event) {
-			history.replaceState(null, '', 'login.html')
-			return false // Login.html da qaytishni to‘xtatish
-		}
-	})
-
-	// Sahifa yuklanganda ham qaytishni bloklash
-	window.onload = () => {
-		history.replaceState(null, '', 'login.html')
-	}
-})
+                const data = await response.json();
+                console.log('Login javobi:', data); // Javobni ko'rish
+                if (response.ok) {
+                    if (data.userId) {
+                        sessionStorage.setItem('userId', data.userId); // userId ni saqlash
+                        console.log('userId saqlandi:', data.userId);
+                        window.location.href = 'index.html'; // Index.html ga o‘tish
+                    } else {
+                        alert('Login muvaffaqiyatli, lekin userId topilmadi!');
+                    }
+                } else {
+                    alert(data.message || 'Login yoki parol noto‘g‘ri!');
+                }
+            } catch (error) {
+                console.error('Login so‘rovida xatolik:', error);
+                alert('Serverga ulanishda xatolik yuz berdi!');
+            }
+        });
+    } else {
+        console.error('Login formasi topilmadi!');
+    }
+});
