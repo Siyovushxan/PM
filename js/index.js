@@ -1,138 +1,137 @@
 // document.addEventListener('DOMContentLoaded', () => {
 //     const form = document.querySelector('.project-form');
-//     const profileImage = document.getElementById('profile-image');
-//     const profileModal = document.getElementById('profile-modal');
-//     const profileFISH = document.getElementById('profile-fish');
-//     const profileBulim = document.getElementById('profile-bulim');
-//     const profileLavozim = document.getElementById('profile-lavozim');
-//     const logoutLink = document.getElementById('logout-link');
-//     const addProjectLink = document.querySelector('a[href="loyiha_add.html"]');
-
-//     // Foydalanuvchi ID sini login paytida saqlash uchun
-//     function saveUserId(userId) {
-//         sessionStorage.setItem('userId', userId);
-//     }
 
 //     // Foydalanuvchi ID sini olish
 //     function getUserId() {
 //         const userId = sessionStorage.getItem('userId');
+//         console.log('Olingan userId:', userId);
 //         return userId;
 //     }
 
-//     // Profilni yangilash (serverdan olish)
+//     // Profilni yangilash
 //     function updateProfile() {
 //         const userId = getUserId();
 //         if (userId) {
 //             fetch(`http://localhost:5000/api/user/${userId}`)
 //                 .then(response => {
-//                     if (!response.ok) {
-//                         throw new Error('Server xatosi: ' + response.status);
-//                     }
+//                     console.log('Profil fetch status:', response.status);
+//                     if (!response.ok) throw new Error('Server xatosi: ' + response.status);
 //                     return response.json();
 //                 })
 //                 .then(data => {
-//                     profileFISH.textContent = data.FISH || "Noma'lum";
-//                     profileBulim.textContent = data.Bulim || "Noma'lum";
-//                     profileLavozim.textContent = data.Lavozim || "Noma'lum";
+//                     document.getElementById('profile-fish').textContent = data.FISH || "Noma'lum";
+//                     document.getElementById('profile-bulim').textContent = data.Bulim || "Noma'lum";
+//                     document.getElementById('profile-lavozim').textContent = data.Lavozim || "Noma'lum";
 //                 })
 //                 .catch(error => {
 //                     console.error("Ma'lumot olishda xatolik:", error);
-//                     profileFISH.textContent = "Ma'lumot topilmadi";
-//                     profileBulim.textContent = '';
-//                     profileLavozim.textContent = '';
+//                     document.getElementById('profile-fish').textContent = "Ma'lumot topilmadi";
+//                     document.getElementById('profile-bulim').textContent = '';
+//                     document.getElementById('profile-lavozim').textContent = '';
 //                 });
-//         } else {
-//             console.log("User ID topilmadi, login.html ga yo'naltirilyapti...");
-//             window.location.href = 'login.html';
 //         }
 //     }
 
-//     // Navbar havolasini boshqarish (role asosida)
-//     async function manageNavLinks() {
+//     // Rolni tekshirish va menyuni yangilash
+//     function updateNavbarBasedOnRole() {
 //         const userId = getUserId();
-//         console.log('manageNavLinks ishga tushdi, userId:', userId);
-//         if (!userId || !addProjectLink) {
-//             console.log('User ID yo‘q yoki havola topilmadi, havolani yashirish...');
-//             console.log('User ID:', userId);
-//             console.log('Add Project Link:', addProjectLink);
-//             if (addProjectLink) {
-//                 addProjectLink.style.display = 'none';
-//             }
+//         if (!userId) {
+//             console.log('User ID yo‘q, login.html ga o‘tish...');
+//             window.location.href = 'login.html';
 //             return;
 //         }
 
-//         try {
-//             console.log('Check-permission so‘rov yuborilmoqda...');
-//             const response = await fetch('http://localhost:5000/api/check-permission', {
-//                 method: 'GET',
-//                 credentials: 'include', // Sessiya cookie'lari uchun
-//                 headers: {
-//                     'Content-Type': 'application/json'
+//         // userId ni query parametri sifatida yuboramiz
+//         fetch(`http://localhost:5000/api/check-permission?userId=${userId}`)
+//             .then(response => {
+//                 console.log('Check-permission status:', response.status);
+//                 if (!response.ok) {
+//                     throw new Error('Sessiya xatosi: ' + response.status);
 //                 }
+//                 return response.json();
+//             })
+//             .then(data => {
+//                 console.log('Check-permission data:', data);
+//                 const role = data.role || 'user';
+//                 const navbarLinks = document.querySelector('.navbar-links');
+
+//                 if (navbarLinks) {
+//                     navbarLinks.innerHTML = '';
+//                     const commonLinks = `
+//                         <li><a href="index.html" class="nav-link">Bosh sahifa</a></li>
+//                         <li><a href="loyihalar.html" class="nav-link">Loyihalar</a></li>
+//                         <li><a href="yul_xaritalari.html" class="nav-link">Yo'l xaritalari</a></li>
+//                     `;
+//                     const profileSection = `
+//                         <li class="nav-link">
+//                             <img id="profile-image" src="img/user (1).png" alt="Profil rasmi" style="background-color: hsl(0, 0%, 100%);">
+//                             <div id="profile-modal" class="profile-modal">
+//                                 <span class="close-btn" onclick="toggleProfile()">×</span>
+//                                 <div class="modal-content">
+//                                     <h3 id="profile-fish">Lorem ipsum dolor sit amet.</h3>
+//                                     <p id="profile-bulim">Lorem ipsum dolor sit amet.</p>
+//                                     <p id="profile-lavozim">Lorem ipsum dolor sit amet.</p>
+//                                     <div>
+//                                         <img src="img/logout.png" alt="">
+//                                         <a id="logout-link" href="login.html">Tizimdan chiqish</a>
+//                                     </div>
+//                                 </div>
+//                             </div>
+//                         </li>
+//                     `;
+
+//                     if (role === 'admin') {
+//                         navbarLinks.innerHTML = `${commonLinks}<li><a href="loyiha_add.html" class="nav-link">Loyiha qo'shish</a></li>${profileSection}`;
+//                     } else {
+//                         navbarLinks.innerHTML = `${commonLinks}${profileSection}`;
+//                     }
+//                     reattachEventListeners();
+//                 }
+//             })
+//             .catch(error => {
+//                 console.error('Rolni tekshirishda xatolik:', error);
+//                 sessionStorage.removeItem('userId');
+//                 window.location.href = 'login.html';
 //             });
+//     }
 
-//             console.log('Check-permission javobi status:', response.status);
-//             if (!response.ok) {
-//                 const errorText = await response.text();
-//                 console.log('Check-permission xato matni:', errorText);
-//                 throw new Error(`Ruxsatni tekshirishda xatolik: ${response.status} (${response.statusText})`);
-//             }
+//     // Event listenerlarni qayta ulash
+//     function reattachEventListeners() {
+//         const profileImage = document.getElementById('profile-image');
+//         const profileModal = document.getElementById('profile-modal');
+//         const logoutLink = document.getElementById('logout-link');
+//         const closeBtn = document.querySelector('.close-btn');
 
-//             const data = await response.json();
-//             console.log('Ruxsat tekshiruvi natijasi:', JSON.stringify(data));
-
-//             if (data.authorized === true) {
-//                 console.log('Foydalanuvchi admin, havola ko‘rsatilmoqda...');
-//                 addProjectLink.style.display = 'inline-block'; // Admin uchun ko‘rsatish
-//             } else {
-//                 console.log('Foydalanuvchi admin emas, havola yashirilmoqda...');
-//                 addProjectLink.style.display = 'none'; // Oddiy foydalanuvchi uchun yashirish
-//             }
-//         } catch (error) {
-//             console.error('Navbardagi havolani boshqarishda xatolik:', error.message);
-//             if (addProjectLink) {
-//                 addProjectLink.style.display = 'none'; // Xatolikda yashirish
-//             }
+//         if (profileImage) {
+//             profileImage.addEventListener('click', e => {
+//                 e.preventDefault();
+//                 profileModal.style.display = profileModal.style.display === 'block' ? 'none' : 'block';
+//                 if (profileModal.style.display === 'block') updateProfile();
+//             });
+//         }
+//         if (closeBtn) {
+//             closeBtn.addEventListener('click', () => {
+//                 profileModal.style.display = 'none';
+//             });
+//         }
+//         if (logoutLink) {
+//             logoutLink.addEventListener('click', e => {
+//                 e.preventDefault();
+//                 sessionStorage.removeItem('userId');
+//                 window.location.href = 'login.html';
+//             });
 //         }
 //     }
 
-//     // Profil oynasini ochish/yopish
-//     if (profileImage) {
-//         profileImage.addEventListener('click', e => {
-//             e.preventDefault();
-//             profileModal.style.display = profileModal.style.display === 'block' ? 'none' : 'block';
-//             if (profileModal.style.display === 'block') {
-//                 history.replaceState(null, '', window.location.pathname);
-//             }
-//             updateProfile();
-//         });
-//     } else {
-//         console.error('profile-image elementi topilmadi!');
-//     }
+//     window.toggleProfile = function () {
+//         const profileModal = document.getElementById('profile-modal');
+//         profileModal.style.display = profileModal.style.display === 'block' ? 'none' : 'block';
+//     };
 
-//     // Yopish tugmasi
-//     const closeBtn = document.querySelector('.close-btn');
-//     if (closeBtn) {
-//         closeBtn.addEventListener('click', () => {
-//             profileModal.style.display = 'none';
-//             history.replaceState(null, '', window.location.pathname);
-//         });
-//     } else {
-//         console.error('close-btn elementi topilmadi!');
-//     }
-
-//     // Tizimdan chiqish havolasi uchun
-//     if (logoutLink) {
-//         logoutLink.addEventListener('click', e => {
-//             e.preventDefault();
-//             sessionStorage.removeItem('userId');
-//             history.replaceState(null, '', 'login.html');
-//             window.location.href = 'login.html';
-//             history.pushState(null, '', 'login.html');
-//         });
-//     } else {
-//         console.error('logout-link elementi topilmadi!');
-//     }
+//     // Sahifa yuklanganda
+//     window.onload = () => {
+//         updateNavbarBasedOnRole();
+//     };
 
 //     // Loyiha qo‘shish formasi
 //     if (form) {
@@ -151,14 +150,12 @@
 //             }
 
 //             const projectData = { name, description, startDate, endDate, status, responsible };
-
 //             try {
 //                 const response = await fetch('http://localhost:5000/api/projects', {
 //                     method: 'POST',
 //                     headers: { 'Content-Type': 'application/json' },
 //                     body: JSON.stringify(projectData),
 //                 });
-
 //                 const data = await response.json();
 //                 alert(data.message);
 //                 form.reset();
@@ -167,33 +164,8 @@
 //                 alert('Serverga ulanishda xatolik yuz berdi!');
 //             }
 //         });
-//     } else {
-//         console.log('project-form elementi topilmadi! Formani tekshiring.');
 //     }
-
-//     // Ortga qaytishni faqat index.html va login.html uchun bloklash
-//     window.onpopstate = function (event) {
-//         const userId = getUserId();
-//         if (window.location.pathname.includes('index.html') && userId) {
-//             history.replaceState(null, '', 'index.html');
-//             return false;
-//         } else if (window.location.pathname.includes('login.html')) {
-//             history.replaceState(null, '', 'login.html');
-//             return false;
-//         }
-//     };
-
-//     // Sahifa yuklanganda manageNavLinks ni chaqirish
-//     manageNavLinks(); // Sahifa yuklanganda havolani boshqarish
-//     updateProfile(); // Profilni yangilash
 // });
-
-
-
-
-
-
-
 
 
 
@@ -202,139 +174,147 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.querySelector('.project-form');
-    const profileImage = document.getElementById('profile-image');
-    const profileModal = document.getElementById('profile-modal');
-    const profileFISH = document.getElementById('profile-fish');
-    const profileBulim = document.getElementById('profile-bulim');
-    const profileLavozim = document.getElementById('profile-lavozim');
-    const logoutLink = document.getElementById('logout-link');
-    const addProjectLink = document.querySelector('a[href="loyiha_add.html"]');
 
     // Foydalanuvchi ID sini olish
     function getUserId() {
-        return sessionStorage.getItem('userId');
+        const userId = sessionStorage.getItem('userId');
+        console.log('Olingan userId:', userId);
+        return userId;
     }
 
     // Profilni yangilash
     function updateProfile() {
         const userId = getUserId();
         if (userId) {
-            fetch(`http://localhost:5000/api/user/${userId}`, {
-                method: 'GET',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
+            fetch(`http://localhost:5000/api/user/${userId}`)
                 .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Server xatosi: ' + response.status);
-                    }
+                    console.log('Profil fetch status:', response.status);
+                    if (!response.ok) throw new Error('Server xatosi: ' + response.status);
                     return response.json();
                 })
                 .then(data => {
-                    profileFISH.textContent = data.FISH || "Noma'lum";
-                    profileBulim.textContent = data.Bulim || "Noma'lum";
-                    profileLavozim.textContent = data.Lavozim || "Noma'lum";
+                    document.getElementById('profile-fish').textContent = data.FISH || "Noma'lum";
+                    document.getElementById('profile-bulim').textContent = data.Bulim || "Noma'lum";
+                    document.getElementById('profile-lavozim').textContent = data.Lavozim || "Noma'lum";
                 })
                 .catch(error => {
                     console.error("Ma'lumot olishda xatolik:", error);
-                    profileFISH.textContent = "Ma'lumot topilmadi";
-                    profileBulim.textContent = '';
-                    profileLavozim.textContent = '';
+                    document.getElementById('profile-fish').textContent = "Ma'lumot topilmadi";
+                    document.getElementById('profile-bulim').textContent = '';
+                    document.getElementById('profile-lavozim').textContent = '';
                 });
-        } else {
-            console.log("User ID topilmadi, login.html ga yo'naltirilyapti...");
-            window.location.href = 'login.html';
         }
     }
 
-    // index.js ichidagi manageNavLinks funksiyasi
-    async function manageNavLinks() {
-        const userId = sessionStorage.getItem('userId');
-        console.log('manageNavLinks ishga tushdi, userId:', userId);
-        const addProjectLink = document.querySelector('a[href="loyiha_add.html"]');
-    
-        if (!userId || !addProjectLink) {
-            console.log('User ID yo‘q yoki havola topilmadi, userId:', userId, 'havola:', addProjectLink);
-            if (addProjectLink) {
-                addProjectLink.style.display = 'none';
-            }
+    // Rolni tekshirish va menyuni yangilash
+    function updateNavbarBasedOnRole() {
+        const userId = getUserId();
+        if (!userId) {
+            console.log('User ID yo‘q, login.html ga o‘tish...');
+            window.location.href = 'login.html';
             return;
         }
-    
-        try {
-            console.log('Check-permission so‘rov yuborilmoqda...');
-            const response = await fetch('http://localhost:5000/api/check-permission', {
-                method: 'GET',
-                credentials: 'include', // Cookie'larni uzatish
-                headers: {
-                    'Content-Type': 'application/json'
+
+        // userId ni query parametri sifatida yuboramiz
+        fetch(`http://localhost:5000/api/check-permission?userId=${userId}`)
+            .then(response => {
+                console.log('Check-permission status:', response.status);
+                if (!response.ok) {
+                    throw new Error('Sessiya xatosi: ' + response.status);
                 }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Check-permission data:', data);
+                const role = data.role || 'user';
+                const navbarLinks = document.querySelector('.navbar-links');
+
+                if (navbarLinks) {
+                    navbarLinks.innerHTML = '';
+                    // Umumiy sahifalar (tartib o‘zgartirildi: loyiha_add.html dan oldin)
+                    const commonLinks = `
+                        <li><a href="index.html" class="nav-link">Bosh sahifa</a></li>
+                        <li><a href="loyihalar.html" class="nav-link">Loyihalar</a></li>
+                        <li><a href="yul_xaritalari.html" class="nav-link">Yo'l xaritalari</a></li>
+                    `;
+                    const profileSection = `
+                        <li class="nav-link">
+                            <img id="profile-image" src="img/user (1).png" alt="Profil rasmi" style="background-color: hsl(0, 0%, 100%);">
+                            <div id="profile-modal" class="profile-modal">
+                                <span class="close-btn" onclick="toggleProfile()">×</span>
+                                <div class="modal-content">
+                                    <h3 id="profile-fish">Lorem ipsum dolor sit amet.</h3>
+                                    <p id="profile-bulim">Lorem ipsum dolor sit amet.</p>
+                                    <p id="profile-lavozim">Lorem ipsum dolor sit amet.</p>
+                                    <div>
+                                        <img src="img/logout.png" alt="">
+                                        <a id="logout-link" href="login.html">Tizimdan chiqish</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    `;
+
+                    if (role === 'admin') {
+                        // Admin uchun: loyiha_add.html ni yul_xaritalari.html dan oldin qo‘yamiz
+                        navbarLinks.innerHTML = `
+                            <li><a href="index.html" class="nav-link">Bosh sahifa</a></li>
+                            <li><a href="loyihalar.html" class="nav-link">Loyihalar</a></li>
+                            <li><a href="loyiha_add.html" class="nav-link">Loyiha qo'shish</a></li>
+                            <li><a href="yul_xaritalari.html" class="nav-link">Yo'l xaritalari</a></li>
+                            ${profileSection}
+                        `;
+                    } else {
+                        // User uchun: loyiha_add.html yo‘q
+                        navbarLinks.innerHTML = `${commonLinks}${profileSection}`;
+                    }
+                    reattachEventListeners();
+                }
+            })
+            .catch(error => {
+                console.error('Rolni tekshirishda xatolik:', error);
+                sessionStorage.removeItem('userId');
+                window.location.href = 'login.html';
             });
-    
-            console.log('Check-permission javobi status:', response.status);
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.log('Check-permission xato matni:', errorText);
-                throw new Error(`Ruxsatni tekshirishda xatolik: ${response.status} - ${errorText}`);
-            }
-    
-            const data = await response.json();
-            console.log('Ruxsat tekshiruvi natijasi:', JSON.stringify(data));
-    
-            if (data.authorized === true) {
-                console.log('Foydalanuvchi admin, havola ko‘rsatilmoqda...');
-                addProjectLink.style.display = 'inline-block';
-            } else {
-                console.log('Foydalanuvchi admin emas, havola yashirilmoqda...');
-                addProjectLink.style.display = 'none';
-            }
-        } catch (error) {
-            console.error('Navbardagi havolani boshqarishda xatolik:', error.message);
-            if (addProjectLink) {
-                addProjectLink.style.display = 'none';
-            }
+    }
+
+    // Event listenerlarni qayta ulash
+    function reattachEventListeners() {
+        const profileImage = document.getElementById('profile-image');
+        const profileModal = document.getElementById('profile-modal');
+        const logoutLink = document.getElementById('logout-link');
+        const closeBtn = document.querySelector('.close-btn');
+
+        if (profileImage) {
+            profileImage.addEventListener('click', e => {
+                e.preventDefault();
+                profileModal.style.display = profileModal.style.display === 'block' ? 'none' : 'block';
+                if (profileModal.style.display === 'block') updateProfile();
+            });
+        }
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                profileModal.style.display = 'none';
+            });
+        }
+        if (logoutLink) {
+            logoutLink.addEventListener('click', e => {
+                e.preventDefault();
+                sessionStorage.removeItem('userId');
+                window.location.href = 'login.html';
+            });
         }
     }
 
-    // Profil oynasini ochish/yopish
-    if (profileImage) {
-        profileImage.addEventListener('click', e => {
-            e.preventDefault();
-            profileModal.style.display = profileModal.style.display === 'block' ? 'none' : 'block';
-            if (profileModal.style.display === 'block') {
-                history.replaceState(null, '', window.location.pathname);
-            }
-            updateProfile();
-        });
-    } else {
-        console.error('profile-image elementi topilmadi!');
-    }
+    window.toggleProfile = function () {
+        const profileModal = document.getElementById('profile-modal');
+        profileModal.style.display = profileModal.style.display === 'block' ? 'none' : 'block';
+    };
 
-    // Yopish tugmasi
-    const closeBtn = document.querySelector('.close-btn');
-    if (closeBtn) {
-        closeBtn.addEventListener('click', () => {
-            profileModal.style.display = 'none';
-            history.replaceState(null, '', window.location.pathname);
-        });
-    } else {
-        console.error('close-btn elementi topilmadi!');
-    }
-
-    // Tizimdan chiqish havolasi uchun
-    if (logoutLink) {
-        logoutLink.addEventListener('click', e => {
-            e.preventDefault();
-            sessionStorage.removeItem('userId');
-            history.replaceState(null, '', 'login.html');
-            window.location.href = 'login.html';
-            history.pushState(null, '', 'login.html');
-        });
-    } else {
-        console.error('logout-link elementi topilmadi!');
-    }
+    // Sahifa yuklanganda
+    window.onload = () => {
+        updateNavbarBasedOnRole();
+    };
 
     // Loyiha qo‘shish formasi
     if (form) {
@@ -353,15 +333,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const projectData = { name, description, startDate, endDate, status, responsible };
-
             try {
                 const response = await fetch('http://localhost:5000/api/projects', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(projectData),
-                    credentials: 'include'
                 });
-
                 const data = await response.json();
                 alert(data.message);
                 form.reset();
@@ -370,23 +347,5 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Serverga ulanishda xatolik yuz berdi!');
             }
         });
-    } else {
-        console.log('project-form elementi topilmadi! Formani tekshiring.');
     }
-
-    // Ortga qaytishni faqat index.html va login.html uchun bloklash
-    window.onpopstate = function (event) {
-        const userId = getUserId();
-        if (window.location.pathname.includes('index.html') && userId) {
-            history.replaceState(null, '', 'index.html');
-            return false;
-        } else if (window.location.pathname.includes('login.html')) {
-            history.replaceState(null, '', 'login.html');
-            return false;
-        }
-    };
-
-    // Sahifa yuklanganda manageNavLinks ni chaqirish
-    manageNavLinks();
-    updateProfile();
 });

@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const end = new Date(parseDate(endDate));
         if (isNaN(end.getTime())) return 0;
         const differenceMs = end - now;
-        const differenceDays = Math.floor(differenceMs / (1000 * 60 * 60 * 24)) + 1; // +1 qo'shiladi, kunlar to'liq hisoblanadi
+        const differenceDays = Math.floor(differenceMs / (1000 * 60 * 60 * 24)) + 1;
         return differenceDays >= 0 ? differenceDays : -Math.abs(differenceDays);
     }
 
@@ -79,6 +79,21 @@ document.addEventListener('DOMContentLoaded', () => {
         return `MUDDAT: ${daysUntilEnd} KUN QOLDI`;
     }
 
+    // Loyiha uchun vazifalar sonini olish (faqat umumiy son)
+    async function getTaskCount(projectId) {
+        try {
+            const response = await fetch(`http://localhost:5000/api/vazifalar/${projectId}`);
+            if (!response.ok) {
+                throw new Error(`Vazifalarni olishda xatolik: ${response.status}`);
+            }
+            const tasks = await response.json();
+            return tasks.length; // Faqat umumiy sonni qaytaramiz
+        } catch (error) {
+            console.error(`Vazifalar sonini olishda xatolik (Loyiha ID: ${projectId}):`, error);
+            return 0; // Xatolik bo‘lsa 0 qaytaramiz
+        }
+    }
+
     // Barcha loyihalarni olish va ko‘rsatish
     async function loadProjects() {
         try {
@@ -96,7 +111,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             projectsContainer.innerHTML = '';
-            projects.forEach(project => {
+            for (const project of projects) {
+                // Har bir loyiha uchun vazifalar sonini olish
+                const taskCount = await getTaskCount(project.id);
+
                 const projectCard = document.createElement('div');
                 projectCard.classList.add('project-card');
 
@@ -112,6 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p class="project-dates">Boshlanish: ${formatDate(project.startDate)} | Tugash: ${formatDate(project.endDate)} | ${statusText}</p>
                     <p class="project-status">Status: <span class="status">${project.status ? project.status.toUpperCase() : 'N/A'}</span></p>
                     <p class="project-status">Mas'ul hodim: <span class="status">${project.responsible || 'N/A'}</span></p>
+                    <p class="project-status">Vazifalar soni: <span class="status">${taskCount}</span></p>
                     <div class="bottons">
                         <div class="left">
                             <button class="edit-btn" data-id="${project.id || 0}">Tahrirlash</button>
@@ -123,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 `;
                 projectsContainer.appendChild(projectCard);
-            });
+            }
 
             // Loyiha nomiga click hodisasi (vazifalar.html ga yo‘naltirish)
             document.querySelectorAll('.project-title').forEach(title => {
@@ -210,44 +229,44 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             // Vazifa qo'shish formasi
-			taskForm.addEventListener('submit', async event => {
-				event.preventDefault();
-			
-				const taskData = {
-					project_id: currentProjectId,
-					vazifa_nomi: document.getElementById('task-name').value,
-					izoh: document.getElementById('task-description').value,
-					vazifa_boshlanish_sanasi: document.getElementById('task-start-date').value,
-					vazifa_tugash_sanasi: document.getElementById('task-end-date').value,
-					vazifa_status: document.getElementById('vazifa').value.toLowerCase(),
-					vazifa_masul_hodimi: document.getElementById('vazifa-masul-hodim').value,
-				};
-			
-				try {
-					const response = await fetch('http://localhost:5000/api/vazifalar', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-						},
-						body: JSON.stringify(taskData),
-					});
-			
-					if (!response.ok) {
-						const errorText = await response.text();
-						throw new Error(`Vazifa qo'shishda xatolik: ${response.status} - ${errorText}`);
-					}
-			
-					const data = await response.json();
-					alert(data.message);
-					taskModal.style.display = 'none';
-			
-					if (currentProjectId) {
-						window.location.href = `vazifalar.html?project_id=${currentProjectId}`;
-					}
-				} catch (error) {
-					console.error('Vazifa qo`shishda xatolik:', error.message);
-					alert('Vazifa qo`shishda xatolik yuz berdi: ' + error.message);
-				}
+            taskForm.addEventListener('submit', async event => {
+                event.preventDefault();
+
+                const taskData = {
+                    project_id: currentProjectId,
+                    vazifa_nomi: document.getElementById('task-name').value,
+                    izoh: document.getElementById('task-description').value,
+                    vazifa_boshlanish_sanasi: document.getElementById('task-start-date').value,
+                    vazifa_tugash_sanasi: document.getElementById('task-end-date').value,
+                    vazifa_status: document.getElementById('vazifa').value.toLowerCase(),
+                    vazifa_masul_hodimi: document.getElementById('vazifa-masul-hodim').value,
+                };
+
+                try {
+                    const response = await fetch('http://localhost:5000/api/vazifalar', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(taskData),
+                    });
+
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(`Vazifa qo'shishda xatolik: ${response.status} - ${errorText}`);
+                    }
+
+                    const data = await response.json();
+                    alert(data.message);
+                    taskModal.style.display = 'none';
+
+                    if (currentProjectId) {
+                        window.location.href = `vazifalar.html?project_id=${currentProjectId}`;
+                    }
+                } catch (error) {
+                    console.error('Vazifa qo`shishda xatolik:', error.message);
+                    alert('Vazifa qo`shishda xatolik yuz berdi: ' + error.message);
+                }
             });
         } catch (error) {
             console.error('Xatolik:', error.message);

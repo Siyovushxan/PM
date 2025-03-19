@@ -1,0 +1,93 @@
+// O‘zgaruvchilar (ranglar, o‘lchamlar va boshqalar)
+$primary-color: #2ecc71;
+$primary-hover: #27ae60;
+$secondary-color: #3498db;
+$secondary-hover: #2980b9;
+$border-color: #ccc;
+$black: #000;
+$white: #fff;
+$light-gray: #f9f9f9;
+$gray: #f0f0f0;
+$dark-gray: #f2f2f2;
+
+// Loyiha kartasi stillari
+.project-card {
+  margin: 20px 0;
+  padding: 15px;
+  border: 1px solid $border-color;
+  border-radius: 5px;
+  background-color: $light-gray;
+
+  .project-title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }
+
+  .project-description {
+    font-size: 1em;
+    color: #666;
+    margin-bottom: 15px;
+  }
+}
+
+// "Yo‘l xaritasi" tugmasi stillari
+.roadmap-btn {
+  padding: 10px 20px;
+  background-color: $primary-color;
+  color: $white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: $primary-hover;
+  }
+}
+
+// Tahrirlanadigan jadval stillari
+.roadmap-table {
+  margin-top: 20px;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+
+  th, td {
+    border: 1px solid $black;
+    padding: 8px;
+    text-align: left;
+  }
+
+  th {
+    background-color: $dark-gray;
+    font-weight: bold;
+  }
+
+  td[contenteditable="true"] {
+    background-color: $white;
+    cursor: text;
+
+    &:hover {
+      background-color: $gray;
+    }
+  }
+}
+
+// "Saqlash" tugmasi stillari
+.save-btn {
+  padding: 5px 10px;
+  background-color: $secondary-color;
+  color: $white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: $secondary-hover;
+  }
+}
