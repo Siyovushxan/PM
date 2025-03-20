@@ -10,9 +10,31 @@ const session = require('express-session')
 const app = express();
 
 // CORS sozlamalari
+// app.use(cors({
+//     origin: 'http://localhost', // Frontend manzili
+//     credentials: true
+// }));
+
+// CORS sozlamalari
 app.use(cors({
-    origin: 'http://localhost', // Frontend manzili
-    credentials: true
+    origin: ['http://127.0.0.1:5500', 'http://localhost:5500', 'http://127.0.0.1:5501', 'http://localhost:5501'],
+    credentials: true, // Cookie’larni uzatish uchun
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    optionsSuccessStatus: 200
+}));
+
+// Sessiya sozlamalari
+app.use(session({
+    secret: 'mysecretkey123456', // Maxfiy va noyob kalit
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: false, // Mahalliy muhitda false
+        httpOnly: true,
+        sameSite: 'lax', // 'none' dan 'lax' ga qaytarildi
+        maxAge: 24 * 60 * 60 * 1000 // 24 soat
+    }
 }));
 
 app.use(express.json());
@@ -353,7 +375,24 @@ app.put('/api/vazifalar/:id', (req, res) => {
     )
 })
 
-// Login endpointi (sessiyasiz)
+// Login endpointi (misol uchun)
+// app.post('/api/login', (req, res) => {
+//     const { username, password } = req.body;
+//     const sql = 'SELECT * FROM users WHERE username = ? AND password = ?';
+//     db.query(sql, [username, password], (err, results) => {
+//         if (err) {
+//             console.error('Foydalanuvchini tekshirishda xatolik:', err.message);
+//             return res.status(500).json({ message: 'Server xatosi' });
+//         }
+//         if (results.length > 0) {
+//             res.json({ message: 'Tizimga muvaffaqiyatli kirdingiz', user: results[0] });
+//         } else {
+//             res.status(401).json({ message: 'Noto‘g‘ri foydalanuvchi nomi yoki parol' });
+//         }
+//     });
+// });
+
+// Login endpointi
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
     if (!username || !password) {
@@ -372,10 +411,17 @@ app.post('/api/login', (req, res) => {
         try {
             const isMatch = await bcrypt.compare(password, user.password);
             if (isMatch) {
-                console.log('Muvaffaqiyatli login: ' + user.username);
-                res.json({
-                    message: 'Tizimga muvaffaqiyatli kirdingiz!',
-                    userId: user.id.toString(),
+                req.session.userId = user.id.toString(); // Sessiyaga saqlash
+                req.session.save((err) => {
+                    if (err) {
+                        console.error('Sessiya saqlashda xatolik:', err);
+                        return res.status(500).json({ message: 'Sessiya saqlashda xatolik' });
+                    }
+                    console.log('Sessiya saqlandi:', req.session);
+                    res.json({
+                        message: 'Tizimga muvaffaqiyatli kirdingiz!',
+                        userId: user.id.toString(),
+                    });
                 });
             } else {
                 return res.status(401).json({ message: 'Login yoki parol noto‘g‘ri!' });
