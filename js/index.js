@@ -61,7 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     const commonLinks = `
                         <li><a href="index.html" class="nav-link">Bosh sahifa</a></li>
                         <li><a href="loyihalar.html" class="nav-link">Loyihalar</a></li>
-                        <li><a href="yul_xaritalari.html" class="nav-link">Yo'l xaritalari</a></li>
                     `;
                     const profileSection = `
                         <li class="nav-link">
@@ -87,7 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             <li><a href="index.html" class="nav-link">Bosh sahifa</a></li>
                             <li><a href="loyihalar.html" class="nav-link">Loyihalar</a></li>
                             <li><a href="loyiha_add.html" class="nav-link">Loyiha qo'shish</a></li>
-                            <li><a href="yul_xaritalari.html" class="nav-link">Yo'l xaritalari</a></li>
                             ${profileSection}
                         `;
                     } else {

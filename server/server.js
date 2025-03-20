@@ -622,38 +622,23 @@ app.get('/api/check-permission', (req, res) => {
 
 // Loyiha bo'yicha vazifalarni olish
 app.get('/api/vazifalar/:project_id', (req, res) => {
-    const projectId = parseInt(req.params.project_id); // project_id ni butun songa aylantiramiz
+    const projectId = parseInt(req.params.project_id);
     if (isNaN(projectId)) {
+        console.error(`Noto‘g‘ri loyiha ID: ${req.params.project_id}`);
         return res.status(400).json({ message: 'Noto‘g‘ri loyiha ID' });
     }
 
+    console.log(`Vazifalarni olish uchun so‘rov: project_id = ${projectId}`);
     const sql = 'SELECT * FROM vazifalar WHERE project_id = ?';
     db.query(sql, [projectId], (err, results) => {
         if (err) {
             console.error('Vazifalarni olishda xatolik:', err.message);
             return res.status(500).json({ message: 'Server xatosi' });
         }
-        // Agar vazifalar topilmasa, bo‘sh array qaytaramiz
-        res.json(results.length > 0 ? results : []);
+        console.log(`Loyiha ID: ${projectId} uchun topilgan vazifalar:`, results);
+        res.json(results.length > 0 ? results : []); // Bo‘sh array qaytarish
     });
 });
-
-// Vazifani yangilash
-// app.put('/api/vazifalar/:id', (req, res) => {
-//     const taskId = req.params.id;
-//     const { vazifa_nomi, izoh, vazifa_tugash_sanasi, vazifa_masul_hodimi } = req.body;
-//     const sql = 'UPDATE vazifalar SET vazifa_nomi = ?, izoh = ?, vazifa_tugash_sanasi = ?, vazifa_masul_hodimi = ? WHERE id = ?';
-//     db.query(sql, [vazifa_nomi, izoh, vazifa_tugash_sanasi, vazifa_masul_hodimi, taskId], (err, result) => {
-//         if (err) {
-//             console.error('Vazifani yangilashda xatolik:', err.message);
-//             return res.status(500).json({ message: 'Server xatosi' });
-//         }
-//         if (result.affectedRows === 0) {
-//             return res.status(404).json({ message: 'Vazifa topilmadi' });
-//         }
-//         res.json({ message: 'Vazifa muvaffaqiyatli yangilandi!' });
-//     });
-// });
 
 const PORT = 5000
 app.listen(PORT, () => {

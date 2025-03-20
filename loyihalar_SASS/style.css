@@ -156,7 +156,7 @@ body {
 .projects .project-card .bottons .add-task-btn {
   padding: 8px 16px;
   border: none;
-  border-radius: 4px;
+  border-radius: 15px;
   cursor: pointer;
   font-size: 0.9em;
   transition: background-color 0.3s ease;
@@ -164,6 +164,19 @@ body {
   color: #ffffff;
 }
 .projects .project-card .bottons .add-task-btn:hover {
+  background-color: #2f4f4f;
+}
+.projects .project-card .bottons .roadmap-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.3s ease;
+  background-color: #19623f;
+  color: #ffffff;
+}
+.projects .project-card .bottons .roadmap-btn:hover {
   background-color: #2f4f4f;
 }
 

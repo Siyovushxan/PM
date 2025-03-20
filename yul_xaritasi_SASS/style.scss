@@ -1,93 +1,135 @@
-// O‘zgaruvchilar (ranglar, o‘lchamlar va boshqalar)
-$primary-color: #2ecc71;
-$primary-hover: #27ae60;
-$secondary-color: #3498db;
-$secondary-hover: #2980b9;
-$border-color: #ccc;
-$black: #000;
-$white: #fff;
-$light-gray: #f9f9f9;
-$gray: #f0f0f0;
-$dark-gray: #f2f2f2;
+// O‘zgaruvchilar (avvalgi SCSS dan olindi)
+$primary-color: #123524;
+$secondary-color: #ffffff;
+$hover-color: #3a5c64;
+$card-bg: #ffffff;
+$card-shadow: rgba(0, 0, 0, 0.1);
+$button-bg: #3a5c64;
+$button-hover-bg: #2f4f4f;
 
-// Loyiha kartasi stillari
-.project-card {
-  margin: 20px 0;
-  padding: 15px;
-  border: 1px solid $border-color;
-  border-radius: 5px;
-  background-color: $light-gray;
-
-  .project-title {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-  }
-
-  .project-description {
-    font-size: 1em;
-    color: #666;
-    margin-bottom: 15px;
-  }
-}
-
-// "Yo‘l xaritasi" tugmasi stillari
-.roadmap-btn {
-  padding: 10px 20px;
-  background-color: $primary-color;
-  color: $white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: $primary-hover;
-  }
-}
-
-// Tahrirlanadigan jadval stillari
-.roadmap-table {
-  margin-top: 20px;
-
-  table {
+// Yo‘l xaritasi modali uchun uslublar
+.modal-yul-xaritasi {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-  }
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    overflow: auto;
+    animation: fadeIn 0.3s ease-in;
 
-  th, td {
-    border: 1px solid $black;
-    padding: 8px;
-    text-align: left;
-  }
-
-  th {
-    background-color: $dark-gray;
-    font-weight: bold;
-  }
-
-  td[contenteditable="true"] {
-    background-color: $white;
-    cursor: text;
-
-    &:hover {
-      background-color: $gray;
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
     }
-  }
+
+    .modal-content {
+        background-color: $card-bg;
+        margin: 4% auto;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px $card-shadow;
+        width: 90%;
+        max-width: 1000px;
+        position: relative;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+
+        h2 {
+            font-size: 1.5em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+            font-family: "Times New Roman", Times, serif;
+        }
+
+        .close-roadmap {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+
+            &:hover,
+            &:focus {
+                color: #333;
+            }
+        }
+    }
+
+    // Yo‘l xaritasi jadvali stillari
+    .roadmap-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        font-family: "Times New Roman", Times, serif;
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        tr {
+            &:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+
+            &:hover {
+                background-color: #f1f1f1;
+            }
+        }
+    }
+
+    // Yuklab olish tugmasi stillari
+    .download-word-btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.9em;
+        transition: background-color 0.3s ease;
+        background-color: $primary-color;
+        color: $secondary-color;
+        margin-bottom: 20px;
+
+        &:hover {
+            background-color: $button-hover-bg;
+        }
+    }
 }
 
-// "Saqlash" tugmasi stillari
-.save-btn {
-  padding: 5px 10px;
-  background-color: $secondary-color;
-  color: $white;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+// Media query (kichik ekranlar uchun)
+@media (max-width: 768px) {
+    .modal-yul-xaritasi {
+        .modal-content {
+            margin: 20% auto;
+            width: 85%;
+            padding: 15px;
 
-  &:hover {
-    background-color: $secondary-hover;
-  }
+            h2 {
+                font-size: 1.2em;
+            }
+
+            .close-roadmap {
+                font-size: 24px;
+            }
+        }
+
+        .roadmap-table {
+            font-size: 0.85em;
+
+            th, td {
+                padding: 8px;
+            }
+        }
+    }
 }

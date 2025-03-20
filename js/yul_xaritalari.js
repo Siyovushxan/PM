@@ -15,17 +15,27 @@ document.addEventListener('DOMContentLoaded', () => {
         return `${year} yil ${month}`;
     }
 
+    // Sanani parse qilish (2025 yil may -> YYYY-MM-DD)
+    function parseDateFromDisplay(dateString) {
+        if (!dateString || dateString === 'N/A') return null;
+        const [year, , month] = dateString.split(' ');
+        const monthNames = {
+            'yanvar': '01', 'fevral': '02', 'mart': '03', 'aprel': '04', 'may': '05', 'iyun': '06',
+            'iyul': '07', 'avgust': '08', 'sentyabr': '09', 'oktyabr': '10', 'noyabr': '11', 'dekabr': '12'
+        };
+        const monthNumber = monthNames[month.toLowerCase()];
+        if (!monthNumber) return null;
+        return `${year}-${monthNumber}-01`; // Kunni 01 deb olamiz
+    }
+
     // Loyiha bo‘yicha vazifalarni olish
     async function getTasksByProject(projectId) {
         try {
-            const response = await fetch(`http://localhost:5000/api/vazifalar/${projectId}`);
+            const response = await fetch(`http://localhost:5000/api/vazifalar?project_id=${projectId}`);
             if (!response.ok) {
-                // Agar 404 qaytsa, bo‘sh array qaytaramiz
-                if (response.status === 404) {
-                    return [];
-                }
                 const errorText = await response.text();
-                throw new Error(`Vazifalarni olishda xatolik: ${response.status} - ${errorText}`);
+                console.error(`Vazifalar yuklanmadi: ${response.status} - ${errorText}`);
+                return [];
             }
             const tasks = await response.json();
             return Array.isArray(tasks) ? tasks : [];
@@ -33,6 +43,80 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error(`Vazifalarni olishda xatolik (Loyiha ID: ${projectId}):`, error.message);
             return [];
         }
+    }
+
+    // Vazifa yangilash
+    async function updateTask(taskId, taskData) {
+        try {
+            const response = await fetch(`http://localhost:5000/api/vazifalar/${taskId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(taskData),
+            });
+            if (response.ok) {
+                return { message: 'Vazifa muvaffaqiyatli yangilandi' };
+            } else {
+                const errorText = await response.text();
+                throw new Error(`Vazifa yangilashda xatolik: ${response.status} - ${errorText}`);
+            }
+        } catch (error) {
+            console.error('Vazifa yangilashda xatolik:', error);
+            throw error;
+        }
+    }
+
+    // Jadvalni Word hujjati sifatida yuklab olish
+    function downloadAsWord(projectName, tasks) {
+        // HTML hujjatini yaratish
+        const htmlContent = `
+            <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <style>
+                        table { width: 100%; border-collapse: collapse; font-family: Times New Roman; }
+                        th, td { border: 1px solid black; padding: 8px; text-align: left; }
+                        th { background-color: #f2f2f2; }
+                        h1, h2 { text-align: center; font-family: Times New Roman; }
+                    </style>
+                </head>
+                <body>
+                    <h1>"Navoiyuran" davlat korxonasi 2025-yil uchun mo‘ljallangan RAQAMLASHTIRISH DASTURI</h1>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>№</th>
+                                <th>Chora-tadbirlar nomi</th>
+                                <th>Amalga oshiriladigan mexanizm</th>
+                                <th>Ijro muddati</th>
+                                <th>Ijro uchun mas’ul</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${tasks.map((task, index) => `
+                                <tr>
+                                    <td>${index + 1}</td>
+                                    <td>${task.vazifa_nomi || 'N/A'}</td>
+                                    <td>${task.izoh || 'N/A'}</td>
+                                    <td>${formatDateForDisplay(task.vazifa_tugash_sanasi)}</td>
+                                    <td>${task.vazifa_masul_hodimi || 'N/A'}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </body>
+            </html>
+        `;
+
+        // Blob yaratish
+        const blob = new Blob([htmlContent], { type: 'application/msword' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${projectName}_roadmap.doc`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
     }
 
     // Barcha loyihalarni olish va ko‘rsatish
@@ -45,6 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const projects = await response.json();
+            console.log('Olingan loyihalar:', projects);
 
             if (!projects || projects.length === 0) {
                 roadmapsContainer.innerHTML = "<p>Hozircha hech qanday loyiha yo'q.</p>";
@@ -85,20 +170,21 @@ document.addEventListener('DOMContentLoaded', () => {
                         return;
                     }
 
-                    // Jadvalni yaratish
+                    // Jadvalni yaratish (Amallar ustuni olib tashlandi, contenteditable qo‘shildi)
                     let tableHTML = `
-                        <table border="1">
-                            <thead>
-                                <tr>
-                                    <th>№</th>
-                                    <th>Chora-tadbirlar nomi</th>
-                                    <th>Amalga oshiriladigan mexanizm</th>
-                                    <th>Ijro muddati</th>
-                                    <th>Ijro uchun mas’ul</th>
-                                    <th>Amallar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                        <div class="table-container">
+                            <button class="download-word-btn" data-project-id="${projectId}" data-project-name="${project.name || 'N/A'}">Word sifatida yuklab olish</button>
+                            <table border="1" class="task-table">
+                                <thead>
+                                    <tr>
+                                        <th>№</th>
+                                        <th>Chora-tadbirlar nomi</th>
+                                        <th>Amalga oshiriladigan mexanizm</th>
+                                        <th>Ijro muddati</th>
+                                        <th>Ijro uchun mas’ul</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
                     `;
 
                     tasks.forEach((task, index) => {
@@ -109,53 +195,75 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <td contenteditable="true" class="editable" data-field="izoh">${task.izoh || 'N/A'}</td>
                                 <td contenteditable="true" class="editable" data-field="vazifa_tugash_sanasi">${formatDateForDisplay(task.vazifa_tugash_sanasi)}</td>
                                 <td contenteditable="true" class="editable" data-field="vazifa_masul_hodimi">${task.vazifa_masul_hodimi || 'N/A'}</td>
-                                <td>
-                                    <button class="save-btn" data-task-id="${task.id}">Saqlash</button>
-                                </td>
                             </tr>
                         `;
                     });
 
                     tableHTML += `
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     `;
 
                     roadmapTable.innerHTML = tableHTML;
                     roadmapTable.style.display = 'block';
 
-                    // Saqlash tugmalari uchun hodisalar
-                    document.querySelectorAll('.save-btn').forEach(saveButton => {
-                        saveButton.addEventListener('click', async () => {
-                            const taskId = saveButton.dataset.taskId;
-                            const row = saveButton.closest('tr');
-                            const updatedTask = {
-                                vazifa_nomi: row.querySelector('[data-field="vazifa_nomi"]').textContent,
-                                izoh: row.querySelector('[data-field="izoh"]').textContent,
-                                vazifa_tugash_sanasi: parseDateFromDisplay(row.querySelector('[data-field="vazifa_tugash_sanasi"]').textContent),
-                                vazifa_masul_hodimi: row.querySelector('[data-field="vazifa_masul_hodimi"]').textContent,
-                            };
+                    // Tahrirlash hodisasi (onlayn tahrirlash)
+                    document.querySelectorAll('.editable').forEach(cell => {
+                        cell.addEventListener('blur', async () => {
+                            const taskId = cell.closest('tr').dataset.taskId;
+                            const field = cell.dataset.field;
+                            const newValue = cell.textContent.trim();
+
+                            // Agar qiymat o‘zgarmagan bo‘lsa, hech narsa qilmaymiz
+                            const originalValue = field === 'vazifa_tugash_sanasi'
+                                ? formatDateForDisplay(tasks.find(task => task.id == taskId)[field])
+                                : tasks.find(task => task.id == taskId)[field];
+                            if (newValue === originalValue) return;
+
+                            // Yangi ma'lumotlarni tayyorlash
+                            const updatedTask = {};
+                            if (field === 'vazifa_tugash_sanasi') {
+                                updatedTask[field] = parseDateFromDisplay(newValue);
+                            } else {
+                                updatedTask[field] = newValue;
+                            }
 
                             try {
-                                const response = await fetch(`http://localhost:5000/api/vazifalar/${taskId}`, {
-                                    method: 'PUT',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                    },
-                                    body: JSON.stringify(updatedTask),
-                                });
-
-                                if (!response.ok) {
-                                    const errorText = await response.text();
-                                    throw new Error(`Vazifani yangilashda xatolik: ${response.status} - ${errorText}`);
+                                const result = await updateTask(taskId, updatedTask);
+                                if (result.message === 'Vazifa muvaffaqiyatli yangilandi') {
+                                    // Agar sana o‘zgartirilgan bo‘lsa, formatni qayta ko‘rsatish
+                                    if (field === 'vazifa_tugash_sanasi') {
+                                        cell.textContent = formatDateForDisplay(updatedTask[field]);
+                                    }
+                                    // Ma'lumotni yangilash
+                                    tasks.find(task => task.id == taskId)[field] = updatedTask[field];
+                                } else {
+                                    alert('Vazifa yangilashda muammolar yuz berdi!');
+                                    cell.textContent = originalValue; // Xato bo‘lsa, eski qiymatni qaytarish
                                 }
-
-                                const data = await response.json();
-                                alert(data.message);
                             } catch (error) {
-                                console.error('Vazifani yangilashda xatolik:', error.message);
-                                alert('Vazifani yangilashda xatolik yuz berdi: ' + error.message);
+                                console.error('Vazifa yangilashda xatolik:', error);
+                                alert('Vazifa yangilashda xatolik yuz berdi: ' + error.message);
+                                cell.textContent = originalValue; // Xato bo‘lsa, eski qiymatni qaytarish
                             }
+                        });
+                    });
+
+                    // Word sifatida yuklab olish tugmasi uchun hodisa
+                    document.querySelectorAll('.download-word-btn').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            const projectId = btn.dataset.projectId;
+                            const projectName = btn.dataset.projectName;
+                            const currentTasks = Array.from(document.querySelectorAll(`#roadmap-${projectId} .task-table tbody tr`)).map(row => {
+                                return {
+                                    vazifa_nomi: row.cells[1].textContent,
+                                    izoh: row.cells[2].textContent,
+                                    vazifa_tugash_sanasi: parseDateFromDisplay(row.cells[3].textContent),
+                                    vazifa_masul_hodimi: row.cells[4].textContent,
+                                };
+                            });
+                            downloadAsWord(projectName, currentTasks);
                         });
                     });
                 });
@@ -166,47 +274,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // "2025 yil may" formatidan "YYYY-MM-DD" formatiga o‘tkazish
-    function parseDateFromDisplay(dateString) {
-        if (!dateString || dateString === 'N/A') return null;
-        const [year, , month] = dateString.split(' ');
-        const monthNames = {
-            'yanvar': '01', 'fevral': '02', 'mart': '03', 'aprel': '04', 'may': '05', 'iyun': '06',
-            'iyul': '07', 'avgust': '08', 'sentyabr': '09', 'oktyabr': '10', 'noyabr': '11', 'dekabr': '12'
-        };
-        const monthNumber = monthNames[month.toLowerCase()];
-        if (!monthNumber) return null;
-        return `${year}-${monthNumber}-01`; // Kunni 01 deb olamiz, chunki faqat yil va oy berilgan
-    }
-
     // Loyihalarni yuklashni boshlash
     loadRoadmaps();
 });
-
-
-// Loyiha bo‘yicha vazifalarni olish
-async function getTasksByProject(projectId) {
-    try {
-        // projectId ni butun songa aylantiramiz va to‘g‘ri yuborilganligini tekshiramiz
-        const id = parseInt(projectId);
-        if (isNaN(id)) {
-            console.error(`Noto‘g‘ri projectId: ${projectId}`);
-            return [];
-        }
-
-        const response = await fetch(`http://localhost:5000/api/vazifalar/${id}`);
-        if (!response.ok) {
-            // Agar 404 qaytsa, bo‘sh array qaytaramiz
-            if (response.status === 404) {
-                return [];
-            }
-            const errorText = await response.text();
-            throw new Error(`Vazifalarni olishda xatolik: ${response.status} - ${errorText}`);
-        }
-        const tasks = await response.json();
-        return Array.isArray(tasks) ? tasks : [];
-    } catch (error) {
-        console.error(`Vazifalarni olishda xatolik (Loyiha ID: ${projectId}):`, error.message);
-        return [];
-    }
-}
