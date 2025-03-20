@@ -83,9 +83,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (role === 'admin') {
                         // Admin uchun: loyiha_add.html ni yul_xaritalari.html dan oldin qo‘yamiz
                         navbarLinks.innerHTML = `
-                            <li><a href="index.html" class="nav-link">Bosh sahifa</a></li>
-                            <li><a href="loyihalar.html" class="nav-link">Loyihalar</a></li>
-                            <li><a href="loyiha_add.html" class="nav-link">Loyiha qo'shish</a></li>
+                        <li><a href="index.html" class="nav-link">Bosh sahifa</a></li>
+                        <li><a href="loyihalar.html" class="nav-link">Loyihalar</a></li>
+                        <li><a href="loyiha_add.html" class="nav-link">Loyiha yaratish</a></li>
+                        <li><a href="hodim_add.html" class="nav-link">Ro'yxatdan o'tkazish</a></li>
                             ${profileSection}
                         `;
                     } else {
@@ -116,6 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (profileModal.style.display === 'block') updateProfile();
             });
         }
+
         if (closeBtn) {
             closeBtn.addEventListener('click', () => {
                 profileModal.style.display = 'none';
@@ -128,6 +130,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.href = 'login.html';
             });
         }
+
+        // Esc tugmasi bosilganda modalni yopish
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && profileModal.style.display === 'block') {
+                profileModal.style.display = 'none';
+            }
+        });
     }
 
     window.toggleProfile = function () {

@@ -1,0 +1,82 @@
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  width: 100%;
+}
+.main .form-container {
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 70%;
+  max-width: 900px;
+  box-sizing: border-box;
+}
+.main .form-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 32px;
+}
+.main .form-container form {
+  display: flex;
+  flex-direction: column;
+}
+.main .form-container form .form-group {
+  margin-bottom: 15px;
+}
+.main .form-container form .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+  font-size: 14px;
+}
+.main .form-container form .form-group input,
+.main .form-container form .form-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+.main .form-container form .form-group input:focus,
+.main .form-container form .form-group select:focus {
+  outline: none;
+  border-color: #1a3c34;
+  box-shadow: 0 0 5px rgba(26, 60, 52, 0.3);
+  font-size: 16px;
+}
+.main .form-container form button {
+  background-color: #1a3c34;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.main .form-container form button:hover {
+  background-color: #0b1815;
+}
+
+@media (max-width: 768px) {
+  .main .form-container {
+    width: 90%;
+    padding: 20px;
+  }
+}/*# sourceMappingURL=style.css.map */

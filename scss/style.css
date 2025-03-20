@@ -81,13 +81,15 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 .navbar .navbar-container .div2 .navbar-links .nav-link:last-child #profile-modal .close-btn {
-  color: #ffffff;
+  color: black;
   position: absolute;
-  top: 5px;
-  right: 10px;
+  top: 8px;
+  right: 0px;
   font-size: 20px;
   font-weight: bold;
   cursor: pointer;
+  width: 2rem;
+  height: 2rem;
 }
 .navbar .navbar-container .div2 .navbar-links .nav-link:last-child #profile-modal .close-btn:hover {
   color: #3a5c64;
@@ -115,7 +117,7 @@ body {
   margin: 5px 0;
   color: #123524;
   text-align: left;
-  font-size: 0.8rem;
+  font-size: 1rem;
   text-decoration: underline;
   text-underline-offset: 2px;
 }
