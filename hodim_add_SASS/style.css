@@ -87,6 +87,23 @@ body {
 .main .users-section h2#addUserTrigger:hover {
   color: #0056b3;
 }
+.main .users-section .search-filter {
+  margin-bottom: 20px;
+  text-align: right;
+}
+.main .users-section .search-filter input {
+  width: 100%;
+  max-width: 500px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: border-color 0.3s;
+}
+.main .users-section .search-filter input:focus {
+  border-color: #007bff;
+  outline: none;
+}
 .main .users-section table {
   width: 100%;
   border-collapse: collapse;

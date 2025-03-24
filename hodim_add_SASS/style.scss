@@ -101,6 +101,26 @@ body {
                 }
             }
         }
+
+        .search-filter {
+            margin-bottom: 20px;
+            text-align: right;
+    
+            input {
+                width: 100%;
+                max-width: 500px;
+                padding: 10px;
+                font-size: 16px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                transition: border-color 0.3s;
+    
+                &:focus {
+                    border-color: #007bff;
+                    outline: none;
+                }
+            }
+        }
     
         table {
             width: 100%;

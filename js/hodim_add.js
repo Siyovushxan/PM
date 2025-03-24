@@ -1,10 +1,23 @@
-// // Foydalanuvchi qo‘shish formasini boshqarish
+// // Elementlarni olish
+// const addUserTrigger = document.getElementById('addUserTrigger');
+// const addUserModal = document.getElementById('addUserModal');
 // const addUserForm = document.getElementById('addUserForm');
 // const loginInput = document.getElementById('login');
 // const userTableBody = document.getElementById('userTableBody');
 // const editUserModal = document.getElementById('editUserModal');
 // const editUserForm = document.getElementById('editUserForm');
 // let currentUserId = null;
+
+// // "Hodim ro‘yxatdan o‘tkazish" sarlavhasiga bosilganda modalni ochish
+// addUserTrigger.addEventListener('click', () => {
+//     addUserModal.style.display = 'block';
+// });
+
+// // Modalni yopish
+// function closeAddModal() {
+//     addUserModal.style.display = 'none';
+//     addUserForm.reset(); // Formani tozalash
+// }
 
 // // Loginni real vaqtda tekshirish
 // loginInput.addEventListener('input', async () => {
@@ -66,7 +79,7 @@
 //     }
 // }
 
-// // Modalni ochish va ma'lumotlarni to‘ldirish
+// // Modalni ochish va ma'lumotlarni to‘ldirish (tahrirlash uchun)
 // function openModal(userId, user) {
 //     currentUserId = userId;
 //     document.getElementById('edit-fish').value = user.FISH;
@@ -78,7 +91,7 @@
 //     editUserModal.style.display = 'block';
 // }
 
-// // Modalni yopish
+// // Modalni yopish (tahrirlash uchun)
 // function closeModal() {
 //     editUserModal.style.display = 'none';
 //     currentUserId = null;
@@ -139,7 +152,7 @@
 //     });
 // }
 
-// // Modal formasi yuborilganda
+// // Modal formasi yuborilganda (tahrirlash uchun)
 // editUserForm.addEventListener('submit', async (e) => {
 //     e.preventDefault();
 
@@ -190,7 +203,7 @@
 //     }
 // });
 
-// // Forma yuborilganda
+// // Forma yuborilganda (yangi foydalanuvchi qo‘shish uchun)
 // addUserForm.addEventListener('submit', async (e) => {
 //     e.preventDefault();
 
@@ -218,7 +231,7 @@
 //         const result = await response.json();
 //         if (response.ok) {
 //             alert('Foydalanuvchi muvaffaqiyatli ro‘yxatdan o‘tkazildi!');
-//             addUserForm.reset();
+//             closeAddModal(); // Modalni yopish va formani tozalash
 //             loadUsers(); // Jadvalni yangilash
 //         } else {
 //             console.error('Serverdan xatolik:', result);
@@ -235,16 +248,13 @@
 
 // // Modalni yopish uchun tashqariga bosish
 // window.onclick = function(event) {
+//     if (event.target == addUserModal) {
+//         closeAddModal();
+//     }
 //     if (event.target == editUserModal) {
 //         closeModal();
 //     }
 // };
-
-
-
-
-
-
 
 
 
@@ -266,7 +276,9 @@ const loginInput = document.getElementById('login');
 const userTableBody = document.getElementById('userTableBody');
 const editUserModal = document.getElementById('editUserModal');
 const editUserForm = document.getElementById('editUserForm');
+const searchInput = document.getElementById('searchInput');
 let currentUserId = null;
+let allUsers = []; // Barcha foydalanuvchilarni saqlash uchun
 
 // "Hodim ro‘yxatdan o‘tkazish" sarlavhasiga bosilganda modalni ochish
 addUserTrigger.addEventListener('click', () => {
@@ -305,39 +317,62 @@ async function loadUsers() {
         if (!response.ok) {
             throw new Error(`Server javobi: ${response.status} - ${await response.text()}`);
         }
-        const users = await response.json();
+        allUsers = await response.json(); // Barcha foydalanuvchilarni saqlash
 
         // Agar users array bo‘lmasa, xato chiqaramiz
-        if (!Array.isArray(users)) {
-            throw new Error('Serverdan qaytgan ma\'lumotlar array emas: ' + JSON.stringify(users));
+        if (!Array.isArray(allUsers)) {
+            throw new Error('Serverdan qaytgan ma\'lumotlar array emas: ' + JSON.stringify(allUsers));
         }
 
-        userTableBody.innerHTML = ''; // Jadvalni tozalash
-
-        users.forEach(user => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${user.id}</td>
-                <td><a href="javascript:void(0)" class="fish-link" data-id="${user.id}">${user.FISH}</a></td>
-                <td>${user.Bulim}</td>
-                <td>${user.Lavozim}</td>
-                <td>${user.username}</td>
-                <td>${user.role}</td>
-                <td>${new Date(user.created_at).toLocaleString()}</td>
-                <td>
-                    <a href="javascript:void(0)" class="delete-btn" data-id="${user.id}">O‘chirish</a>
-                </td>
-            `;
-            userTableBody.appendChild(row);
-        });
-
-        // F.I.Sh linklari va o‘chirish tugmalari uchun hodisalar qo‘shish
-        addEventListeners();
+        renderUsers(allUsers); // Foydalanuvchilarni ko‘rsatish
     } catch (error) {
         console.error('Foydalanuvchilarni yuklashda xatolik:', error);
         alert('Foydalanuvchilarni yuklashda xatolik yuz berdi: ' + error.message);
     }
 }
+
+// Foydalanuvchilarni jadvalda ko‘rsatish funksiyasi
+function renderUsers(users) {
+    userTableBody.innerHTML = ''; // Jadvalni tozalash
+
+    users.forEach(user => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${user.id}</td>
+            <td><a href="javascript:void(0)" class="fish-link" data-id="${user.id}">${user.FISH}</a></td>
+            <td>${user.Bulim}</td>
+            <td>${user.Lavozim}</td>
+            <td>${user.username}</td>
+            <td>${user.role}</td>
+            <td>${new Date(user.created_at).toLocaleString()}</td>
+            <td>
+                <a href="javascript:void(0)" class="delete-btn" data-id="${user.id}">O‘chirish</a>
+            </td>
+        `;
+        userTableBody.appendChild(row);
+    });
+
+    // F.I.Sh linklari va o‘chirish tugmalari uchun hodisalar qo‘shish
+    addEventListeners();
+}
+
+// Qidiruv filtri
+searchInput.addEventListener('input', () => {
+    const searchTerm = searchInput.value.toLowerCase();
+    const filteredUsers = allUsers.filter(user => {
+        return (
+            user.id.toString().includes(searchTerm) ||
+            user.FISH.toLowerCase().includes(searchTerm) ||
+            user.Bulim.toLowerCase().includes(searchTerm) ||
+            user.Lavozim.toLowerCase().includes(searchTerm) ||
+            user.username.toLowerCase().includes(searchTerm) ||
+            user.role.toLowerCase().includes(searchTerm) ||
+            new Date(user.created_at).toLocaleString().toLowerCase().includes(searchTerm)
+        );
+    });
+
+    renderUsers(filteredUsers); // Filtrlangan foydalanuvchilarni ko‘rsatish
+});
 
 // Modalni ochish va ma'lumotlarni to‘ldirish (tahrirlash uchun)
 function openModal(userId, user) {
@@ -378,9 +413,7 @@ function addEventListeners() {
     document.querySelectorAll('.fish-link').forEach(link => {
         link.addEventListener('click', async (e) => {
             const userId = e.target.getAttribute('data-id');
-            const response = await fetch('http://localhost:5000/api/users');
-            const users = await response.json();
-            const user = users.find(u => u.id == userId);
+            const user = allUsers.find(u => u.id == userId);
             if (user) {
                 openModal(userId, user);
             }
