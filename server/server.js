@@ -457,21 +457,6 @@ app.post('/api/login', (req, res) => {
 });
 
 // Foydalanuvchi ma'lumotlarini olish
-// app.get('/api/user/:userId', (req, res) => {
-//     const userId = req.params.userId;
-//     const sql = 'SELECT FISH, Bulim, Lavozim FROM users WHERE id = ?';
-//     db.query(sql, [userId], (err, results) => {
-//         if (err) {
-//             console.error('Foydalanuvchi ma\'lumotlarini olishda xatolik:', err.message);
-//             return res.status(500).json({ message: 'Server xatosi' });
-//         }
-//         if (results.length === 0) {
-//             return res.status(404).json({ message: 'Foydalanuvchi topilmadi' });
-//         }
-//         res.json(results[0]);
-//     });
-// });
-
 app.get('/api/user/:userId', (req, res) => {
     const userId = req.params.userId;
     const sql = 'SELECT FISH, Bulim, Lavozim FROM users WHERE id = ?';
@@ -484,6 +469,132 @@ app.get('/api/user/:userId', (req, res) => {
             return res.status(404).json({ message: 'Foydalanuvchi topilmadi' });
         }
         res.json(results[0]);
+    });
+});
+
+// Barcha foydalanuvchilarni olish
+app.get('/api/users', (req, res) => {
+    const sql = 'SELECT id, username, created_at, FISH, Bulim, Lavozim, role FROM users';
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Foydalanuvchilarni olishda xatolik:', err);
+            return res.status(500).json({ message: 'Foydalanuvchilarni yuklashda xatolik yuz berdi.' });
+        }
+        res.json(results);
+    });
+});
+
+// Foydalanuvchilarni tahrirlash, o‘chirish va parolni tiklash funksiyalarini qo‘shish
+app.put('/api/users/:id', async (req, res) => {
+    const userId = req.params.id;
+    const { fish, bulim, lavozim, login, role } = req.body;
+
+    if (!fish || !bulim || !lavozim || !login || !role) {
+        return res.status(400).json({ message: 'Barcha maydonlarni to‘ldiring!' });
+    }
+
+    try {
+        const sql = `
+            UPDATE users 
+            SET FISH = ?, Bulim = ?, Lavozim = ?, username = ?, role = ?
+            WHERE id = ?
+        `;
+        db.query(sql, [fish, bulim, lavozim, login, role, userId], (err, result) => {
+            if (err) {
+                console.error('Foydalanuvchi ma\'lumotlarini yangilashda xatolik:', err);
+                return res.status(500).json({ message: 'Foydalanuvchi ma\'lumotlarini yangilashda xatolik yuz berdi.' });
+            }
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ message: 'Foydalanuvchi topilmadi.' });
+            }
+            res.json({ message: 'Foydalanuvchi ma\'lumotlari muvaffaqiyatli yangilandi!' });
+        });
+    } catch (error) {
+        console.error('Serverda xatolik:', error);
+        res.status(500).json({ message: 'Serverda xatolik yuz berdi.', error: error.message });
+    }
+});
+
+// Foydalanuvchi parolini tiklash endpointi
+app.put('/api/users/:id/reset-password', async (req, res) => {
+    const userId = req.params.id;
+    const { newPassword } = req.body;
+
+    if (!newPassword) {
+        return res.status(400).json({ message: 'Yangi parol majburiy!' });
+    }
+
+    try {
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        const sql = 'UPDATE users SET password = ? WHERE id = ?';
+        db.query(sql, [hashedPassword, userId], (err, result) => {
+            if (err) {
+                console.error('Parolni tiklashda xatolik:', err);
+                return res.status(500).json({ message: 'Parolni tiklashda xatolik yuz berdi.' });
+            }
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ message: 'Foydalanuvchi topilmadi.' });
+            }
+            res.json({ message: 'Parol muvaffaqiyatli tiklandi!' });
+        });
+    } catch (error) {
+        console.error('Serverda xatolik:', error);
+        res.status(500).json({ message: 'Serverda xatolik yuz berdi.', error: error.message });
+    }
+});
+
+// Foydalanuvchini o‘chirish endpointi
+app.delete('/api/users/:id', (req, res) => {
+    const userId = req.params.id;
+
+    const sql = 'DELETE FROM users WHERE id = ?';
+    db.query(sql, [userId], (err, result) => {
+        if (err) {
+            console.error('Foydalanuvchini o‘chirishda xatolik:', err);
+            return res.status(500).json({ message: 'Foydalanuvchini o‘chirishda xatolik yuz berdi.' });
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Foydalanuvchi topilmadi.' });
+        }
+        res.json({ message: 'Foydalanuvchi muvaffaqiyatli o‘chirildi!' });
+    });
+});
+
+// Xavfsizlik: /api/users endpointlarida faqat admin foydalanuvchilar tahrirlash, o‘chirish va parolni tiklash
+// imkoniyatiga ega bo‘lishi uchun ruxsat tekshiruvi qo‘shing:
+app.put('/api/users/:id', async (req, res) => {
+    const userId = req.params.id;
+    const requesterId = req.session.userId;
+    if (!requesterId) {
+        return res.status(401).json({ message: 'Foydalanuvchi tizimga kirmagan' });
+    }
+
+    const sqlCheckRole = 'SELECT role FROM users WHERE id = ?';
+    db.query(sqlCheckRole, [requesterId], (err, results) => {
+        if (err || results.length === 0 || results[0].role !== 'admin') {
+            return res.status(403).json({ message: 'Sizda bu amalni bajarish uchun ruxsat yo‘q' });
+        }
+
+        const { fish, bulim, lavozim, login, role } = req.body;
+        if (!fish || !bulim || !lavozim || !login || !role) {
+            return res.status(400).json({ message: 'Barcha maydonlarni to‘ldiring!' });
+        }
+
+        const sql = `
+            UPDATE users 
+            SET FISH = ?, Bulim = ?, Lavozim = ?, username = ?, role = ?
+            WHERE id = ?
+        `;
+        db.query(sql, [fish, bulim, lavozim, login, role, userId], (err, result) => {
+            if (err) {
+                console.error('Foydalanuvchi ma\'lumotlarini yangilashda xatolik:', err);
+                return res.status(500).json({ message: 'Foydalanuvchi ma\'lumotlarini yangilashda xatolik yuz berdi.' });
+            }
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ message: 'Foydalanuvchi topilmadi.' });
+            }
+            res.json({ message: 'Foydalanuvchi ma\'lumotlari muvaffaqiyatli yangilandi!' });
+        });
     });
 });
 

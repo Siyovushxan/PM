@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <li><a href="index.html" class="nav-link">Bosh sahifa</a></li>
                         <li><a href="loyihalar.html" class="nav-link">Loyihalar</a></li>
                         <li><a href="loyiha_add.html" class="nav-link">Loyiha yaratish</a></li>
-                        <li><a href="hodim_add.html" class="nav-link">Ro'yxatdan o'tkazish</a></li>
+                        <li><a href="foydalanuvchilar.html" class="nav-link">Foydalanuvchilar</a></li>
                             ${profileSection}
                         `;
                     } else {

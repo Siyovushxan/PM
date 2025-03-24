@@ -12,75 +12,236 @@ body {
   .main {
     flex: 1;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 10px;
     width: 100%;
   
+    // Mavjud uslublarni saqlab qolamiz va faqat yangi qismlarni qo‘shamiz
     .form-container {
-      background-color: white;
-      padding: 30px;
+      background-color: #fff;
+      padding: 20px;
       border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      width: 70%; // Ekranning 50% qismini qoplaydi
-      max-width: 900px; // Maksimal kenglik chegarasi
-      box-sizing: border-box;
-  
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+
       h2 {
-        text-align: center;
-        margin-bottom: 20px;
-        color: #333;
-        font-size: 32px;
+          text-align: center;
+          color: #333;
+          margin-bottom: 20px;
       }
-  
+
       form {
-        display: flex;
-        flex-direction: column;
-  
-        .form-group {
-          margin-bottom: 15px;
-  
-          label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #555;
-            font-size: 14px;
+          display: flex;
+          flex-direction: column;
+          gap: 15px;
+
+          .form-group {
+              display: flex;
+              flex-direction: column;
+
+              label {
+                  font-weight: bold;
+                  color: #555;
+                  margin-bottom: 5px;
+              }
+
+              input, select {
+                  padding: 10px;
+                  font-size: 16px;
+                  border: 1px solid #ddd;
+                  border-radius: 4px;
+                  transition: border-color 0.3s;
+
+                  &:focus {
+                      border-color: #007bff;
+                      outline: none;
+                  }
+              }
           }
-  
-          input,
-          select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-            box-sizing: border-box;
-  
-            &:focus {
-              outline: none;
-              border-color: #1a3c34; // Loyiha rangi
-              box-shadow: 0 0 5px rgba(26, 60, 52, 0.3);
+
+          button {
+              padding: 12px;
+              background-color: #007bff;
+              color: white;
+              border: none;
+              border-radius: 4px;
+              cursor: pointer;
               font-size: 16px;
-            }
+              transition: background-color 0.3s;
+
+              &:hover {
+                  background-color: #0056b3;
+              }
           }
-        }
-  
-        button {
-          background-color: #1a3c34; // Loyiha rangi
-          color: white;
-          padding: 10px;
-          border: none;
-          border-radius: 4px;
-          font-size: 16px;
-          cursor: pointer;
-          transition: background-color 0.3s;
-  
-          &:hover {
-            background-color: darken(#1a3c34, 10%);
-          }
-        }
       }
+    }
+
+    .users-section {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+    
+        h2 {
+            text-align: left;
+            color: #333;
+            margin-bottom: 20px;
+    
+            &#addUserTrigger {
+                cursor: pointer;
+                color: #007bff;
+                font-size: 15px;
+                text-decoration: underline;
+    
+                &:hover {
+                    color: #0056b3;
+                }
+            }
+        }
+    
+        table {
+            width: 100%;
+            border-collapse: collapse;
+    
+            th, td {
+                border: 1px solid #ddd;
+                padding: 10px;
+                text-align: left;
+            }
+    
+            th {
+                background-color: #007bff;
+                color: white;
+                font-weight: bold;
+            }
+    
+            tr {
+                &:nth-child(even) {
+                    background-color: #f9f9f9;
+                }
+    
+                &:hover {
+                    background-color: #f1f1f1;
+                }
+            }
+    
+            td {
+                color: #333;
+    
+                .fish-link {
+                    color: #007bff;
+                    text-decoration: none;
+                    cursor: pointer;
+    
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+    
+                .delete-btn {
+                    color: white;
+                    background-color: #dc3545;
+                    padding: 5px 10px;
+                    border-radius: 4px;
+                    text-decoration: none;
+                    transition: background-color 0.3s;
+    
+                    &:hover {
+                        background-color: #c82333;
+                    }
+                }
+            }
+        }
+    }
+
+    // Modal uslublari
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+
+            .close-btn {
+                color: #aaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+                cursor: pointer;
+
+                &:hover,
+                &:focus {
+                    color: black;
+                    text-decoration: none;
+                }
+            }
+
+            h2 {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            form {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+
+                .form-group {
+                    display: flex;
+                    flex-direction: column;
+
+                    label {
+                        font-weight: bold;
+                        color: #555;
+                        margin-bottom: 5px;
+                    }
+
+                    input, select {
+                        padding: 10px;
+                        font-size: 16px;
+                        border: 1px solid #ddd;
+                        border-radius: 4px;
+                        transition: border-color 0.3s;
+
+                        &:focus {
+                            border-color: #007bff;
+                            outline: none;
+                        }
+                    }
+                }
+
+                button {
+                    padding: 12px;
+                    background-color: #007bff;
+                    color: white;
+                    border: none;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-size: 16px;
+                    transition: background-color 0.3s;
+
+                    &:hover {
+                        background-color: #0056b3;
+                    }
+                }
+            }
+        }
     }
   }
   
@@ -93,3 +254,10 @@ body {
       }
     }
   }
+
+
+
+
+
+
+
