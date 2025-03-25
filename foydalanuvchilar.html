@@ -53,11 +53,12 @@
                         <th>ID</th>
                         <th>F.I.Sh</th>
                         <th>Bo‘lim</th>
+                        <th>Yuqori bo‘lim</th>
                         <th>Lavozim</th>
                         <th>Login</th>
                         <th>Rol</th>
                         <th>Sana</th>
-                        <th>Funksionallik</th>
+                        <th>O‘chirish</th>
                     </tr>
                 </thead>
                 <tbody id="userTableBody"></tbody>
@@ -77,6 +78,12 @@
                     <div class="form-group">
                         <label for="bulim">Bo‘lim:</label>
                         <input type="text" id="bulim" name="bulim" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="parent_bulim">Yuqori bo‘lim:</label>
+                        <select id="parent_bulim" name="parent_bulim">
+                            <option value="">Yuqori bo‘limni tanlang (ixtiyoriy)</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="lavozim">Lavozim:</label>
@@ -117,6 +124,13 @@
                         <input type="text" id="edit-bulim" name="bulim" required>
                     </div>
                     <div class="form-group">
+                        <label for="edit-parent_bulim">Yuqori bo‘lim:</label>
+                        <select id="edit-parent_bulim" name="parent_bulim">
+                            <option value="">Yuqori bo‘limni tanlang (ixtiyoriy)</option>
+                            <!-- Bo‘limlar dinamik ravishda qo‘shiladi -->
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="edit-lavozim">Lavozim:</label>
                         <input type="text" id="edit-lavozim" name="lavozim" required>
                     </div>
@@ -155,6 +169,6 @@
     </section>
 
     <script src="js/index.js"></script>
-    <script src="js/hodim_add.js"></script>
+    <script src="js/foydalanuvchilar.js"></script>
 </body>
 </html>

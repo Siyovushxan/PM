@@ -6,14 +6,7 @@ const path = require('path')
 const multer = require('multer')
 const fs = require('fs')
 const session = require('express-session')
-
 const app = express();
-
-// CORS sozlamalari
-// app.use(cors({
-//     origin: 'http://localhost', // Frontend manzili
-//     credentials: true
-// }));
 
 // CORS sozlamalari
 app.use(cors({
@@ -85,14 +78,15 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(publicPath, 'index.html'));
 });
 
-// Sessionni tekshirish endpointi
+// Sessiyani tekshirish endpointi
 app.get('/api/check-session', (req, res) => {
+    console.log('Sessiyani tekshirish so‘rovi keldi:', req.session); // Debugging uchun
     if (req.session.userId) {
-        res.json({ userId: req.session.userId })
+        res.json({ userId: req.session.userId });
     } else {
-        res.status(401).json({ message: 'Foydalanuvchi tizimga kirmagan' })
+        res.status(401).json({ message: 'Foydalanuvchi tizimga kirmagan' });
     }
-})
+});
 
 // Loyihaga tegishli barcha vazifalarni olish API
 app.get('/api/vazifalar', (req, res) => {
@@ -376,46 +370,6 @@ app.put('/api/vazifalar/:id', (req, res) => {
 })
 
 // Login endpointi
-// app.post('/api/login', (req, res) => {
-//     const { username, password } = req.body;
-//     if (!username || !password) {
-//         return res.status(400).json({ message: 'Login va parol majburiy!' });
-//     }
-//     const sql = 'SELECT * FROM users WHERE username = ?';
-//     db.query(sql, [username], async (err, results) => {
-//         if (err) {
-//             console.error('MySQL xatolik:', err.message);
-//             return res.status(500).json({ message: 'Server xatosi' });
-//         }
-//         if (results.length === 0) {
-//             return res.status(401).json({ message: 'Login yoki parol noto‘g‘ri!' });
-//         }
-//         const user = results[0];
-//         try {
-//             const isMatch = await bcrypt.compare(password, user.password);
-//             if (isMatch) {
-//                 req.session.userId = user.id.toString(); // Sessiyaga saqlash
-//                 req.session.save((err) => {
-//                     if (err) {
-//                         console.error('Sessiya saqlashda xatolik:', err);
-//                         return res.status(500).json({ message: 'Sessiya saqlashda xatolik' });
-//                     }
-//                     console.log('Sessiya saqlandi:', req.session);
-//                     res.json({
-//                         message: 'Tizimga muvaffaqiyatli kirdingiz!',
-//                         userId: user.id.toString(),
-//                     });
-//                 });
-//             } else {
-//                 return res.status(401).json({ message: 'Login yoki parol noto‘g‘ri!' });
-//             }
-//         } catch (bcryptError) {
-//             console.error('Parol tekshirishda xatolik:', bcryptError.message);
-//             return res.status(500).json({ message: 'Server xatosi' });
-//         }
-//     });
-// });
-
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
     if (!username || !password) {
@@ -440,7 +394,7 @@ app.post('/api/login', (req, res) => {
                         console.error('Sessiya saqlashda xatolik:', err);
                         return res.status(500).json({ message: 'Sessiya saqlashda xatolik' });
                     }
-                    console.log('Sessiya saqlandi:', req.session);
+                    console.log('Sessiya saqlandi:', req.session); // Debugging uchun
                     res.json({
                         message: 'Tizimga muvaffaqiyatli kirdingiz!',
                         userId: user.id.toString(),
@@ -472,9 +426,9 @@ app.get('/api/user/:userId', (req, res) => {
     });
 });
 
-// Barcha foydalanuvchilarni olish
+// Barcha foydalanuvchilarni olish (parent_bulim qo‘shildi)
 app.get('/api/users', (req, res) => {
-    const sql = 'SELECT id, username, created_at, FISH, Bulim, Lavozim, role FROM users';
+    const sql = 'SELECT id, username, created_at, fish, bulim, parent_bulim, lavozim, role FROM users';
     db.query(sql, (err, results) => {
         if (err) {
             console.error('Foydalanuvchilarni olishda xatolik:', err);
@@ -484,22 +438,73 @@ app.get('/api/users', (req, res) => {
     });
 });
 
-// Foydalanuvchilarni tahrirlash, o‘chirish va parolni tiklash funksiyalarini qo‘shish
-app.put('/api/users/:id', async (req, res) => {
-    const userId = req.params.id;
-    const { fish, bulim, lavozim, login, role } = req.body;
+// Barcha bo‘limlarni olish (Bulim va parent_bulim birgalikda)
+app.get('/api/bulims', (req, res) => {
+    const query = 'SELECT DISTINCT Bulim, parent_bulim FROM users';
+    db.query(query, (err, results) => {
+        if (err) {
+            return res.status(500).json({ message: 'Bo‘limlarni olishda xatolik', error: err.message });
+        }
+        // Faqat Bulim va parent_bulim qiymatlarini olish
+        const bulims = new Set();
+        results.forEach(row => {
+            if (row.Bulim) bulims.add(row.Bulim);
+            if (row.parent_bulim) bulims.add(row.parent_bulim);
+        });
+        res.json(Array.from(bulims).map(bulim => ({ Bulim: bulim })));
+    });
+});
 
-    if (!fish || !bulim || !lavozim || !login || !role) {
-        return res.status(400).json({ message: 'Barcha maydonlarni to‘ldiring!' });
+// Username mavjudligini tekshirish endpointi
+app.get('/api/check-username', (req, res) => {
+    const username = req.query.username;
+    if (!username) {
+        return res.status(400).json({ message: 'Username parametri majburiy!' });
     }
 
-    try {
+    const sql = 'SELECT id FROM users WHERE username = ?';
+    db.query(sql, [username], (err, results) => {
+        if (err) {
+            console.error('Username tekshirishda xatolik:', err);
+            return res.status(500).json({ message: 'Server xatosi', error: err.message });
+        }
+
+        if (results.length > 0) {
+            return res.json({ exists: true, message: 'Bu login allaqachon mavjud!' });
+        } else {
+            return res.json({ exists: false, message: 'Bu login mavjud emas.' });
+        }
+    });
+});
+
+// Foydalanuvchilarni tahrirlash, o‘chirish va parolni tiklash funksiyalarini qo‘shish
+// Foydalanuvchilarni tahrirlash (parent_bulim qo‘shildi)
+app.put('/api/users/:id', async (req, res) => {
+    const userId = req.params.id;
+    const requesterId = req.session.userId;
+    if (!requesterId) {
+        return res.status(401).json({ message: 'Foydalanuvchi tizimga kirmagan' });
+    }
+
+    const sqlCheckRole = 'SELECT role FROM users WHERE id = ?';
+    db.query(sqlCheckRole, [requesterId], (err, results) => {
+        if (err || results.length === 0 || results[0].role !== 'admin') {
+            return res.status(403).json({ message: 'Sizda bu amalni bajarish uchun ruxsat yo‘q' });
+        }
+
+        const { fish, bulim, parent_bulim, lavozim, login, role } = req.body;
+        if (!fish || !bulim || !lavozim || !login || !role) {
+            return res.status(400).json({ message: 'Barcha maydonlarni to‘ldiring!' });
+        }
+
         const sql = `
             UPDATE users 
-            SET FISH = ?, Bulim = ?, Lavozim = ?, username = ?, role = ?
+            SET fish = ?, bulim = ?, parent_bulim = ?, lavozim = ?, username = ?, role = ?
             WHERE id = ?
         `;
-        db.query(sql, [fish, bulim, lavozim, login, role, userId], (err, result) => {
+        const values = [fish, bulim, parent_bulim || null, lavozim, login, role, userId];
+
+        db.query(sql, values, (err, result) => {
             if (err) {
                 console.error('Foydalanuvchi ma\'lumotlarini yangilashda xatolik:', err);
                 return res.status(500).json({ message: 'Foydalanuvchi ma\'lumotlarini yangilashda xatolik yuz berdi.' });
@@ -509,10 +514,7 @@ app.put('/api/users/:id', async (req, res) => {
             }
             res.json({ message: 'Foydalanuvchi ma\'lumotlari muvaffaqiyatli yangilandi!' });
         });
-    } catch (error) {
-        console.error('Serverda xatolik:', error);
-        res.status(500).json({ message: 'Serverda xatolik yuz berdi.', error: error.message });
-    }
+    });
 });
 
 // Foydalanuvchi parolini tiklash endpointi
@@ -557,44 +559,6 @@ app.delete('/api/users/:id', (req, res) => {
             return res.status(404).json({ message: 'Foydalanuvchi topilmadi.' });
         }
         res.json({ message: 'Foydalanuvchi muvaffaqiyatli o‘chirildi!' });
-    });
-});
-
-// Xavfsizlik: /api/users endpointlarida faqat admin foydalanuvchilar tahrirlash, o‘chirish va parolni tiklash
-// imkoniyatiga ega bo‘lishi uchun ruxsat tekshiruvi qo‘shing:
-app.put('/api/users/:id', async (req, res) => {
-    const userId = req.params.id;
-    const requesterId = req.session.userId;
-    if (!requesterId) {
-        return res.status(401).json({ message: 'Foydalanuvchi tizimga kirmagan' });
-    }
-
-    const sqlCheckRole = 'SELECT role FROM users WHERE id = ?';
-    db.query(sqlCheckRole, [requesterId], (err, results) => {
-        if (err || results.length === 0 || results[0].role !== 'admin') {
-            return res.status(403).json({ message: 'Sizda bu amalni bajarish uchun ruxsat yo‘q' });
-        }
-
-        const { fish, bulim, lavozim, login, role } = req.body;
-        if (!fish || !bulim || !lavozim || !login || !role) {
-            return res.status(400).json({ message: 'Barcha maydonlarni to‘ldiring!' });
-        }
-
-        const sql = `
-            UPDATE users 
-            SET FISH = ?, Bulim = ?, Lavozim = ?, username = ?, role = ?
-            WHERE id = ?
-        `;
-        db.query(sql, [fish, bulim, lavozim, login, role, userId], (err, result) => {
-            if (err) {
-                console.error('Foydalanuvchi ma\'lumotlarini yangilashda xatolik:', err);
-                return res.status(500).json({ message: 'Foydalanuvchi ma\'lumotlarini yangilashda xatolik yuz berdi.' });
-            }
-            if (result.affectedRows === 0) {
-                return res.status(404).json({ message: 'Foydalanuvchi topilmadi.' });
-            }
-            res.json({ message: 'Foydalanuvchi ma\'lumotlari muvaffaqiyatli yangilandi!' });
-        });
     });
 });
 
@@ -791,47 +755,64 @@ app.get('/api/vazifalar/:project_id', (req, res) => {
 
 // Yangi foydalanuvchi qo‘shish endpointi
 app.post('/api/users', async (req, res) => {
-    console.log('POST /api/users so‘rovi keldi:', req.body); // So‘rov ma'lumotlarini log qilish
+    console.log('POST /api/users so‘rovi keldi:', req.body);
 
-    const { fish, bulim, lavozim, login, password, role, created_at } = req.body;
+    const { fish, bulim, parent_bulim, lavozim, login, password, role, created_at } = req.body;
 
-    // Ma'lumotlarni tekshirish
     if (!fish || !bulim || !lavozim || !login || !password || !role) {
         console.log('Xato: Barcha maydonlar to‘ldirilmagan');
         return res.status(400).json({ message: 'Barcha maydonlarni to‘ldiring!' });
     }
 
-    try {
-        // Parolni hash qilish
-        console.log('Parolni hash qilish boshlandi...');
-        const hashedPassword = await bcrypt.hash(password, 10);
-        console.log('Parol muvaffaqiyatli hash qilindi:', hashedPassword);
+    // Username mavjudligini tekshirish
+    const checkUsernameSql = 'SELECT id FROM users WHERE username = ?';
+    db.query(checkUsernameSql, [login], async (err, results) => {
+        if (err) {
+            console.error('Username tekshirishda xatolik:', err);
+            return res.status(500).json({ message: 'Server xatosi', error: err.message });
+        }
 
-        // created_at ni MySQL formatiga o‘tkazish
-        const formattedCreatedAt = created_at
-            ? new Date(created_at).toISOString().slice(0, 19).replace('T', ' ')
-            : new Date().toISOString().slice(0, 19).replace('T', ' ');
+        if (results.length > 0) {
+            return res.status(400).json({ message: 'Bu login allaqachon mavjud!' });
+        }
 
-        // Ma'lumotlarni bazaga qo‘shish (ustun nomlarini katta harflarga moslashtiramiz)
-        const query = `
-            INSERT INTO users (FISH, Bulim, Lavozim, username, password, role, created_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        `;
-        const values = [fish, bulim, lavozim, login, hashedPassword, role, formattedCreatedAt];
+        try {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            const formattedCreatedAt = created_at
+                ? new Date(created_at).toISOString().slice(0, 19).replace('T', ' ')
+                : new Date().toISOString().slice(0, 19).replace('T', ' ');
 
-        console.log('SQL so‘rov yuborilmoqda:', query, values);
-        db.query(query, values, (err, result) => {
-            if (err) {
-                console.error('SQL so‘rovda xatolik:', err);
-                return res.status(500).json({ message: 'Foydalanuvchi qo‘shishda xatolik yuz berdi.', error: err.message });
-            }
-            console.log('Foydalanuvchi muvaffaqiyatli qo‘shildi:', result);
-            res.status(201).json({ message: 'Foydalanuvchi muvaffaqiyatli qo‘shildi!' });
-        });
-    } catch (error) {
-        console.error('Serverda xatolik:', error);
-        res.status(500).json({ message: 'Serverda xatolik yuz berdi.', error: error.message });
-    }
+            const query = `
+                INSERT INTO users (FISH, Bulim, parent_bulim, Lavozim, username, password, role, created_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            `;
+            const values = [fish, bulim, parent_bulim || null, lavozim, login, hashedPassword, role, formattedCreatedAt];
+
+            console.log('SQL so‘rov yuborilmoqda:', query, values);
+            db.query(query, values, (err, result) => {
+                if (err) {
+                    console.error('SQL so‘rovda xatolik:', err);
+                    return res.status(500).json({ message: 'Foydalanuvchi qo‘shishda xatolik yuz berdi.', error: err.message });
+                }
+                console.log('Foydalanuvchi muvaffaqiyatli qo‘shildi:', result);
+                res.status(201).json({ message: 'Foydalanuvchi muvaffaqiyatli qo‘shildi!' });
+            });
+        } catch (error) {
+            console.error('Serverda xatolik:', error);
+            res.status(500).json({ message: 'Serverda xatolik yuz berdi.', error: error.message });
+        }
+    });
+});
+
+// Barcha bo‘limlarni olish
+app.get('/api/bulims', (req, res) => {
+    const query = 'SELECT DISTINCT Bulim FROM users';
+    db.query(query, (err, results) => {
+        if (err) {
+            return res.status(500).json({ message: 'Bo‘limlarni olishda xatolik', error: err.message });
+        }
+        res.json(results);
+    });
 });
 
 const PORT = 5000
