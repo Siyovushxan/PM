@@ -16,10 +16,14 @@
             <div class="navbar-container">
                 <div class="div1">
                     <img class="img_logo" src="img/Рисунок1.png" alt="">
-                    <a href="index.html" class="logo">"Navoiyuran" DK</a>
+                    <a href="#" class="logo">"Navoiyuran" DK</a>
                 </div>
                 <div class="div2">
                     <ul class="navbar-links">
+                        <li><a href="index.html">Bosh sahifa</a></li>
+                        <li><a href="loyiha.html">Loyihalar</a></li>
+                        <li><a href="loyiha_yaratish.html">Loyiha yaratish</a></li>
+                        <li><a href="foydalanuvchilar.html">Foydalanuvchilar</a></li>
                         <li class="nav-link">
                             <img id="profile-image" src="img/user (1).png" alt="Profil rasmi" style="background-color: hsl(0, 0%, 100%);">
                             <div id="profile-modal" class="profile-modal">
@@ -39,30 +43,38 @@
                 </div>
             </div>
         </nav>
-    </header>
-
-        <!-- Menyu ochish uchun hamburger ikonkasi - navbar ostida -->
         <div class="menu-toggle-container">
             <button class="menu-toggle" onclick="toggleMenu()">
-              <img src="img/menu.png" alt="Menu" class="menu-icon">
+                <img src="img/menu.png" alt="Menu" class="menu-icon">
             </button>
-          </div>
-        </header>
-      
-        <!-- Chap tomondan ochiladigan menyu -->
-        <div class="sidebar" id="sidebar">
-          <div class="sidebar-header">
+        </div>
+    </header>
+
+    <!-- Chap tomondan ochiladigan menyu -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
             <h3>Menyu</h3>
             <button class="close-sidebar" onclick="toggleMenu()">×</button>
-          </div>
-          <ul class="sidebar-links">
-            <li><a href="lavozimlar.html">Lavozimlar</a></li>
-            <li><a href="bolimlar.html">Bo‘limlar</a></li>
-          </ul>
         </div>
-      
-        <!-- Overlay (xiralashuv effekti) -->
-        <div class="overlay" id="overlay" onclick="toggleMenu()"></div>      
+        <ul class="sidebar-links">
+            <li>
+                <a href="lavozimlar.html">
+                    <img src="img/lavozim.png" alt="Lavozimlar ikonka" class="sidebar-icon">
+                    Lavozimlar
+                </a>
+            </li>
+            <li>
+                <a href="bolimlar.html">
+                    <img src="img/lavozim.png" alt="Bo‘limlar ikonka" class="sidebar-icon">
+                    Bo‘limlar
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Overlay (xiralashuv effekti) -->
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
 
     <!-- Vazifalar ruyxatini bazadan oladi -->
     <main class="task-main">
