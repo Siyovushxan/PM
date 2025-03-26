@@ -1,80 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PM Navoiyuran</title>
-  <link rel="stylesheet" href="scss/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bo‘limlar - PM Navoiyuran</title>
+    <link rel="stylesheet" href="scss/style.css">
+    <link rel="stylesheet" href="bulimlar_SASS/style.css">
 </head>
-
 <body>
-  <header>
-    <nav class="navbar">
-      <div class="navbar-container">
-        <div class="div1">
-          <img class="img_logo" src="img/Рисунок1.png" alt="">
-          <a href="#" class="logo">"Navoiyuran" DK</a>
-        </div>
-        <div class="div2">
-          <ul class="navbar-links">
-            <li class="nav-link">
-              <img id="profile-image" src="img/user (1).png" alt="Profil rasmi" style="background-color: hsl(0, 0%, 100%);">
-              <div id="profile-modal" class="profile-modal">
-                <span class="close-btn" onclick="toggleProfile()">×</span>
-                <div class="modal-content">
-                  <h3 id="profile-fish">Lorem ipsum dolor sit amet.</h3>
-                  <p id="profile-bulim">Lorem ipsum dolor sit amet.</p>
-                  <p id="profile-lavozim">Lorem ipsum dolor sit amet.</p>
-                  <div>
-                    <img src="img/logout.png" alt="">
-                    <a id="logout-link" href="login.html">Tizimdan chiqish</a>
-                  </div>
+    <header>
+        <nav class="navbar">
+            <div class="navbar-container">
+                <div class="div1">
+                    <img class="img_logo" src="img/Рисунок1.png" alt="">
+                    <a href="#" class="logo">"Navoiyuran" DK</a>
                 </div>
-              </div>
-            </li>
-          </ul>
+                <div class="div2">
+                    <ul class="navbar-links">
+                        <li><a href="index.html">Bosh sahifa</a></li>
+                        <li><a href="loyiha.html">Loyihalar</a></li>
+                        <li><a href="loyiha_yaratish.html">Loyiha yaratish</a></li>
+                        <li><a href="foydalanuvchilar.html">Foydalanuvchilar</a></li>
+                        <li class="nav-link">
+                            <img id="profile-image" src="img/user (1).png" alt="Profil rasmi" style="background-color: hsl(0, 0%, 100%);">
+                            <div id="profile-modal" class="profile-modal">
+                                <span class="close-btn" onclick="toggleProfile()">×</span>
+                                <div class="modal-content">
+                                    <h3 id="profile-fish">Lorem ipsum dolor sit amet.</h3>
+                                    <p id="profile-bulim">Lorem ipsum dolor sit amet.</p>
+                                    <p id="profile-lavozim">Lorem ipsum dolor sit amet.</p>
+                                    <div>
+                                        <img src="img/logout.png" alt="">
+                                        <a id="logout-link" href="login.html">Tizimdan chiqish</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="menu-toggle-container">
+            <button class="menu-toggle" onclick="toggleMenu()">
+                <img src="img/menu.png" alt="Menu" class="menu-icon">
+            </button>
         </div>
-      </div>
-    </nav>
-    
-    <!-- Menyu ochish uchun hamburger ikonkasi - navbar ostida -->
-    <div class="menu-toggle-container">
-      <button class="menu-toggle" onclick="toggleMenu()">
-        <img src="img/menu.png" alt="Menu" class="menu-icon">
-      </button>
+    </header>
+
+    <!-- Chap tomondan ochiladigan menyu -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>Menyu</h3>
+            <button class="close-sidebar" onclick="toggleMenu()">×</button>
+        </div>
+        <ul class="sidebar-links">
+            <li>
+                <a href="lavozimlar.html">
+                    <img src="img/lavozim.png" alt="Lavozimlar ikonka" class="sidebar-icon">
+                    Lavozimlar
+                </a>
+            </li>
+            <li>
+                <a href="bolimlar.html">
+                    <img src="img/lavozim.png" alt="Bo‘limlar ikonka" class="sidebar-icon">
+                    Bo‘limlar
+                </a>
+            </li>
+        </ul>
     </div>
-  </header>
 
-  <!-- Chap tomondan ochiladigan menyu -->
-  <div class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <h3>Menyu</h3>
-      <button class="close-sidebar" onclick="toggleMenu()">×</button>
+    <!-- Overlay (xiralashuv effekti) -->
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+    <!-- Bo‘limlar ro‘yxati -->
+    <div class="container">
+        <h2>BO‘LIMLAR RO‘YXATI</h2>
+        <div class="total-departments">Soni: <span id="total-departments-count">0</span></div>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Qidiruv (ID, O‘zbek, Rus, Ingliz tilida)">
+        </div>
+        <div class="button-group">
+            <button class="btn-add" onclick="openAddDepartmentModal()">Yangi bo‘lim qo‘shish</button>
+            <button class="btn-structure" onclick="openStructureModal()">Struktura</button>
+        </div>
+        <table id="departments-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Bo‘lim (O‘zbek)</th>
+                    <th>Bo‘lim (Rus)</th>
+                    <th>Bo‘lim (Ingliz)</th>
+                    <th>Yuqori turuvchi bo‘lim</th>
+                    <th>O‘chirish</th>
+                </tr>
+            </thead>
+            <tbody id="departments-tbody">
+                <!-- Bo‘limlar JavaScript orqali qo‘shiladi -->
+            </tbody>
+        </table>
     </div>
-    <ul class="sidebar-links">
-      <li><a href="lavozimlar.html">Lavozimlar</a></li>
-      <li><a href="bolimlar.html">Bo‘limlar</a></li>
-    </ul>
-  </div>
 
-  <!-- Overlay (xiralashuv effekti) -->
-  <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
-
-  <!-- Footer. Ishlab chiquvchi yuzasidan ma'lumot -->
-  <section class="yaratuvchi">
-    <div>
-      <div>
-        <h2>Loyiha yaratuvchisi: Raqamli transformatsiyani joriy etish bo'limi bosh mutaxassisi</h2>
-        <h2>S. Abdullayev</h2>
-      </div>
-      <div>
-        <p>Tel: (79) 507-02-41</p>
-      </div>
+    <!-- Struktura modali -->
+    <div id="structure-modal" class="modal">
+        <div class="modal-content structure-modal-content">
+            <h2 id="structure-modal-title">Bo‘limlar struktura</h2>
+            <div id="structure-tree" class="structure-tree">
+                <!-- Struktura JavaScript orqali qo‘shiladi -->
+            </div>
+            <button class="btn-close" onclick="closeStructureModal()">Yopish</button>
+        </div>
     </div>
-  </section>
 
-  <script src="js/index.js"></script>
+    <!-- Yangi bo‘lim qo‘shish va tahrirlash uchun modal -->
+    <div id="department-modal" class="modal">
+        <div class="modal-content">
+            <h2 id="modal-title">Yangi bo‘lim qo‘shish</h2>
+            <form id="department-form">
+                <label for="department-name-uz">Bo‘lim nomi (O‘zbek):</label>
+                <input type="text" id="department-name-uz" name="department-name-uz" required>
+                <label for="department-name-ru">Bo‘lim nomi (Rus):</label>
+                <input type="text" id="department-name-ru" name="department-name-ru" required>
+                <label for="department-name-en">Bo‘lim nomi (Ingliz):</label>
+                <input type="text" id="department-name-en" name="department-name-en" required>
+                <label for="parent-department">Yuqori turuvchi bo‘lim (ixtiyoriy):</label>
+                <select id="parent-department" name="parent-department">
+                    <option value="">Hech qaysi</option>
+                    <!-- Bo‘limlar JavaScript orqali qo‘shiladi -->
+                </select>
+                <button type="submit" class="btn-submit">Saqlash</button>
+            </form>
+            <button class="btn-close" onclick="closeDepartmentModal()">Bekor qilish</button>
+        </div>
+    </div>
 
+    <!-- Footer -->
+    <section class="yaratuvchi">
+        <div>
+            <div>
+                <h2>Loyiha yaratuvchisi: Raqamli transformatsiyani joriy etish bo‘limi bosh mutaxassisi</h2>
+                <h2>S. Abdullayev</h2>
+            </div>
+            <div>
+                <p>Tel: (79) 507-02-41</p>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/index.js"></script>
+    <script src="js/bulimlar.js"></script>
 </body>
 </html>
