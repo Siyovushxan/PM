@@ -36,7 +36,7 @@ $navbar-height: 5rem; // Navbar balandligi (padding va kontent hisobga olingan)
         text-align: center;
     }
 
-    .total-departments {
+    .total-positions {
         font-size: 1.2rem;
         color: $primary-color;
         text-align: center;
@@ -99,7 +99,7 @@ $navbar-height: 5rem; // Navbar balandligi (padding va kontent hisobga olingan)
         }
 
         td {
-            &.department-name {
+            &.position-name {
                 cursor: pointer;
                 color: $primary-color;
                 &:hover {
@@ -141,7 +141,7 @@ $navbar-height: 5rem; // Navbar balandligi (padding va kontent hisobga olingan)
         background-color: $card-bg;
         padding: 2rem;
         width: 90%;
-        max-width: 70%; // Rasmda ko‘rsatilgan o‘lchamga moslashtirildi
+        max-width: 500px; // Rasmda ko‘rsatilgan o‘lchamga moslashtirildi
         border-radius: $border-radius;
         box-shadow: 0 4px 12px $card-shadow;
         position: relative;
@@ -218,25 +218,29 @@ $navbar-height: 5rem; // Navbar balandligi (padding va kontent hisobga olingan)
             position: relative;
             border-radius: $border-radius;
             box-shadow: 0 4px 12px $card-shadow;
+            display: flex;
+            flex-direction: column;
 
             h2 {
-                margin-bottom: 1.5rem;
+                margin: 0;
+                padding: 1rem 0;
                 text-align: center;
                 font-size: 1.8rem;
                 color: $primary-color;
+                flex-shrink: 0; // Sarlavha balandligi o‘zgarmasligi uchun
             }
 
             .structure-tree {
-                max-height: calc(80vh - 150px); // h2 va btn-close balandligini hisobga olamiz
+                flex: 1; // Qolgan joyni to‘ldirish uchun
+                max-height: calc(80vh - 120px); // h2 (3rem) va btn-close (3rem) balandligini hisobga olamiz
                 overflow-y: auto; // Vertikal skroll qo‘shish
-                padding-right: 1rem; // Skrollbar uchun joy
-                padding-bottom: 4rem; // Tugma uchun joy
+                padding: 1rem; // Ichki padding
                 -webkit-overflow-scrolling: touch; // Mobil qurilmalarda silliq skroll uchun
             }
 
             .btn-close {
-                position: absolute;
-                bottom: 1rem;
+                position: sticky;
+                bottom: 0;
                 left: 50%;
                 transform: translateX(-50%);
                 width: 200px;
@@ -247,6 +251,8 @@ $navbar-height: 5rem; // Navbar balandligi (padding va kontent hisobga olingan)
                 border-radius: $border-radius;
                 cursor: pointer;
                 transition: background-color 0.3s;
+                flex-shrink: 0; // Tugma balandligi o‘zgarmasligi uchun
+                margin-top: 1rem;
 
                 &:hover {
                     background-color: darken($input-border, 10%);
@@ -258,7 +264,6 @@ $navbar-height: 5rem; // Navbar balandligi (padding va kontent hisobga olingan)
 
 // Struktura daraxti stillari
 .structure-tree {
-    padding: 1rem;
     font-size: 1.1rem;
     color: $primary-color;
 
@@ -284,7 +289,12 @@ $navbar-height: 5rem; // Navbar balandligi (padding va kontent hisobga olingan)
     }
 }
 
-// Skrollbar dizayni (ixtiyoriy, chiroyli ko‘rinish uchun)
+// Skrollbar dizayni (barcha brauzerlar uchun moslashtirish)
+.structure-tree {
+    scrollbar-width: thin; // Firefox uchun
+    scrollbar-color: $button-bg $input-bg; // Firefox uchun skrollbar rangi
+}
+
 .structure-tree::-webkit-scrollbar {
     width: 8px;
 }

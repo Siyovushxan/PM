@@ -12,7 +12,7 @@
   color: #123524;
   text-align: center;
 }
-.container .total-departments {
+.container .total-positions {
   font-size: 1.2rem;
   color: #123524;
   text-align: center;
@@ -66,11 +66,11 @@
   color: #ffffff;
   font-weight: bold;
 }
-.container table td.department-name {
+.container table td.position-name {
   cursor: pointer;
   color: #123524;
 }
-.container table td.department-name:hover {
+.container table td.position-name:hover {
   text-decoration: underline;
 }
 .container table .btn-delete {
@@ -102,7 +102,7 @@
   background-color: #ffffff;
   padding: 2rem;
   width: 90%;
-  max-width: 70%;
+  max-width: 500px;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   position: relative;
@@ -169,23 +169,27 @@
   position: relative;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
 }
 .modal.structure-modal .modal-content h2 {
-  margin-bottom: 1.5rem;
+  margin: 0;
+  padding: 1rem 0;
   text-align: center;
   font-size: 1.8rem;
   color: #123524;
+  flex-shrink: 0;
 }
 .modal.structure-modal .modal-content .structure-tree {
-  max-height: calc(80vh - 150px);
+  flex: 1;
+  max-height: calc(80vh - 120px);
   overflow-y: auto;
-  padding-right: 1rem;
-  padding-bottom: 4rem;
+  padding: 1rem;
   -webkit-overflow-scrolling: touch;
 }
 .modal.structure-modal .modal-content .btn-close {
-  position: absolute;
-  bottom: 1rem;
+  position: sticky;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 200px;
@@ -196,13 +200,14 @@
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s;
+  flex-shrink: 0;
+  margin-top: 1rem;
 }
 .modal.structure-modal .modal-content .btn-close:hover {
   background-color: #b3b3b3;
 }
 
 .structure-tree {
-  padding: 1rem;
   font-size: 1.1rem;
   color: #123524;
 }
@@ -223,6 +228,11 @@
 }
 .structure-tree .tree-children {
   margin-left: 1rem;
+}
+
+.structure-tree {
+  scrollbar-width: thin;
+  scrollbar-color: #3a5c64 #f7f7f7;
 }
 
 .structure-tree::-webkit-scrollbar {
