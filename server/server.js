@@ -455,28 +455,6 @@ app.get('/api/bulims', (req, res) => {
     });
 });
 
-// Username mavjudligini tekshirish endpointi
-app.get('/api/check-username', (req, res) => {
-    const username = req.query.username;
-    if (!username) {
-        return res.status(400).json({ message: 'Username parametri majburiy!' });
-    }
-
-    const sql = 'SELECT id FROM users WHERE username = ?';
-    db.query(sql, [username], (err, results) => {
-        if (err) {
-            console.error('Username tekshirishda xatolik:', err);
-            return res.status(500).json({ message: 'Server xatosi', error: err.message });
-        }
-
-        if (results.length > 0) {
-            return res.json({ exists: true, message: 'Bu login allaqachon mavjud!' });
-        } else {
-            return res.json({ exists: false, message: 'Bu login mavjud emas.' });
-        }
-    });
-});
-
 // Foydalanuvchilarni tahrirlash, o‘chirish va parolni tiklash funksiyalarini qo‘shish
 // Foydalanuvchilarni tahrirlash (parent_bulim qo‘shildi)
 app.put('/api/users/:id', async (req, res) => {

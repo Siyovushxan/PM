@@ -41,6 +41,29 @@
     </nav>
   </header>
 
+      <!-- Menyu ochish uchun hamburger ikonkasi - navbar ostida -->
+      <div class="menu-toggle-container">
+        <button class="menu-toggle" onclick="toggleMenu()">
+          <img src="img/menu.png" alt="Menu" class="menu-icon">
+        </button>
+      </div>
+    </header>
+  
+    <!-- Chap tomondan ochiladigan menyu -->
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h3>Menyu</h3>
+        <button class="close-sidebar" onclick="toggleMenu()">×</button>
+      </div>
+      <ul class="sidebar-links">
+        <li><a href="lavozimlar.html">Lavozimlar</a></li>
+        <li><a href="bolimlar.html">Bo‘limlar</a></li>
+      </ul>
+    </div>
+  
+    <!-- Overlay (xiralashuv effekti) -->
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>  
+
   <main>
     <div class="container-projects">
       <h2 class="title_vazifa">Bajarilishi Rejalashtirilgan Loyihalar</h2>

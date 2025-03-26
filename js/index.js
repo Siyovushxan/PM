@@ -139,6 +139,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Menyu ochish/yopish funksiyasi
+    window.toggleMenu = function () {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+    };
+
     window.toggleProfile = function () {
         const profileModal = document.getElementById('profile-modal');
         profileModal.style.display = profileModal.style.display === 'block' ? 'none' : 'block';

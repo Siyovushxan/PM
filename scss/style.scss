@@ -40,14 +40,20 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  position: relative; // Overlay uchun
 }
 
 // Navbar styles
 .navbar {
-  margin-bottom: 1rem;
+  position: fixed; // Navbar qotib qoladi
+  top: 0;
+  left: 0;
+  width: 100%;
+  margin-bottom: 0; // Menyu ikonkasi uchun joy ochish
   background-color: $primary-color;
   padding: 1rem 2rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000; // Menyudan yuqori bo‘lishi uchun
 
   .navbar-container {
     display: flex;
@@ -111,12 +117,11 @@ body {
               top: 60px;
               left: -185px;
               background-color: #123524;
-              z-index: 1000;
+              z-index: 2000; // Hamma elementlardan yuqori bo‘lishi uchun
               width: 250px;
               padding: 4px;
               border-radius: 10px;
-	            box-shadow: 0 4px 12px $card-shadow;
-
+              box-shadow: 0 4px 12px $card-shadow;
 
               .close-btn {
                 color: black;
@@ -214,95 +219,207 @@ body {
   }
 }
 
+// Menyu ikonkasi uchun yangi konteyner
+.menu-toggle-container {
+  margin-top: 5rem;
+  display: flex;
+  justify-content: flex-start; // Chapga joylashadi
+  padding: 0rem 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+  .menu-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+
+    .menu-icon {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+}
+
+// Sidebar (Menyu) styles
+.sidebar {
+  position: fixed;
+  top: 0; // Navbar ostidan boshlanadi
+  left: -300px; // Yopiq holatda ko‘rinmaydi
+  width: 300px;
+  height: 100%;
+  background-color: $card-bg;
+  box-shadow: 2px 0 10px $card-shadow;
+  z-index: 900; // Navbar ostida, lekin overlaydan yuqori
+  transition: left 0.3s ease-in-out;
+  padding-top: 6rem; // Navbar va menyu ikonkasi balandligi hisobga olinadi
+
+  &.active {
+    left: 0; // Ochilgan holat
+  }
+
+  .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1rem;
+    border-bottom: 1px solid $input-border;
+
+    h3 {
+      font-size: 1.3rem;
+      color: $primary-color;
+    }
+
+    .close-sidebar {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: $primary-color;
+
+      &:hover {
+        color: $hover-color;
+      }
+    }
+  }
+
+  .sidebar-links {
+    list-style: none;
+    padding: 1rem 0;
+
+    li {
+      padding: 0.5rem 2rem;
+
+      a {
+        text-decoration: none;
+        color: $primary-color;
+        font-size: 1rem;
+        display: block;
+        transition: color 0.3s;
+
+        &:hover {
+          color: $hover-color;
+        }
+      }
+    }
+  }
+}
+
+// Overlay styles
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: $modal-bg;
+  z-index: 800; // Sidebar ostida, lekin boshqa kontentdan yuqori
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out;
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
 // Loyiha va vazifalar statistikasi
 .statistika-container {
-	max-width: 90%;
-	margin: 2rem auto;
-	padding: 2rem;
-	background-color: $card-bg;
-	box-shadow: 0 4px 12px $card-shadow;
-	border-radius: $border-radius;
-	width: 100%; // Moslashuvchanlik uchun
+  max-width: 90%;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: $card-bg;
+  box-shadow: 0 4px 12px $card-shadow;
+  border-radius: $border-radius;
+  width: 100%; // Moslashuvchanlik uchun
   height: 34rem;
   display: flex;
   flex-direction: row;
   gap: 2rem;
-  
-	.loyiha-statistika,
-	.vazifalar-status-statistika {
-	  margin-bottom: 3rem; // Grafiklar orasida bo‘shliq
+
+  .loyiha-statistika,
+  .vazifalar-status-statistika {
+    margin-bottom: 3rem; // Grafiklar orasida bo‘shliq
     width: 49%;
-  
-	  h2 {
+
+    h2 {
       font-size: 1.8rem;
       margin-bottom: 1rem;
       color: $primary-color;
       text-align: center;
-	  }
-  
-	  .total-header {
+    }
+
+    .total-header {
       text-align: center;
       margin-bottom: 1rem;
-    
+
       .total-label {
         font-size: 1.2rem;
         color: #000;
       }
-    
+
       .total-value {
         font-size: 2rem; // Kattaroq umumiy son
         font-weight: bold;
         color: #000;
       }
-	  }
-  
-	  .chart-container {
+    }
+
+    .chart-container {
       position: relative;
       max-height: 400px;
       width: 100%;
       margin: 0 auto;
       aspect-ratio: 1 / 1; // Doira shaklini saqlash uchun
-    
+
       canvas {
         max-width: 100%;
         height: auto !important;
         max-height: 400px;
       }
-	  }
-	}
-  
-	.loyiha-statistika {
-	  // border-right: 1px solid #ddd; // Grafiklar orasida chiziq
-	  padding-bottom: 2rem;
-	}
+    }
+  }
+
+  .loyiha-statistika {
+    padding-bottom: 2rem;
+  }
 }
-  
+
 @media (max-width: 768px) {
-    .statistika-container {
-      padding: 1rem;
-      max-width: 90%;
-    
-      .loyiha-statistika,
-      .vazifalar-status-statistika {
+  .statistika-container {
+    padding: 1rem;
+    max-width: 90%;
+
+    .loyiha-statistika,
+    .vazifalar-status-statistika {
       .chart-container {
         max-height: 300px;
-    
+
         canvas {
           max-height: 300px;
         }
       }
-    
+
       .total-header {
         .total-label {
           font-size: 1rem;
         }
-    
+
         .total-value {
           font-size: 1.5rem;
         }
       }
-      }
     }
+  }
+
+  .sidebar {
+    width: 250px;
+    left: -250px;
+
+    &.active {
+      left: 0;
+    }
+  }
 }
 
 // Loyiha qushish styles
