@@ -9,9 +9,9 @@ async function fetchDepartments() {
 			throw new Error('Serverdan ma’lumot olishda xatolik yuz berdi')
 		}
 		const departments = await response.json()
-		allDepartments = departments // Barcha bo‘limlarni global o‘zgaruvchiga saqlaymiz
+		allDepartments = departments // Barcha bo‘limlarni saqlaymiz
 		renderDepartments(departments) // Jadvalni yangilaymiz
-		updateTotalDepartments(departments.length) // Umumiy bo‘limlar sonini yangilaymiz
+		updateTotalDepartments(departments.length) // Umumiy sonni yangilaymiz
 		populateParentDepartmentSelect(departments) // Yuqori turuvchi bo‘limlar ro‘yxatini yangilaymiz
 	} catch (error) {
 		console.error('Bo‘limlarni olishda xatolik:', error)
@@ -25,7 +25,7 @@ async function fetchDepartments() {
 function populateParentDepartmentSelect(departments) {
 	const parentSelect = document.getElementById('parent-department')
 	if (parentSelect) {
-		parentSelect.innerHTML = '<option value="">Hech qaysi</option>' // Default opsiya qo‘shish
+		parentSelect.innerHTML = '<option value="">Hech qaysi</option>' // Default opsiya
 		departments.forEach(department => {
 			const option = document.createElement('option')
 			option.value = department.id
@@ -127,6 +127,31 @@ function buildFullDepartmentTree(departments) {
 	return html
 }
 
+// Strukturani Excel formatida yuklab olish
+function exportStructureToExcel() {
+	const treeContainer = document.getElementById('structure-tree')
+	const nodes = treeContainer.querySelectorAll('.tree-node')
+
+	// Excel uchun ma'lumotlarni tayyorlash
+	const data = []
+	nodes.forEach((node, index) => {
+		const level = parseInt(node.style.marginLeft || '0') / 20 // Bo‘lim darajasini hisoblash
+		const name = node.childNodes[0].textContent.trim() // Bo‘lim nomi
+		data.push({
+			'Bo‘lim darajasi': level,
+			'Bo‘lim nomi': name,
+		})
+	})
+
+	// Excel faylini yaratish
+	const ws = XLSX.utils.json_to_sheet(data)
+	const wb = XLSX.utils.book_new()
+	XLSX.utils.book_append_sheet(wb, ws, 'Struktura')
+
+	// Faylni yuklab olish
+	XLSX.writeFile(wb, 'Bo‘limlar_Struktura.xlsx')
+}
+
 // Struktura modalini ochish
 function openStructureModal() {
 	const modal = document.getElementById('structure-modal')
@@ -153,7 +178,6 @@ function openStructureModal() {
 
 		// Modaldan tashqari bosilganda modalni yopish uchun event listener qo‘shish
 		const handleOutsideClick = event => {
-			// Agar bosilgan joy .modal-content dan tashqarida bo‘lsa
 			if (event.target === modal) {
 				closeStructureModal()
 			}
@@ -201,8 +225,27 @@ function openAddDepartmentModal() {
 			parentSelect.value = '' // Default sifatida "Hech qaysi" tanlanadi
 		}
 		modal.style.display = 'flex'
-		// Sahifaning asosiy skrollini o‘chirish
+		// Body skrollini o‘chirish
 		document.body.style.overflow = 'hidden'
+
+		// Esc tugmasi bosilganda modalni yopish uchun event listener qo‘shish
+		const handleEscKey = event => {
+			if (event.key === 'Escape') {
+				closeDepartmentModal()
+			}
+		}
+		document.addEventListener('keydown', handleEscKey)
+
+		// Modaldan tashqari bosilganda modalni yopish uchun event listener qo‘shish
+		const handleOutsideClick = event => {
+			if (event.target === modal) {
+				closeDepartmentModal()
+			}
+		}
+		modal.addEventListener('click', handleOutsideClick)
+
+		// Modal yopilganda event listenerlarni o‘chirish uchun funksiyani saqlash
+		modal.closeListeners = { handleEscKey, handleOutsideClick }
 	}
 }
 
@@ -230,8 +273,27 @@ function openEditDepartmentModal(
 		form.dataset.mode = 'edit'
 		form.dataset.id = id
 		modal.style.display = 'flex'
-		// Sahifaning asosiy skrollini o‘chirish
+		// Body skrollini o‘chirish
 		document.body.style.overflow = 'hidden'
+
+		// Esc tugmasi bosilganda modalni yopish uchun event listener qo‘shish
+		const handleEscKey = event => {
+			if (event.key === 'Escape') {
+				closeDepartmentModal()
+			}
+		}
+		document.addEventListener('keydown', handleEscKey)
+
+		// Modaldan tashqari bosilganda modalni yopish uchun event listener qo‘shish
+		const handleOutsideClick = event => {
+			if (event.target === modal) {
+				closeDepartmentModal()
+			}
+		}
+		modal.addEventListener('click', handleOutsideClick)
+
+		// Modal yopilganda event listenerlarni o‘chirish uchun funksiyani saqlash
+		modal.closeListeners = { handleEscKey, handleOutsideClick }
 	}
 }
 
@@ -240,8 +302,18 @@ function closeDepartmentModal() {
 	const modal = document.getElementById('department-modal')
 	if (modal) {
 		modal.style.display = 'none'
-		// Sahifaning asosiy skrollini qayta yoqish
+		// Body skrollini qayta yoqish
 		document.body.style.overflow = 'auto'
+
+		// Event listenerlarni o‘chirish
+		if (modal.closeListeners) {
+			document.removeEventListener('keydown', modal.closeListeners.handleEscKey)
+			modal.removeEventListener(
+				'click',
+				modal.closeListeners.handleOutsideClick
+			)
+			modal.closeListeners = null // O‘chirilgan listenerlarni tozalash
+		}
 	}
 }
 
@@ -362,31 +434,6 @@ function initializeEventListeners() {
 	if (closeButton) {
 		closeButton.addEventListener('click', closeDepartmentModal)
 	}
-}
-
-// Strukturani Excel formatida yuklab olish
-function exportStructureToExcel() {
-	const treeContainer = document.getElementById('structure-tree')
-	const nodes = treeContainer.querySelectorAll('.tree-node')
-
-	// Excel uchun ma'lumotlarni tayyorlash
-	const data = []
-	nodes.forEach((node, index) => {
-		const level = parseInt(node.style.marginLeft || '0') / 20 // Bo‘lim darajasini hisoblash
-		const name = node.childNodes[0].textContent.trim() // Bo‘lim nomi
-		data.push({
-			'Bo‘lim darajasi': level,
-			'Bo‘lim nomi': name,
-		})
-	})
-
-	// Excel faylini yaratish
-	const ws = XLSX.utils.json_to_sheet(data)
-	const wb = XLSX.utils.book_new()
-	XLSX.utils.book_append_sheet(wb, ws, 'Struktura')
-
-	// Faylni yuklab olish
-	XLSX.writeFile(wb, 'Bo‘limlar_Struktura.xlsx')
 }
 
 // Sahifa yuklanganda ishga tushirish

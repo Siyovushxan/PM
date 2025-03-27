@@ -158,6 +158,10 @@
   background-color: #b3b3b3;
 }
 
+#department-modal {
+  cursor: pointer;
+}
+
 #structure-modal {
   display: none;
   position: fixed;

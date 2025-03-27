@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="scss/style.css">
     <link rel="stylesheet" href="hodim_add_SASS/style.css">
 </head>
+
 <body>
     <header>
         <nav class="navbar">
@@ -22,7 +24,8 @@
                         <li><a href="loyiha_yaratish.html">Loyiha yaratish</a></li>
                         <li><a href="foydalanuvchilar.html">Foydalanuvchilar</a></li>
                         <li class="nav-link">
-                            <img id="profile-image" src="img/user (1).png" alt="Profil rasmi" style="background-color: hsl(0, 0%, 100%);">
+                            <img id="profile-image" src="img/user (1).png" alt="Profil rasmi"
+                                style="background-color: hsl(0, 0%, 100%);">
                             <div id="profile-modal" class="profile-modal">
                                 <span class="close-btn" onclick="toggleProfile()">×</span>
                                 <div class="modal-content">
@@ -56,13 +59,13 @@
         <ul class="sidebar-links">
             <li>
                 <a href="lavozimlar.html">
-                    <img src="img/lavozim.png" alt="Lavozimlar ikonka" class="sidebar-icon">
+                    <img src="img/lavozim-structure.png" alt="Lavozimlar ikonka" class="sidebar-icon">
                     Lavozimlar
                 </a>
             </li>
             <li>
                 <a href="bolimlar.html">
-                    <img src="img/lavozim.png" alt="Bo‘limlar ikonka" class="sidebar-icon">
+                    <img src="img/bulim-structure.png" alt="Bo‘limlar ikonka" class="sidebar-icon">
                     Bo‘limlar
                 </a>
             </li>
@@ -80,7 +83,8 @@
             <h2 style="text-align: left;">Foydalanuvchilar ro‘yxati</h2>
             <h2 id="addUserTrigger">Hodim ro‘yxatdan o‘tkazish</h2>
             <div class="search-filter">
-                <input type="text" id="searchInput" placeholder="Qidiruv... (ID, F.I.Sh, Bo‘lim, Lavozim, Login, Rol, Sana)">
+                <input type="text" id="searchInput"
+                    placeholder="Qidiruv... (ID, F.I.Sh, Bo‘lim, Lavozim, Login, Rol, Sana)">
             </div>
             <table id="userTable">
                 <thead>
@@ -175,7 +179,8 @@
                     </div>
                     <div class="form-group">
                         <label for="edit-password">Yangi parol (o‘zgartirish ixtiyoriy):</label>
-                        <input type="password" id="edit-password" name="password" placeholder="Agar o‘zgartirmoqchi bo‘lsangiz kiriting">
+                        <input type="password" id="edit-password" name="password"
+                            placeholder="Agar o‘zgartirmoqchi bo‘lsangiz kiriting">
                     </div>
                     <div class="form-group">
                         <label for="edit-role">Rol:</label>
@@ -206,4 +211,5 @@
     <script src="js/index.js"></script>
     <script src="js/foydalanuvchilar.js"></script>
 </body>
+
 </html>
