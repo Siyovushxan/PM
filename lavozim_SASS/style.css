@@ -68,7 +68,7 @@
 }
 .container table td.position-name {
   cursor: pointer;
-  color: #123524;
+  color: #0000ff;
 }
 .container table td.position-name:hover {
   text-decoration: underline;
@@ -97,12 +97,13 @@
   z-index: 1000;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 .modal .modal-content {
   background-color: #ffffff;
   padding: 2rem;
   width: 90%;
-  max-width: 500px;
+  max-width: 40%;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   position: relative;
@@ -156,54 +157,80 @@
 .modal .modal-content .btn-close:hover {
   background-color: #b3b3b3;
 }
-.modal.structure-modal {
-  display: flex;
+
+#position-modal {
+  cursor: pointer;
+}
+
+#structure-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
   justify-content: center;
   align-items: center;
-}
-.modal.structure-modal .modal-content {
-  width: 90vw;
-  max-height: 80vh;
-  max-width: none;
   overflow: hidden;
-  position: relative;
+  cursor: pointer;
+}
+#structure-modal .modal-content {
+  width: 90vw;
+  max-width: none;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
+  background-color: #ffffff;
+  padding: 2rem;
+  position: relative;
 }
-.modal.structure-modal .modal-content h2 {
+#structure-modal .modal-content h2 {
   margin: 0;
   padding: 1rem 0;
   text-align: center;
   font-size: 1.8rem;
   color: #123524;
-  flex-shrink: 0;
 }
-.modal.structure-modal .modal-content .structure-tree {
-  flex: 1;
-  max-height: calc(80vh - 120px);
-  overflow-y: auto;
+#structure-modal .modal-content .structure-tree {
+  max-height: 500px;
+  overflow-y: scroll;
   padding: 1rem;
   -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
 }
-.modal.structure-modal .modal-content .btn-close {
-  position: sticky;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
+#structure-modal .modal-content .btn-export-excel {
+  background-color: #3a5c64;
+  color: #ffffff;
+  border: none;
+  padding: 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 1rem;
   width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  transition: background-color 0.3s;
+}
+#structure-modal .modal-content .btn-export-excel:hover {
+  background-color: #2f4f4f;
+}
+#structure-modal .modal-content .btn-close {
   background-color: #ccc;
   color: #123524;
   border: none;
   padding: 0.8rem;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s;
-  flex-shrink: 0;
   margin-top: 1rem;
+  width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  transition: background-color 0.3s;
 }
-.modal.structure-modal .modal-content .btn-close:hover {
+#structure-modal .modal-content .btn-close:hover {
   background-color: #b3b3b3;
 }
 

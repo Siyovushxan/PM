@@ -138,27 +138,6 @@ function openStructureModal() {
 		// Barcha bo‘limlar ierarxiyasini qurish
 		let treeHtml = buildFullDepartmentTree(allDepartments)
 
-		// Agar serverdan ma'lumotlar yetarli bo‘lmasa, test uchun qo‘shimcha kontent qo‘shamiz
-		if (!treeHtml || allDepartments.length < 10) {
-			console.warn(
-				"Serverdan yetarli ma'lumot kelmadi, test uchun qo‘shimcha kontent qo‘shilmoqda..."
-			)
-			treeHtml = ''
-			// Test uchun 50 ta bo‘lim qo‘shamiz (skrollni aniq ko‘rish uchun)
-			for (let i = 1; i <= 50; i++) {
-				treeHtml += `
-                    <div class="tree-node" style="margin-left: ${
-											(i % 5) * 20
-										}px;">
-                        Test Bo‘lim ${i}
-                        ${
-													i % 5 !== 0 ? '<div class="tree-children"></div>' : ''
-												}
-                    </div>
-                `
-			}
-		}
-
 		treeContainer.innerHTML = treeHtml
 		modal.style.display = 'flex'
 		// Sahifaning asosiy skrollini o‘chirish
