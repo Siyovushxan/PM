@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="scss/style.css">
     <link rel="stylesheet" href="bulimlar_SASS/style.css">
 </head>
+
 <body>
     <header>
         <nav class="navbar">
@@ -22,7 +24,8 @@
                         <li><a href="loyiha_yaratish.html">Loyiha yaratish</a></li>
                         <li><a href="foydalanuvchilar.html">Foydalanuvchilar</a></li>
                         <li class="nav-link">
-                            <img id="profile-image" src="img/user (1).png" alt="Profil rasmi" style="background-color: hsl(0, 0%, 100%);">
+                            <img id="profile-image" src="img/user (1).png" alt="Profil rasmi"
+                                style="background-color: hsl(0, 0%, 100%);">
                             <div id="profile-modal" class="profile-modal">
                                 <span class="close-btn" onclick="toggleProfile()">×</span>
                                 <div class="modal-content">
@@ -107,6 +110,7 @@
             <div id="structure-tree" class="structure-tree">
                 <!-- Struktura JavaScript orqali qo‘shiladi -->
             </div>
+            <button class="btn-export-excel" onclick="exportStructureToExcel()">Excel formatida yuklab olish</button>
             <button class="btn-close" onclick="closeStructureModal()">Yopish</button>
         </div>
     </div>
@@ -148,5 +152,8 @@
 
     <script src="js/index.js"></script>
     <script src="js/bulimlar.js"></script>
+    <!-- XLSX kutubxonasi -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </body>
+
 </html>
