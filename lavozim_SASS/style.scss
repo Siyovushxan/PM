@@ -22,9 +22,10 @@ $navbar-height: 5rem;
 
 // Jadval stillari (Lavozimlar ro‘yxati uchun)
 .container {
-	padding: 3rem;
 	max-width: 90%;
-	margin: 2rem auto;
+	height: 100%;
+	margin: 0rem auto;
+	margin-bottom: 2rem;
 	background-color: $card-bg;
 	box-shadow: 0 4px 12px $card-shadow;
 	border-radius: $border-radius;
@@ -101,7 +102,7 @@ $navbar-height: 5rem;
 		td {
 			&.position-name {
 				cursor: pointer;
-				color: #0000ff;
+				color: #007bff;
 				&:hover {
 					text-decoration: underline;
 				}

@@ -1,7 +1,8 @@
 .container {
-  padding: 3rem;
   max-width: 90%;
-  margin: 2rem auto;
+  height: 100%;
+  margin: 0rem auto;
+  margin-bottom: 2rem;
   background-color: #ffffff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
@@ -68,7 +69,7 @@
 }
 .container table td.position-name {
   cursor: pointer;
-  color: #0000ff;
+  color: #007bff;
 }
 .container table td.position-name:hover {
   text-decoration: underline;

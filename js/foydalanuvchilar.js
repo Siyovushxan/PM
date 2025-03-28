@@ -1048,14 +1048,14 @@ async function loadUsers() {
 }
 
 // Foydalanuvchilarni jadvalda ko‘rsatish funksiyasi
-function renderUsers(users) {
+function renderUsers(users, index) {
     userTableBody.innerHTML = '';
 
-    users.forEach(user => {
+    users.forEach((user, index) => {
         const row = document.createElement('tr');
         const parentBulimText = user.parent_bulim ? user.parent_bulim : 'Yuqori turuvchi bo\'lim belgilanmagan';
         row.innerHTML = `
-            <td>${user.id}</td>
+            <td>${index+1}</td>
             <td><a href="javascript:void(0)" class="fish-link" data-id="${user.id}">${user.fish}</a></td>
             <td>${user.bulim}</td>
             <td>${parentBulimText}</td>

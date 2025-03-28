@@ -109,12 +109,11 @@ body {
   border-collapse: collapse;
 }
 .main .users-section table th, .main .users-section table td {
-  border: 1px solid #ddd;
   padding: 10px;
   text-align: left;
 }
 .main .users-section table th {
-  background-color: #007bff;
+  background-color: #3a5c64;
   color: white;
   font-weight: bold;
 }
@@ -126,6 +125,7 @@ body {
 }
 .main .users-section table td {
   color: #333;
+  border-bottom: 1px solid #3a5c64;
 }
 .main .users-section table td .fish-link {
   color: #007bff;
@@ -214,7 +214,7 @@ body {
 }
 .main .modal .modal-content form button {
   padding: 12px;
-  background-color: #007bff;
+  background-color: #3a5c64;
   color: white;
   border: none;
   border-radius: 4px;
