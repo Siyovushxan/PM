@@ -16,7 +16,8 @@ body {
     justify-content: center;
     align-items: center;
     padding: 10px;
-    width: 100%;
+    width: 90%;
+    margin-left: 5%;
 
     .form-container {
         background-color: #fff;
@@ -88,7 +89,8 @@ body {
             text-align: left;
             color: #333;
             margin-bottom: 20px;
-    
+            
+            
             &#addUserTrigger {
                 cursor: pointer;
                 color: #007bff;
