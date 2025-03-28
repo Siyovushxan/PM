@@ -75,16 +75,12 @@
     <!-- Overlay (xiralashuv effekti) -->
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
-
-    <!-- Asosiy qism -->
     <main class="main">
-        <!-- Foydalanuvchilar ro‘yxati -->
         <div class="users-section">
             <h2 style="text-align: left;">Foydalanuvchilar ro‘yxati</h2>
             <h2 id="addUserTrigger">Hodim ro‘yxatdan o‘tkazish</h2>
             <div class="search-filter">
-                <input type="text" id="searchInput"
-                    placeholder="Qidiruv... (ID, F.I.Sh, Bo‘lim, Lavozim, Login, Rol, Sana)">
+                <input type="text" id="searchInput" placeholder="Qidiruv...">
             </div>
             <table id="userTable">
                 <thead>
@@ -116,7 +112,9 @@
                     </div>
                     <div class="form-group">
                         <label for="bulim">Bo‘lim:</label>
-                        <input type="text" id="bulim" name="bulim" required>
+                        <select id="bulim" name="bulim" required>
+                            <option value="">Bo‘limni tanlang</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="parent_bulim">Yuqori bo‘lim:</label>
@@ -126,7 +124,9 @@
                     </div>
                     <div class="form-group">
                         <label for="lavozim">Lavozim:</label>
-                        <input type="text" id="lavozim" name="lavozim" required>
+                        <select id="lavozim" name="lavozim" required>
+                            <option value="">Lavozimni tanlang</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="login">Login:</label>
@@ -148,48 +148,48 @@
             </div>
         </div>
 
-        <!-- Tahrirlash uchun modal -->
+        <!-- Foydalanuvchi ma'lumotlarini tahrirlash uchun modal -->
         <div id="editUserModal" class="modal">
             <div class="modal-content">
-                <span class="close-btn" onclick="closeModal()">×</span>
+                <span class="close-btn" onclick="closeEditModal()">×</span>
                 <h2>Foydalanuvchi ma'lumotlarini tahrirlash</h2>
                 <form id="editUserForm">
+                    <input type="hidden" id="editUserId" name="id">
                     <div class="form-group">
-                        <label for="edit-fish">F.I.Sh.:</label>
-                        <input type="text" id="edit-fish" name="fish" required>
+                        <label for="editFish">F.I.Sh.:</label>
+                        <input type="text" id="editFish" name="fish" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit-bulim">Bo‘lim:</label>
-                        <input type="text" id="edit-bulim" name="bulim" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-parent_bulim">Yuqori bo‘lim:</label>
-                        <select id="edit-parent_bulim" name="parent_bulim">
-                            <option value="">Yuqori bo‘limni tanlang (ixtiyoriy)</option>
-                            <!-- Bo‘limlar dinamik ravishda qo‘shiladi -->
+                        <label for="editBulim">Bo‘lim:</label>
+                        <select id="editBulim" name="bulim" required>
+                            <option value="">Bo‘limni tanlang</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="edit-lavozim">Lavozim:</label>
-                        <input type="text" id="edit-lavozim" name="lavozim" required>
+                        <label for="editParentBulim">Yuqori bo‘lim:</label>
+                        <select id="editParentBulim" name="parent_bulim">
+                            <option value="">Yuqori bo‘limni tanlang (ixtiyoriy)</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="edit-login">Login:</label>
-                        <input type="text" id="edit-login" name="login" required>
+                        <label for="editLavozim">Lavozim:</label>
+                        <select id="editLavozim" name="lavozim" required>
+                            <option value="">Lavozimni tanlang</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="edit-password">Yangi parol (o‘zgartirish ixtiyoriy):</label>
-                        <input type="password" id="edit-password" name="password"
-                            placeholder="Agar o‘zgartirmoqchi bo‘lsangiz kiriting">
+                        <label for="editLogin">Login:</label>
+                        <input type="text" id="editLogin" name="login" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit-role">Rol:</label>
-                        <select id="edit-role" name="role" required>
+                        <label for="editRole">Rol:</label>
+                        <select id="editRole" name="role" required>
                             <option value="admin">Admin</option>
                             <option value="user">User</option>
                         </select>
                     </div>
                     <button type="submit">Saqlash</button>
+                    <button type="button" id="resetPasswordBtn">Parolni qayta tiklash</button>
                 </form>
             </div>
         </div>

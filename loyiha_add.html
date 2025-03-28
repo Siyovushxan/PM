@@ -79,38 +79,41 @@
   <main>
     <div class="container">
       <h2>Yangi Loyiha Qo'shish</h2>
-      <h3>Qo'shilgan loyihalarni ko'rish uchun LOYIHALAR sahifasiga o'ting!</h3>
       <form class="project-form">
         <label for="project-name">Loyiha nomi</label>
         <input type="text" id="project-name" name="project-name" placeholder="Loyiha nomini kiriting" required>
         <label for="project-description">Loyiha haqida izoh</label>
-        <textarea id="project-description" name="project-description" placeholder="Loyiha haqida izoh yozing"
-          required></textarea>
+        <textarea id="project-description" name="project-description" placeholder="Loyiha haqida izoh yozing" required></textarea>
 
-        <label for="start-date">Boshlash sanasi</label>
-        <input type="date" id="start-date" name="start-date" required>
+        <div class="boshlash-tugash-sana">
+          <label for="start-date">Boshlash sanasi</label>
+          <input type="date" id="start-date" name="start-date" required>
+  
+          <label for="end-date">Tugash sanasi</label>
+          <input type="date" id="end-date" name="end-date" required>
+        </div>
 
-        <label for="end-date">Tugash sanasi</label>
-        <input type="date" id="end-date" name="end-date" required>
+        <div class="status-masul">
+          <label for="status">Status</label>
+          <select id="status" name="status" required>
+            <option value="rejalashtirilmoqda">Loyiha statusini tanlang</option>
+            <option value="rejalashtirilmoqda">Rejalashtirilmoqda</option>
+            <option value="bajarilmoqda">Bajarilmoqda</option>
+            <option value="yakunlandi">Yakunlandi</option>
+            <option value="to'xtatildi">To'xtatilgan</option>
+          </select>
+  
+          <label for="statusMasul">Mas'ul hodim</label>
+          <select id="statusMasul" name="statusMasul" required>
+            <option value="masul">Mas'ul hodimni tanlang</option>
+            <option value="J.Xafizov">J. Xafizov</option>
+            <option value="S.Adizov">S. Adizov</option>
+            <option value="S.Abdullayev">S. Abdullayev</option>
+            <option value="J.G'iyosov">J. G'iyosov</option>
+            <option value="J.Toshboyev">J. Toshboyev</option>
+          </select>
+        </div>
 
-        <label for="status">Status</label>
-        <select id="status" name="status" required>
-          <option value="rejalashtirilmoqda">Loyiha statusini tanlang</option>
-          <option value="rejalashtirilmoqda">Rejalashtirilmoqda</option>
-          <option value="bajarilmoqda">Bajarilmoqda</option>
-          <option value="yakunlandi">Yakunlandi</option>
-          <option value="to'xtatildi">To'xtatilgan</option>
-        </select>
-
-        <label for="statusMasul">Mas'ul hodim</label>
-        <select id="statusMasul" name="statusMasul" required>
-          <option value="masul">Mas'ul hodimni tanlang</option>
-          <option value="J.Xafizov">J. Xafizov</option>
-          <option value="S.Adizov">S. Adizov</option>
-          <option value="S.Abdullayev">S. Abdullayev</option>
-          <option value="J.G'iyosov">J. G'iyosov</option>
-          <option value="J.Toshboyev">J. Toshboyev</option>
-        </select>
 
         <button type="submit" class="btn-submit">Loyihani qo'shish</button>
       </form>
