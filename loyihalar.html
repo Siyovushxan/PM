@@ -78,7 +78,20 @@
       <h2 class="title_vazifa">Bajarilishi Rejalashtirilgan Loyihalar</h2>
 
       <!-- Loyiha kartalari -->
-      <div class="projects"></div>
+      <div class="projects">
+        <div class="bottons">
+          <div class="left">
+            <button class="edit-btn" data-id="${project.id || 0}">Tahrirlash</button>
+            <button class="delete-btn" data-id="${project.id || 0}">O'chirish</button>
+            <button class="archive-btn" data-id="${project.id || 0}">Arxivlash</button> <!-- Yangi Arxivlash tugmasi -->
+          </div>
+          <div>
+            <button class="roadmap-btn" data-id="${project.id || 0}" data-name="${project.name || 'N/A'}">Yo‘l
+              xaritasi</button>
+            <button class="add-task-btn" data-id="${project.id || 0}">Vazifa qo'shish</button>
+          </div>  
+        </div>
+      </div>
     </div>
   </main>
 

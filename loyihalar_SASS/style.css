@@ -127,6 +127,16 @@ body {
   display: flex;
   justify-content: space-between;
 }
+.projects .project-card .bottons .unarchive-btn {
+  background-color: #e74c3c;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.3s ease;
+}
 .projects .project-card .bottons .left {
   display: flex;
   gap: 10px;
@@ -338,7 +348,8 @@ body {
   .task-table {
     font-size: 0.85em;
   }
-  .task-table th, .task-table td {
+  .task-table th,
+  .task-table td {
     padding: 8px;
   }
 }
