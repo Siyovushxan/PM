@@ -62,309 +62,292 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	// Jadvalni Word hujjati sifatida yuklab olish
-	function downloadAsWord(projectName, tasks) {
+	function downloadAsWord(projectName, tasks, department) {
 		const htmlContent = `
-					<html xmlns:o="urn:schemas-microsoft-com:office:office"
-								xmlns:w="urn:schemas-microsoft-com:office:word"
-								xmlns="http://www.w3.org/TR/REC-html40">
-							<head>
-									<meta charset="UTF-8">
-									<style>
-											@page {
-													size: A4 landscape;
-													margin: 2cm;
-											}
-											@page Section1 {
-													size: 841.9pt 595.3pt;
-													mso-page-orientation: landscape;
-													margin: 2cm 2cm 2cm 2cm;
-											}
-											div.Section1 {
-													page: Section1;
-											}
-											body {
-													font-family: "Times New Roman", sans-serif;
-													margin: 0;
-													padding: 0;
-											}
-											.header-text {
-													text-align: center;
-													font-size: 14pt;
-													font-weight: bold;
-													margin-bottom: 15px;
-											}
-											.sub-header-text {
-													margin-bottom: 20px;
-													margin-left: 730px;
-													font-size: 14pt;
-													text-align: center;
-											}
-											table {
-													width: 100%;
-													border-collapse: collapse;
-													font-family: "Calibri", sans-serif;
-													font-size: 14pt;
-											}
-											tr {
-													text-align: center;
-											}
-											th, td {
-													border: 0.1px solid black;
-													padding: 10px;
-													text-align: left;
-													vertical-align: top;
-											}
-											th {
-													font-weight: bold;
-											}
-									</style>
-							</head>
-							<body>
-									<div class="Section1">
-											<div class="sub-header-text">
-													"Navoiyuran" davlat korxonasi <br> 2025 yil yanvarda - sonli <br> Buyrug‘iga <br> 1-ilova
-											</div>
-											<div class="header-text">
-													"Navoiyuran" davlat korxonasining 2025 yil uchun mo‘ljallangan <br> <br> RAQAMLASHTIRISH DASTURI
-											</div>
-											<table>
-													<thead>
-															<tr>
-																	<th>№</th>
-																	<th>Chora-tadbirlar nomi</th>
-																	<th>Amalga oshiriladigan mexanizm</th>
-																	<th>Ijro muddati</th>
-																	<th>Ijro uchun mas’ul</th>
-															</tr>
-													</thead>
-													<tbody>
-															${tasks
-																.map(
-																	(task, index) => `
-																	<tr>
-																			<td>${index + 1}</td>
-																			<td>${task.vazifa_nomi || 'N/A'}</td>
-																			<td>${task.izoh || 'N/A'}</td>
-																			<td>${task.vazifa_tugash_sanasi || 'N/A'}</td>
-																			<td>${task.vazifa_masul_hodimi || 'N/A'}</td>
-																	</tr>
-															`
-																)
-																.join('')}
-													</tbody>
-											</table>
-									</div>
-							</body>
-					</html>
-			`
-
-		const blob = new Blob([htmlContent], { type: 'application/vnd.ms-word' })
-		const url = URL.createObjectURL(blob)
-		const a = document.createElement('a')
-		a.href = url
-		a.download = `${projectName}_roadmap.doc`
-		document.body.appendChild(a)
-		a.click()
-		document.body.removeChild(a)
-		URL.revokeObjectURL(url)
+			<html xmlns:o="urn:schemas-microsoft-com:office:office"
+				  xmlns:w="urn:schemas-microsoft-com:office:word"
+				  xmlns="http://www.w3.org/TR/REC-html40">
+				<head>
+					<meta charset="UTF-8">
+					<style>
+						@page {
+							size: A4 landscape;
+							margin: 2cm;
+						}
+						@page Section1 {
+							size: 841.9pt 595.3pt;
+							mso-page-orientation: landscape;
+							margin: 2cm 2cm 2cm 2cm;
+						}
+						div.Section1 {
+							page: Section1;
+						}
+						body {
+							font-family: "Times New Roman", sans-serif;
+							margin: 0;
+							padding: 0;
+						}
+						.header-text {
+							text-align: center;
+							font-size: 14pt;
+							font-weight: bold;
+							margin-bottom: 15px;
+						}
+						.sub-header-text {
+							margin-bottom: 20px;
+							margin-left: 730px;
+							font-size: 14pt;
+							text-align: center;
+						}
+						.department-box {
+							text-align: center;
+							font-size: 14pt;
+							font-weight: bold;
+							border: 2px solid red;
+							padding: 5px;
+							margin: 10px 0;
+						}
+						table {
+							width: 100%;
+							border-collapse: collapse;
+							font-family: "Calibri", sans-serif;
+							font-size: 14pt;
+						}
+						tr {
+							text-align: center;
+						}
+						th, td {
+							border: 0.1px solid black;
+							padding: 10px;
+							text-align: left;
+							vertical-align: top;
+						}
+						th {
+							font-weight: bold;
+						}
+					</style>
+				</head>
+				<body>
+					<div class="Section1">
+						<div class="sub-header-text">
+							"Navoiyuran" davlat korxonasi <br> 2025 yil yanvarda - sonli <br> Buyrug‘iga <br> 1-ilova
+						</div>
+						<div class="header-text">
+							"Navoiyuran" davlat korxonasining 2025 yil <br> <br> raqamli transformatsiyani joriy etish bo‘limi <br> YO‘L XARITASI
+						</div>
+						<div class="department-box">
+							${department}
+						</div>
+						<table>
+							<thead>
+								<tr>
+									<th>№</th>
+									<th>Chora-tadbirlar nomi</th>
+									<th>Amalga oshiriladigan mexanizm</th>
+									<th>Ijro muddati</th>
+									<th>Ijro uchun mas’ul</th>
+								</tr>
+							</thead>
+							<tbody>
+								${tasks.map((task, index) => `
+									<tr>
+										<td>${index + 1}</td>
+										<td>${task.vazifa_nomi || 'N/A'}</td>
+										<td>${task.izoh || 'N/A'}</td>
+										<td>${task.vazifa_tugash_sanasi || 'N/A'}</td>
+										<td>${task.vazifa_masul_hodimi || 'N/A'}</td>
+									</tr>
+								`).join('')}
+							</tbody>
+						</table>
+					</div>
+				</body>
+			</html>
+		`;
+	
+		const blob = new Blob([htmlContent], { type: 'application/vnd.ms-word' });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = `${projectName}_roadmap.doc`;
+		document.body.appendChild(a);
+		a.click();
+		document.body.removeChild(a);
+		URL.revokeObjectURL(url);
 	}
 
 	// Arxivlangan loyihalarni yuklash
 	async function loadArchivedProjects() {
 		try {
-			const response = await fetch(
-				'http://localhost:5000/api/archived-projects'
-			)
+			const response = await fetch('http://localhost:5000/api/archived-projects');
 			if (!response.ok) {
-				const errorText = await response.text()
-				throw new Error(
-					`Server javobi: ${response.status} - ${response.statusText} - ${errorText}`
-				)
+				const errorText = await response.text();
+				throw new Error(`Server javobi: ${response.status} - ${response.statusText} - ${errorText}`);
 			}
-
-			const projects = await response.json()
-
+	
+			const projects = await response.json();
+	
 			if (!projects || projects.length === 0) {
-				projectsContainer.innerHTML = "<p>Hozircha arxivlangan loyiha yo'q.</p>"
-				return
+				projectsContainer.innerHTML = "<p>Hozircha arxivlangan loyiha yo'q.</p>";
+				return;
 			}
-
-			projectsContainer.innerHTML = ''
+	
+			projectsContainer.innerHTML = '';
 			for (const project of projects) {
-				const projectCard = document.createElement('div')
-				projectCard.classList.add('project-card')
-
+				const projectCard = document.createElement('div');
+				projectCard.classList.add('project-card');
+	
 				projectCard.innerHTML = `
-                <h3 class="project-title" data-id="${project.id}">
-                    ${
-											project.name || 'N/A'
-										} <span class="task-hint" style="font-size: 0.8em; color: #777;">- Arxivlangan</span>
-                </h3>
-                <p class="project-description">${
-									project.description || 'N/A'
-								}</p>
-                <p class="project-dates">Boshlanish: ${formatDate(
-									project.startDate
-								)} | Tugash: ${formatDate(project.endDate)}</p>
-                <p class="project-status">Status: <span class="status">${
-									project.status ? project.status.toUpperCase() : 'N/A'
-								}</span></p>
-                <p class="project-status">Mas'ul hodim: <span class="status">${
-									project.responsible || 'N/A'
-								}</span></p>
-                <div class="bottons">
-                    <button class="unarchive-btn" data-id="${
-											project.id || 0
-										}">Loyihani faollashtirish</button>
-                    <button class="roadmap-btn" data-id="${
-											project.id || 0
-										}" data-name="${
-					project.name || 'N/A'
-				}">Yo‘l xaritasi</button>
-                </div>
-            `
-				projectsContainer.appendChild(projectCard)
-
+					<h3 class="project-title" data-id="${project.id}">
+						${project.name || 'N/A'} <span class="task-hint" style="font-size: 0.8em; color: #777;">- Arxivlangan</span>
+					</h3>
+					<p class="project-description">${project.description || 'N/A'}</p>
+					<p class="project-dates">Boshlanish: ${formatDate(project.startDate)} | Tugash: ${formatDate(project.endDate)}</p>
+					<p class="project-status">Status: <span class="status">${project.status ? project.status.toUpperCase() : 'N/A'}</span></p>
+					<p class="project-status">Mas'ul hodim: <span class="status">${project.responsible || 'N/A'}</span></p>
+					<div class="bottons">
+						<button class="unarchive-btn" data-id="${project.id || 0}">Loyihani faollashtirish</button>
+						<button class="roadmap-btn" data-id="${project.id || 0}" data-name="${project.name || 'N/A'}">Yo‘l xaritasi</button>
+					</div>
+				`;
+				projectsContainer.appendChild(projectCard);
+	
 				// Loyiha sarlavhasiga vazifalar sonini qo‘shish
-				const tasks = await getTasksByProject(project.id)
-				const taskHint = projectCard.querySelector('.task-hint')
-				taskHint.textContent = `(${tasks.length} vazifa)`
+				const tasks = await getTasksByProject(project.id);
+				const taskHint = projectCard.querySelector('.task-hint');
+				taskHint.textContent = `(${tasks.length} vazifa)`;
 			}
-
+	
 			// Loyiha nomini bosganda vazifalarni ko‘rish
 			document.querySelectorAll('.project-title').forEach(title => {
 				title.addEventListener('click', () => {
-					const projectId = title.dataset.id
-					window.location.href = `vazifalar.html?project_id=${projectId}`
-				})
-			})
-
-			// Loyihani faollashtirish tugmalari uchun hodisalar
+					const projectId = title.dataset.id;
+					window.location.href = `vazifalar.html?project_id=${projectId}`;
+				});
+			});
+	
 			// Loyihani faollashtirish tugmalari uchun hodisalar
 			document.querySelectorAll('.unarchive-btn').forEach(button => {
 				button.addEventListener('click', async event => {
-					const projectId = event.target.dataset.id
-
+					const projectId = event.target.dataset.id;
+	
 					// Parol so‘rash
-					const password = prompt(
-						'Loyihani faollashtirish uchun parolni kiriting:'
-					)
+					const password = prompt('Loyihani faollashtirish uchun parolni kiriting:');
 					if (!password) {
-						alert('Parol kiritilmadi!')
-						return
+						alert('Parol kiritilmadi!');
+						return;
 					}
-
-					if (
-						confirm(
-							'Loyihani arxivdan chiqarib, faol holatga qaytarishni tasdiqlaysizmi?'
-						)
-					) {
+	
+					if (confirm('Loyihani arxivdan chiqarib, faol holatga qaytarishni tasdiqlaysizmi?')) {
 						try {
-							const response = await fetch(
-								`http://localhost:5000/api/projects/unarchive/${projectId}`,
-								{
-									method: 'POST',
-									headers: {
-										'Content-Type': 'application/json',
-									},
-									body: JSON.stringify({ password }), // Parolni yuborish
-								}
-							)
-
+							const response = await fetch(`http://localhost:5000/api/projects/unarchive/${projectId}`, {
+								method: 'POST',
+								headers: {
+									'Content-Type': 'application/json',
+								},
+								body: JSON.stringify({ password }), // Parolni yuborish
+							});
+	
 							if (!response.ok) {
-								const errorText = await response.json()
-								throw new Error(
-									errorText.message ||
-										'Loyihani faollashtirishda xatolik yuz berdi'
-								)
+								const errorText = await response.json();
+								throw new Error(errorText.message || 'Loyihani faollashtirishda xatolik yuz berdi');
 							}
-
-							const data = await response.json()
-							alert(data.message)
-							loadArchivedProjects() // Sahifani yangilash
+	
+							const data = await response.json();
+							alert(data.message);
+							loadArchivedProjects(); // Sahifani yangilash
 						} catch (error) {
-							console.error('Loyihani faollashtirishda xatolik:', error.message)
-							alert(
-								'Loyihani faollashtirishda xatolik yuz berdi: ' + error.message
-							)
+							console.error('Loyihani faollashtirishda xatolik:', error.message);
+							alert('Loyihani faollashtirishda xatolik yuz berdi: ' + error.message);
 						}
 					}
-				})
-			})
-
+				});
+			});
+	
 			// Yo‘l xaritasi tugmalari uchun hodisalar
 			document.querySelectorAll('.roadmap-btn').forEach(button => {
 				button.addEventListener('click', async () => {
-					const projectId = button.dataset.id
-					const projectName = button.dataset.name
-
-					const tasks = await getTasksByProject(projectId)
-					if (tasks.length === 0) {
-						roadmapContent.innerHTML =
-							'<p>Ushbu loyiha uchun vazifalar topilmadi.</p>'
-						roadmapModal.style.display = 'block'
-						return
+					const projectId = button.dataset.id;
+					const projectName = button.dataset.name;
+	
+					// Foydalanuvchi bo‘limini olish
+					let department = 'BO‘LIM NOMI'; // Default qiymat
+					try {
+						const response = await fetch('http://localhost:5000/api/user-department');
+						if (response.ok) {
+							const data = await response.json();
+							department = data.department || 'BO‘LIM NOMI';
+						} else {
+							console.error('Bo‘limni olishda xatolik:', response.status);
+						}
+					} catch (error) {
+						console.error('Bo‘limni olishda xatolik:', error.message);
 					}
-
+	
+					const tasks = await getTasksByProject(projectId);
+					if (tasks.length === 0) {
+						roadmapContent.innerHTML = '<p>Ushbu loyiha uchun vazifalar topilmadi.</p>';
+						roadmapModal.style.display = 'block';
+						return;
+					}
+	
 					let tableHTML = `
-                    <button class="download-word-btn" data-project-id="${projectId}" data-project-name="${projectName}">Word sifatida yuklab olish</button>
-                    <table class="roadmap-table">
-                        <thead>
-                            <tr>
-                                <th>№</th>
-                                <th>Chora-tadbirlar nomi</th>
-                                <th>Amalga oshiriladigan mexanizm</th>
-                                <th>Ijro muddati</th>
-                                <th>Ijro uchun mas’ul</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                `
-
+						<button class="download-word-btn" data-project-id="${projectId}" data-project-name="${projectName}" data-department="${department}">Word sifatida yuklab olish</button>
+						<table class="roadmap-table">
+							<thead>
+								<tr>
+									<th>№</th>
+									<th>Chora-tadbirlar nomi</th>
+									<th>Amalga oshiriladigan mexanizm</th>
+									<th>Ijro muddati</th>
+									<th>Ijro uchun mas’ul</th>
+								</tr>
+							</thead>
+							<tbody>
+					`;
+	
 					tasks.forEach((task, index) => {
 						tableHTML += `
-                        <tr>
-                            <td>${index + 1}</td>
-                            <td>${task.vazifa_nomi || 'N/A'}</td>
-                            <td>${task.izoh || 'N/A'}</td>
-                            <td>${formatDateForDisplay(
-															task.vazifa_tugash_sanasi
-														)}</td>
-                            <td>${task.vazifa_masul_hodimi || 'N/A'}</td>
-                        </tr>
-                    `
-					})
-
+							<tr data-id="${task.id}">
+								<td>${index + 1}</td>
+								<td>${task.vazifa_nomi || 'N/A'}</td>
+								<td>${task.izoh || 'N/A'}</td>
+								<td>${formatDateForDisplay(task.vazifa_tugash_sanasi)}</td>
+								<td>${task.vazifa_masul_hodimi || 'N/A'}</td>
+							</tr>
+						`;
+					});
+	
 					tableHTML += `
-                        </tbody>
-                    </table>
-                `
-
-					roadmapContent.innerHTML = tableHTML
-					roadmapModal.style.display = 'block'
-
+							</tbody>
+						</table>
+					`;
+	
+					roadmapContent.innerHTML = tableHTML;
+					roadmapModal.style.display = 'block';
+	
+					// Word sifatida yuklab olish tugmasi uchun hodisa
 					document.querySelectorAll('.download-word-btn').forEach(btn => {
 						btn.addEventListener('click', () => {
-							const projectId = btn.dataset.projectId
-							const projectName = btn.dataset.projectName
-							const currentTasks = Array.from(
-								document.querySelectorAll('.roadmap-table tbody tr')
-							).map(row => {
+							const projectId = btn.dataset.projectId;
+							const projectName = btn.dataset.projectName;
+							const department = btn.dataset.department;
+							const currentTasks = Array.from(document.querySelectorAll('.roadmap-table tbody tr')).map(row => {
 								return {
 									vazifa_nomi: row.cells[1].textContent,
 									izoh: row.cells[2].textContent,
 									vazifa_tugash_sanasi: row.cells[3].textContent,
 									vazifa_masul_hodimi: row.cells[4].textContent,
-								}
-							})
-							downloadAsWord(projectName, currentTasks)
-						})
-					})
-				})
-			})
+								};
+							});
+							downloadAsWord(projectName, currentTasks, department);
+						});
+					});
+				});
+			});
 		} catch (error) {
-			console.error('Xatolik:', error.message)
-			projectsContainer.innerHTML = `<p>Xatolik yuz berdi: ${error.message}</p>`
+			console.error('Xatolik:', error.message);
+			projectsContainer.innerHTML = `<p>Xatolik yuz berdi: ${error.message}</p>`;
 		}
 	}
 

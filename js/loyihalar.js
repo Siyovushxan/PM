@@ -148,220 +148,119 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	}
 
-	// Jadvalni Word hujjati sifatida yuklab olish
-	// function downloadAsWord(projectName, tasks) {
-	//     const htmlContent = `
-	//         <html xmlns:o="urn:schemas-microsoft-com:office:office"
-	//             xmlns:w="urn:schemas-microsoft-com:office:word"
-	//             xmlns="http://www.w3.org/TR/REC-html40">
-	//             <head>
-	//                 <meta charset="UTF-8">
-	//                 <style>
-	//                     @page {
-	//                         size: A4 landscape; /* A4 hajmi va landscape orientatsiyasi */
-	//                         margin: 2cm; /* Chegaralar */
-	//                     }
-	//                     @page Section1 {
-	//                         size: 841.9pt 595.3pt; /* A4 landscape o‘lchamlari (pt) */
-	//                         mso-page-orientation: landscape; /* Word uchun qat'iy landscape */
-	//                         margin: 2cm 2cm 2cm 2cm;
-	//                     }
-	//                     div.Section1 {
-	//                         page: Section1;
-	//                     }
-	//                     body {
-	//                         font-family: "Calibri", sans-serif; /* Shrifts Calibri */
-	//                         margin: 0;
-	//                         padding: 0;
-	//                     }
-	//                     .header-text {
-	//                         text-align: center;
-	//                         font-size: 14pt; /* Sarlavha o‘lchami */
-	//                         font-weight: bold;
-	//                         margin-bottom: 10px;
-	//                     }
-	//                     .sub-header-text {
-	//                         margin-bottom: 20px;
-	//                         margin-left: 740px;
-	//                         font-size: 14pt;
-	//                         text-align: center;
-	//                     }
-	//                     table {
-	//                         width: 100%;
-	//                         border-collapse: collapse;
-	//                         font-family: "Calibri", sans-serif; /* Jadval shrifti Calibri */
-	//                         font-size: 14pt; /* Jadval matni o‘lchami */
-	//                     }
-	//                     tr {
-	//                         text-align: center;
-	//                     }
-
-	//                     th, td {
-	//                         border: 0.1px solid black; /* Chegaralar qalinroq */
-	//                         padding: 14px; /* Katak ichidagi bo‘shliq */
-	//                         text-align: left;
-	//                         vertical-align: top;
-	//                     }
-	//                     th {
-	//                         font-weight: bold;
-	//                     }
-	//                 </style>
-	//             </head>
-	//             <body>
-	//                 <div class="Section1">
-	//                     <div class="sub-header-text">
-	//                         "Navoiyuran" davlat korxonasi <br> 2025 yil yanvarda - sonli <br> Buyrug‘iga <br> 1-ilova
-	//                     </div>
-	//                     <div class="header-text">
-	//                         "Navoiyuran" davlat korxonasining 2025 yil uchun mo‘ljallangan <br> RAQAMLASHTIRISH DASTURI
-	//                     </div>
-	//                     <table>
-	//                         <thead>
-	//                             <tr>
-	//                                 <th>№</th>
-	//                                 <th>Chora-tadbirlar nomi</th>
-	//                                 <th>Amalga oshiriladigan mexanizm</th>
-	//                                 <th>Ijro muddati</th>
-	//                                 <th>Ijro uchun mas’ul</th>
-	//                             </tr>
-	//                         </thead>
-	//                         <tbody>
-	//                             ${tasks.map((task, index) => `
-	//                                 <tr>
-	//                                     <td>${index + 1}</td>
-	//                                     <td>${task.vazifa_nomi || 'N/A'}</td>
-	//                                     <td>${task.izoh || 'N/A'}</td>
-	//                                     <td>${formatDateForDisplay(task.vazifa_tugash_sanasi)}</td>
-	//                                     <td>${task.vazifa_masul_hodimi || 'N/A'}</td>
-	//                                 </tr>
-	//                             `).join('')}
-	//                         </tbody>
-	//                     </table>
-	//                 </div>
-	//             </body>
-	//         </html>
-	//     `;
-
-	//     const blob = new Blob([htmlContent], { type: 'application/vnd.ms-word' });
-	//     const url = URL.createObjectURL(blob);
-	//     const a = document.createElement('a');
-	//     a.href = url;
-	//     a.download = `${projectName}_roadmap.doc`;
-	//     document.body.appendChild(a);
-	//     a.click();
-	//     document.body.removeChild(a);
-	//     URL.revokeObjectURL(url);
-	// }
-
-	function downloadAsWord(projectName, tasks) {
+	// loyihalar.js va axriv_loyihalar.js fayllarida downloadAsWord funksiyasini quyidagicha yangilang:
+	function downloadAsWord(projectName, tasks, department) {
 		const htmlContent = `
-            <html xmlns:o="urn:schemas-microsoft-com:office:office"
-                  xmlns:w="urn:schemas-microsoft-com:office:word"
-                  xmlns="http://www.w3.org/TR/REC-html40">
-                <head>
-                    <meta charset="UTF-8">
-                    <style>
-                        @page {
-                            size: A4 landscape; /* A4 hajmi va landscape orientatsiyasi */
-                            margin: 2cm; /* Chegaralar */
-                        }
-                        @page Section1 {
-                            size: 841.9pt 595.3pt; /* A4 landscape o‘lchamlari (pt) */
-                            mso-page-orientation: landscape; /* Word uchun qat'iy landscape */
-                            margin: 2cm 2cm 2cm 2cm;
-                        }
-                        div.Section1 {
-                            page: Section1;
-                        }
-                        body {
-                            font-family: "Times New Roman", sans-serif; /* Shrifts Calibri */
-                            margin: 0;
-                            padding: 0;
-                        }
-                        .header-text {
-                            text-align: center;
-                            font-size: 14pt; /* Sarlavha o‘lchami */
-                            font-weight: bold;
-                            margin-bottom: 15px;
-                        }
-                        .sub-header-text {
-                            margin-bottom: 20px;
-                            margin-left: 730px;
-                            font-size: 14pt;
-                            text-align: center;
-                        }
-                        table {
-                            width: 100%;
-                            border-collapse: collapse;
-                            font-family: "Calibri", sans-serif; /* Jadval shrifti Calibri */
-                            font-size: 14pt; /* Jadval matni o‘lchami */
-                        }
-                        tr {
-                            text-align: center;
-                        }
-                        th, td {
-                            border: 0.1px solid black; /* Chegaralar qalinroq */
-                            padding: 10px; /* Katak ichidagi bo‘shliq */
-                            text-align: left;
-                            vertical-align: top;
-                        }
-                        th {
-                            font-weight: bold;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div class="Section1">
-                        <div class="sub-header-text">
-                            "Navoiyuran" davlat korxonasi <br> 2025 yil yanvarda - sonli <br> Buyrug‘iga <br> 1-ilova
-                        </div>
-                        <div class="header-text">
-                            "Navoiyuran" davlat korxonasining 2025 yil uchun mo‘ljallangan <br> <br> RAQAMLASHTIRISH DASTURI
-                        </div>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>№</th>
-                                    <th>Chora-tadbirlar nomi</th>
-                                    <th>Amalga oshiriladigan mexanizm</th>
-                                    <th>Ijro muddati</th>
-                                    <th>Ijro uchun mas’ul</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${tasks
-																	.map(
-																		(task, index) => `
-                                    <tr>
-                                        <td>${index + 1}</td>
-                                        <td>${task.vazifa_nomi || 'N/A'}</td>
-                                        <td>${task.izoh || 'N/A'}</td>
-                                        <td>${
-																					task.vazifa_tugash_sanasi || 'N/A'
-																				}</td>
-                                        <td>${
-																					task.vazifa_masul_hodimi || 'N/A'
-																				}</td>
-                                    </tr>
-                                `
-																	)
-																	.join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                </body>
-            </html>
-        `
-
-		const blob = new Blob([htmlContent], { type: 'application/vnd.ms-word' })
-		const url = URL.createObjectURL(blob)
-		const a = document.createElement('a')
-		a.href = url
-		a.download = `${projectName}_roadmap.doc`
-		document.body.appendChild(a)
-		a.click()
-		document.body.removeChild(a)
-		URL.revokeObjectURL(url)
+			<html xmlns:o="urn:schemas-microsoft-com:office:office"
+				  xmlns:w="urn:schemas-microsoft-com:office:word"
+				  xmlns="http://www.w3.org/TR/REC-html40">
+				<head>
+					<meta charset="UTF-8">
+					<style>
+						@page {
+							size: A4 landscape;
+							margin: 2cm;
+						}
+						@page Section1 {
+							size: 841.9pt 595.3pt;
+							mso-page-orientation: landscape;
+							margin: 2cm 2cm 2cm 2cm;
+						}
+						div.Section1 {
+							page: Section1;
+						}
+						body {
+							font-family: "Times New Roman", sans-serif;
+							margin: 0;
+							padding: 0;
+						}
+						.header-text {
+							text-align: center;
+							font-size: 14pt;
+							font-weight: bold;
+							margin-bottom: 15px;
+						}
+						.sub-header-text {
+							margin-bottom: 20px;
+							margin-left: 730px;
+							font-size: 14pt;
+							text-align: center;
+						}
+						.department-box {
+							text-align: center;
+							font-size: 14pt;
+							font-weight: bold;
+							border: 2px solid red;
+							padding: 5px;
+							margin: 10px 0;
+						}
+						table {
+							width: 100%;
+							border-collapse: collapse;
+							font-family: "Calibri", sans-serif;
+							font-size: 14pt;
+						}
+						tr {
+							text-align: center;
+						}
+						th, td {
+							border: 0.1px solid black;
+							padding: 10px;
+							text-align: left;
+							vertical-align: top;
+						}
+						th {
+							font-weight: bold;
+						}
+					</style>
+				</head>
+				<body>
+					<div class="Section1">
+						<div class="sub-header-text">
+							"Navoiyuran" davlat korxonasi <br> 2025 yil yanvarda - sonli <br> Buyrug‘iga <br> 1-ilova
+						</div>
+						<div class="header-text">
+							"Navoiyuran" davlat korxonasining 2025 yil <br> <br> raqamli transformatsiyani joriy etish bo‘limi <br> YO‘L XARITASI
+						</div>
+						<div class="department-box">
+							${department}
+						</div>
+						<table>
+							<thead>
+								<tr>
+									<th>№</th>
+									<th>Chora-tadbirlar nomi</th>
+									<th>Amalga oshiriladigan mexanizm</th>
+									<th>Ijro muddati</th>
+									<th>Ijro uchun mas’ul</th>
+								</tr>
+							</thead>
+							<tbody>
+								${tasks.map((task, index) => `
+									<tr>
+										<td>${index + 1}</td>
+										<td>${task.vazifa_nomi || 'N/A'}</td>
+										<td>${task.izoh || 'N/A'}</td>
+										<td>${task.vazifa_tugash_sanasi || 'N/A'}</td>
+										<td>${task.vazifa_masul_hodimi || 'N/A'}</td>
+									</tr>
+								`).join('')}
+							</tbody>
+						</table>
+					</div>
+				</body>
+			</html>
+		`;
+	
+		const blob = new Blob([htmlContent], { type: 'application/vnd.ms-word' });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = `${projectName}_roadmap.doc`;
+		document.body.appendChild(a);
+		a.click();
+		document.body.removeChild(a);
+		URL.revokeObjectURL(url);
 	}
 
 	// Barcha loyihalarni olish va ko‘rsatish
@@ -453,50 +352,34 @@ document.addEventListener('DOMContentLoaded', () => {
 			// Tahrirlash tugmalari uchun hodisalar
 			document.querySelectorAll('.edit-btn').forEach(button => {
 				button.addEventListener('click', async event => {
-					currentProjectId = event.target.dataset.id
+					currentProjectId = event.target.dataset.id;
 					if (!currentProjectId || currentProjectId === '0') {
-						console.error(
-							'currentProjectId aniqlanmadi yoki noto‘g‘ri:',
-							currentProjectId
-						)
-						alert('Loyiha ID topilmadi!')
-						return
+						console.error('currentProjectId aniqlanmadi yoki noto‘g‘ri:', currentProjectId);
+						alert('Loyiha ID topilmadi!');
+						return;
 					}
 					try {
-						const response = await fetch(
-							`http://localhost:5000/api/projects/${currentProjectId}`
-						)
+						const response = await fetch(`http://localhost:5000/api/projects/${currentProjectId}`);
 						if (!response.ok) {
-							const errorText = await response.text()
-							throw new Error(
-								`Loyiha topilmadi: ${response.status} - ${errorText}`
-							)
+							const errorText = await response.text();
+							throw new Error(`Loyiha topilmadi: ${response.status} - ${errorText}`);
 						}
-						const project = await response.json()
+						const project = await response.json();
 
-						document.getElementById('edit-project-name').value =
-							project.name || ''
-						document.getElementById('edit-project-description').value =
-							project.description || ''
-						document.getElementById('edit-start-date').value = project.startDate
-							? formatDateForInput(project.startDate)
-							: ''
-						document.getElementById('edit-end-date').value = project.endDate
-							? formatDateForInput(project.endDate)
-							: ''
-						document.getElementById('edit-status').value =
-							project.status || 'rejalashtirilmoqda'
-						document.getElementById('edit-statusMasul').value =
-							project.responsible ||
-							(project.responsible ? project.responsible : 'J.Xafizov')
+						document.getElementById('edit-project-name').value = project.name || '';
+						document.getElementById('edit-project-description').value = project.description || '';
+						document.getElementById('edit-start-date').value = project.startDate ? formatDateForInput(project.startDate) : '';
+						document.getElementById('edit-end-date').value = project.endDate ? formatDateForInput(project.endDate) : '';
+						document.getElementById('edit-status').value = project.status || 'rejalashtirilmoqda';
+						document.getElementById('edit-statusMasul').value = project.responsible || 'J.Xafizov';
 
-						editModal.style.display = 'block'
+						editModal.style.display = 'block';
 					} catch (error) {
-						console.error('Tahrirlashda xatolik:', error)
-						alert('Loyihani yuklashda xatolik yuz berdi: ' + error.message)
+						console.error('Tahrirlashda xatolik:', error);
+						alert('Loyihani yuklashda xatolik yuz berdi: ' + error.message);
 					}
-				})
-			})
+				});
+			});
 
 			// O‘chirish tugmalari uchun hodisalar
 			document.querySelectorAll('.delete-btn').forEach(button => {
@@ -544,76 +427,210 @@ document.addEventListener('DOMContentLoaded', () => {
 			})
 
 			// Yo‘l xaritasi tugmalari uchun hodisalar
-			document.querySelectorAll('.roadmap-btn').forEach(button => {
-				button.addEventListener('click', async () => {
-					const projectId = button.dataset.id
-					const projectName = button.dataset.name
+			// Yo‘l xaritasi tugmalari uchun hodisalar
+document.querySelectorAll('.roadmap-btn').forEach(button => {
+    button.addEventListener('click', async () => {
+        const projectId = button.dataset.id;
+        const projectName = button.dataset.name;
 
-					const tasks = await getTasksByProject(projectId)
-					if (tasks.length === 0) {
-						roadmapContent.innerHTML =
-							'<p>Ushbu loyiha uchun vazifalar topilmadi.</p>'
-						roadmapModal.style.display = 'block'
-						return
+        // Foydalanuvchi bo‘limini olish
+        let department = 'BO‘LIM NOMI'; // Default qiymat
+        try {
+            const response = await fetch('http://localhost:5000/api/user-department');
+            if (response.ok) {
+                const data = await response.json();
+                department = data.department || 'BO‘LIM NOMI';
+            } else {
+                console.error('Bo‘limni olishda xatolik:', response.status);
+            }
+        } catch (error) {
+            console.error('Bo‘limni olishda xatolik:', error.message);
+        }
+
+        const tasks = await getTasksByProject(projectId);
+        if (tasks.length === 0) {
+            roadmapContent.innerHTML = '<p>Ushbu loyiha uchun vazifalar topilmadi.</p>';
+            roadmapModal.style.display = 'block';
+            return;
+        }
+
+        let tableHTML = `
+            <button class="download-word-btn" data-project-id="${projectId}" data-project-name="${projectName}" data-department="${department}">Word sifatida yuklab olish</button>
+            <table class="roadmap-table">
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Chora-tadbirlar nomi</th>
+                        <th>Amalga oshiriladigan mexanizm</th>
+                        <th>Ijro muddati</th>
+                        <th>Ijro uchun mas’ul</th>
+                        <th>Amallar</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+
+        tasks.forEach((task, index) => {
+            tableHTML += `
+                <tr data-id="${task.id}">
+                    <td>${index + 1}</td>
+                    <td>${task.vazifa_nomi || 'N/A'}</td>
+                    <td>${task.izoh || 'N/A'}</td>
+                    <td>${formatDateForDisplay(task.vazifa_tugash_sanasi)}</td>
+                    <td>${task.vazifa_masul_hodimi || 'N/A'}</td>
+                    <td>
+                        <button class="edit-task-btn" data-id="${task.id}">Tahrirlash</button>
+                    </td>
+                </tr>
+            `;
+        });
+
+        tableHTML += `
+                </tbody>
+            </table>
+        `;
+
+        roadmapContent.innerHTML = tableHTML;
+        roadmapModal.style.display = 'block';
+
+        // Word sifatida yuklab olish tugmasi uchun hodisa
+        document.querySelectorAll('.download-word-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const projectId = btn.dataset.projectId;
+                const projectName = btn.dataset.projectName;
+                const department = btn.dataset.department;
+                const currentTasks = Array.from(document.querySelectorAll('.roadmap-table tbody tr')).map(row => {
+                    return {
+                        vazifa_nomi: row.cells[1].textContent,
+                        izoh: row.cells[2].textContent,
+                        vazifa_tugash_sanasi: row.cells[3].textContent,
+                        vazifa_masul_hodimi: row.cells[4].textContent,
+                    };
+                });
+                downloadAsWord(projectName, currentTasks, department);
+            });
+        });
+
+		// Vazifani tahrirlash tugmalari uchun hodisalar
+		document.querySelectorAll('.edit-task-btn').forEach(btn => {
+			btn.addEventListener('click', () => {
+				const taskId = btn.dataset.id;
+				// `tasks` massividan vazifani topamiz
+				const task = tasks.find(t => t.id == taskId);
+				if (!task) {
+					alert('Vazifa topilmadi!');
+					return;
+				}
+
+				// Tugash sanasini to‘g‘ri formatda olish
+				const tugashSanasi = task.vazifa_tugash_sanasi ? formatDateForInput(task.vazifa_tugash_sanasi) : '';
+				const boshlanishSanasi = task.vazifa_boshlanish_sanasi ? formatDateForInput(task.vazifa_boshlanish_sanasi) : '';
+
+				// Statuslar ro‘yxati
+				const statusOptions = [
+					'rejalashtirilmoqda',
+					'bajarilmoqda',
+					'yakunlandi',
+					'toxtatilgan',
+				].map(status => `
+					<option value="${status}" ${task.vazifa_status === status ? 'selected' : ''}>${status.toUpperCase()}</option>
+				`).join('');
+
+				// Mas'ul hodimlar ro‘yxati (1 va 2-rasmlardan olingan)
+				const responsibleOptions = [
+					'J.Xafizov',
+					'S.Adizov',
+					'S.Abdullayev',
+					'J.G‘iyosov',
+					'J.Toshboyev',
+				].map(person => `
+					<option value="${person}" ${task.vazifa_masul_hodimi === person ? 'selected' : ''}>${person}</option>
+				`).join('');
+
+				// Tahrirlash formasi (1 va 2-rasmdagi ko‘rinishga moslashtirilgan)
+				const editFormHTML = `
+					<div class="edit-task-form">
+						<h3>YO‘L XARITASI</h3>
+						<div class="form-group">
+							<label for="edit-vazifa-nomi">Vazifa nomi:</label>
+							<input type="text" id="edit-vazifa-nomi" value="${task.vazifa_nomi || ''}" />
+						</div>
+						<div class="form-group">
+							<label for="edit-izoh">Izoh:</label>
+							<textarea id="edit-izoh">${task.izoh || ''}</textarea>
+						</div>
+						<div class="form-group">
+							<label for="edit-boshlanish-sanasi">Boshlanish sanasi:</label>
+							<input type="date" id="edit-boshlanish-sanasi" value="${boshlanishSanasi}" />
+						</div>
+						<div class="form-group">
+							<label for="edit-tugash-sanasi">Tugash sanasi:</label>
+							<input type="date" id="edit-tugash-sanasi" value="${tugashSanasi}" />
+						</div>
+						<div class="form-group">
+							<label for="edit-vazifa-status">Status:</label>
+							<select id="edit-vazifa-status">
+								${statusOptions}
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="edit-masul-hodim">Mas'ul hodim:</label>
+							<select id="edit-masul-hodim">
+								${responsibleOptions}
+							</select>
+						</div>
+						<div class="form-buttons">
+							<button id="save-task-btn" class="save-btn">Saqlash</button>
+							<button id="cancel-task-btn" class="cancel-btn">Bekor qilish</button>
+						</div>
+					</div>
+				`;
+
+				roadmapContent.innerHTML = editFormHTML;
+
+				// Saqlash tugmasi
+				document.getElementById('save-task-btn').addEventListener('click', async () => {
+					const updatedTask = {
+						vazifa_nomi: document.getElementById('edit-vazifa-nomi').value,
+						izoh: document.getElementById('edit-izoh').value,
+						vazifa_boshlanish_sanasi: document.getElementById('edit-boshlanish-sanasi').value,
+						vazifa_tugash_sanasi: document.getElementById('edit-tugash-sanasi').value,
+						vazifa_status: document.getElementById('edit-vazifa-status').value,
+						vazifa_masul_hodimi: document.getElementById('edit-masul-hodim').value,
+					};
+
+					try {
+						const response = await fetch(`http://localhost:5000/api/vazifalar/${taskId}`, {
+							method: 'PUT',
+							headers: {
+								'Content-Type': 'application/json',
+							},
+							body: JSON.stringify(updatedTask),
+						});
+
+						if (!response.ok) {
+							const errorText = await response.json();
+							throw new Error(errorText.message || 'Vazifani tahrirlashda xatolik');
+						}
+
+						const data = await response.json();
+						alert(data.message);
+						roadmapModal.style.display = 'none';
+						button.click(); // Modalni qayta yuklash uchun Yo‘l xaritasi tugmasini qayta bosish
+					} catch (error) {
+						console.error('Vazifani tahrirlashda xatolik:', error.message);
+						alert('Vazifani tahrirlashda xatolik yuz berdi: ' + error.message);
 					}
+				});
 
-					let tableHTML = `
-                        <button class="download-word-btn" data-project-id="${projectId}" data-project-name="${projectName}">Word sifatida yuklab olish</button>
-                        <table class="roadmap-table">
-                            <thead>
-                                <tr>
-                                    <th>№</th>
-                                    <th>Chora-tadbirlar nomi</th>
-                                    <th>Amalga oshiriladigan mexanizm</th>
-                                    <th>Ijro muddati</th>
-                                    <th>Ijro uchun mas’ul</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                    `
-
-					tasks.forEach((task, index) => {
-						tableHTML += `
-                            <tr>
-                                <td>${index + 1}</td>
-                                <td>${task.vazifa_nomi || 'N/A'}</td>
-                                <td>${task.izoh || 'N/A'}</td>
-                                <td>${formatDateForDisplay(
-																	task.vazifa_tugash_sanasi
-																)}</td>
-                                <td>${task.vazifa_masul_hodimi || 'N/A'}</td>
-                            </tr>
-                        `
-					})
-
-					tableHTML += `
-                            </tbody>
-                        </table>
-                    `
-
-					roadmapContent.innerHTML = tableHTML
-					roadmapModal.style.display = 'block'
-
-					// Word sifatida yuklab olish tugmasi uchun hodisa
-					document.querySelectorAll('.download-word-btn').forEach(btn => {
-						btn.addEventListener('click', () => {
-							const projectId = btn.dataset.projectId
-							const projectName = btn.dataset.projectName
-							const currentTasks = Array.from(
-								document.querySelectorAll('.roadmap-table tbody tr')
-							).map(row => {
-								return {
-									vazifa_nomi: row.cells[1].textContent,
-									izoh: row.cells[2].textContent,
-									vazifa_tugash_sanasi: row.cells[3].textContent,
-									vazifa_masul_hodimi: row.cells[4].textContent,
-								}
-							})
-							downloadAsWord(projectName, currentTasks)
-						})
-					})
-				})
-			})
+				// Bekor qilish tugmasi
+				document.getElementById('cancel-task-btn').addEventListener('click', () => {
+					button.click(); // Modalni qayta yuklash
+				});
+			});
+		});
+    });
+});
 
 			// Vazifa qo'shish tugmalari uchun hodisalar
 			document.querySelectorAll('.add-task-btn').forEach(button => {

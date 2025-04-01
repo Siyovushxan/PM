@@ -1289,6 +1289,27 @@ app.post('/api/projects/unarchive/:id', (req, res) => {
     });
 });
 
+// Foydalanuvchi bo‘limini olish
+app.get('/api/user-department', (req, res) => {
+    const userId = req.session.userId; // Foydalanuvchi ID sini sessiyadan olish (agar sessiya ishlatilayotgan bo‘lsa)
+
+    if (!userId) {
+        return res.status(401).json({ message: 'Foydalanuvchi tizimga kirmagan' });
+    }
+
+    const sql = 'SELECT department FROM users WHERE id = ?';
+    db.query(sql, [userId], (err, results) => {
+        if (err) {
+            console.error('Foydalanuvchi bo‘limini olishda xatolik:', err);
+            return res.status(500).json({ message: 'Server xatosi' });
+        }
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'Foydalanuvchi topilmadi' });
+        }
+        res.json({ department: results[0].department });
+    });
+});
+
 // Autentifikatsiyani tekshirish endpointi
 app.get('/api/check-auth', (req, res) => {
 	if (req.session.userId) {

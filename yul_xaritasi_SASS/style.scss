@@ -133,3 +133,105 @@ $button-hover-bg: #2f4f4f;
         }
     }
 }
+
+.edit-task-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px; // 1 va 2-rasmlardagi kenglikka moslashtirildi
+    margin: 0 auto;
+
+    h3 {
+        margin: 0 0 1rem 0;
+        font-size: 1.25rem; // 1 va 2-rasmlardagi shrift o‘lchamiga moslashtirildi
+        color: #2c3e50;
+        font-family: "Times New Roman", Times, serif;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem; // 1 va 2-rasmlardagi oraliqqa moslashtirildi
+
+        label {
+            font-weight: normal; // 1 va 2-rasmlarda label qalin emas
+            color: #2c3e50;
+            font-family: "Times New Roman", Times, serif;
+            font-size: 0.9rem; // 1 va 2-rasmlardagi shrift o‘lchamiga moslashtirildi
+        }
+
+        input, textarea, select {
+            padding: 0.4rem; // 1 va 2-rasmlardagi paddingga moslashtirildi
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            width: 100%;
+            box-sizing: border-box;
+            font-family: "Times New Roman", Times, serif;
+            background-color: #fff; // 1 va 2-rasmlardagi fon rangi
+            transition: border-color 0.3s ease;
+
+            &:focus {
+                border-color: #007bff; // 1 va 2-rasmlardagi focus rangi (ko‘k)
+                outline: none;
+            }
+        }
+
+        textarea {
+            height: 60px; // 1 va ソー: "Izoh" maydoni uchun balandlik
+            resize: vertical;
+        }
+
+        select {
+            appearance: none;
+            background: url('data:image/svg+xml;utf8,<svg fill="#2c3e50" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 0.5rem center/8px 8px;
+            background-color: #fff;
+        }
+    }
+
+    .form-buttons {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center; // 1 va 2-rasmlarda tugmalar markazda
+        margin-top: 1rem;
+
+        .save-btn {
+            padding: 0.4rem 1.2rem; // 1 va 2-rasmlardagi tugma o‘lchamiga moslashtirildi
+            border: none;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            background-color: #28a745; // Yashil rang
+            color: #fff;
+            transition: background-color 0.3s ease;
+            font-family: "Times New Roman", Times, serif;
+
+            &:hover {
+                background-color: #218838;
+            }
+        }
+
+        .cancel-btn {
+            padding: 0.4rem 1.2rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            background-color: #dc3545; // Qizil rang
+            color: #fff;
+            transition: background-color 0.3s ease;
+            font-family: "Times New Roman", Times, serif;
+
+            &:hover {
+                background-color: #c82333;
+            }
+        }
+    }
+}
