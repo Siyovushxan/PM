@@ -64,110 +64,102 @@ document.addEventListener('DOMContentLoaded', () => {
 	// Jadvalni Word hujjati sifatida yuklab olish
 	function downloadAsWord(projectName, tasks, department) {
 		const htmlContent = `
-			<html xmlns:o="urn:schemas-microsoft-com:office:office"
-				  xmlns:w="urn:schemas-microsoft-com:office:word"
-				  xmlns="http://www.w3.org/TR/REC-html40">
-				<head>
-					<meta charset="UTF-8">
-					<style>
-						@page {
-							size: A4 landscape;
-							margin: 2cm;
-						}
-						@page Section1 {
-							size: 841.9pt 595.3pt;
-							mso-page-orientation: landscape;
-							margin: 2cm 2cm 2cm 2cm;
-						}
-						div.Section1 {
-							page: Section1;
-						}
-						body {
-							font-family: "Times New Roman", sans-serif;
-							margin: 0;
-							padding: 0;
-						}
-						.header-text {
-							text-align: center;
-							font-size: 14pt;
-							font-weight: bold;
-							margin-bottom: 15px;
-						}
-						.sub-header-text {
-							margin-bottom: 20px;
-							margin-left: 730px;
-							font-size: 14pt;
-							text-align: center;
-						}
-						.department-box {
-							text-align: center;
-							font-size: 14pt;
-							font-weight: bold;
-							border: 2px solid red;
-							padding: 5px;
-							margin: 10px 0;
-						}
-						table {
-							width: 100%;
-							border-collapse: collapse;
-							font-family: "Calibri", sans-serif;
-							font-size: 14pt;
-						}
-						tr {
-							text-align: center;
-						}
-						th, td {
-							border: 0.1px solid black;
-							padding: 10px;
-							text-align: left;
-							vertical-align: top;
-						}
-						th {
-							font-weight: bold;
-						}
-					</style>
-				</head>
-				<body>
-					<div class="Section1">
-						<div class="sub-header-text">
-							"Navoiyuran" davlat korxonasi <br> 2025 yil yanvarda - sonli <br> Buyrug‘iga <br> 1-ilova
-						</div>
-						<div class="header-text">
-							"Navoiyuran" davlat korxonasining 2025 yil uchun Raqamli transformatsiyani joriy etish bo‘limi <br> YO‘L XARITASI
-						</div>
-						<div class="department-box">
-							${department}
-						</div>
-						<table>
-							<thead>
-								<tr>
-									<th>№</th>
-									<th>Chora-tadbirlar nomi</th>
-									<th>Amalga oshiriladigan mexanizm</th>
-									<th>Ijro muddati</th>
-									<th>Ijro uchun mas’ul</th>
-								</tr>
-							</thead>
-							<tbody>
-								${tasks
-									.map(
-										(task, index) => `
-									<tr>
-										<td>${index + 1}</td>
-										<td>${task.vazifa_nomi || 'N/A'}</td>
-										<td>${task.izoh || 'N/A'}</td>
-										<td>${task.vazifa_tugash_sanasi || 'N/A'}</td>
-										<td>${task.vazifa_masul_hodimi || 'N/A'}</td>
-									</tr>
-								`
-									)
-									.join('')}
-							</tbody>
-						</table>
-					</div>
-				</body>
-			</html>
-		`
+					<html xmlns:o="urn:schemas-microsoft-com:office:office"
+								xmlns:w="urn:schemas-microsoft-com:office:word"
+								xmlns="http://www.w3.org/TR/REC-html40">
+							<head>
+									<meta charset="UTF-8">
+									<style>
+											@page {
+													size: A4 landscape;
+													margin: 2cm;
+											}
+											@page Section1 {
+													size: 841.9pt 595.3pt;
+													mso-page-orientation: landscape;
+													margin: 2cm 2cm 2cm 2cm;
+											}
+											div.Section1 {
+													page: Section1;
+											}
+											body {
+													font-family: "Times New Roman", sans-serif;
+													margin: 0;
+													padding: 0;
+											}
+											.header-text {
+													text-align: center;
+													font-size: 14pt;
+													font-weight: bold;
+													margin-bottom: 15px;
+													margin-top: 15px;
+											}
+											.sub-header-text {
+													margin-bottom: 20px;
+													margin-left: 730px;
+													font-size: 14pt;
+													text-align: center;
+											}
+											table {
+													width: 100%;
+													border-collapse: collapse;
+													font-family: "Calibri", sans-serif;
+													font-size: 14pt;
+											}
+											tr {
+													text-align: center;
+											}
+											th, td {
+													border: 0.1px solid black;
+													padding: 10px;
+													text-align: left;
+													vertical-align: top;
+											}
+											th {
+													font-weight: bold;
+											}
+									</style>
+							</head>
+							<body>
+									<div class="Section1">
+											<div class="sub-header-text">
+													"Navoiyuran" davlat korxonasi <br> 2025 yil yanvarda "____" - sonli <br> Buyrug‘iga <br> 1-ilova
+											</div>
+											<div class="header-text">
+													"Navoiyuran" davlat korxonasining 2025 yil uchun ${department} <br> tomonidan rejalashtirilgan <br>
+													
+													<p> YO‘L XARITASI </p>
+											</div>
+											<table>
+													<thead>
+															<tr>
+																	<th>№</th>
+																	<th>Chora-tadbirlar nomi</th>
+																	<th>Amalga oshiriladigan mexanizm</th>
+																	<th>Ijro muddati</th>
+																	<th>Ijro uchun mas’ul</th>
+															</tr>
+													</thead>
+													<tbody>
+															${tasks
+																.map(
+																	(task, index) => `
+																	<tr>
+																			<td>${index + 1}</td>
+																			<td>${task.vazifa_nomi || 'N/A'}</td>
+																			<td>${task.izoh || 'N/A'}</td>
+																			<td>${task.vazifa_tugash_sanasi || 'N/A'}</td>
+																			<td>${task.vazifa_masul_hodimi || 'N/A'}</td>
+																	</tr>
+															`
+																)
+																.join('')}
+													</tbody>
+											</table>
+									</div>
+							</body>
+					</html>
+			`
 
 		const blob = new Blob([htmlContent], { type: 'application/vnd.ms-word' })
 		const url = URL.createObjectURL(blob)
@@ -206,30 +198,30 @@ document.addEventListener('DOMContentLoaded', () => {
 				projectCard.classList.add('project-card')
 
 				projectCard.innerHTML = `
-					<h3 class="project-title" data-id="${project.id}">
-						${
-							project.name || 'N/A'
-						} <span class="task-hint" style="font-size: 0.8em; color: #777;">- Arxivlangan</span>
-					</h3>
-					<p class="project-description">${project.description || 'N/A'}</p>
-					<p class="project-dates">Boshlanish: ${formatDate(
-						project.startDate
-					)} | Tugash: ${formatDate(project.endDate)}</p>
-					<p class="project-status">Status: <span class="status">${
-						project.status ? project.status.toUpperCase() : 'N/A'
-					}</span></p>
-					<p class="project-status">Mas'ul hodim: <span class="status">${
-						project.responsible || 'N/A'
-					}</span></p>
-					<div class="bottons">
-						<button class="unarchive-btn" data-id="${
-							project.id || 0
-						}">Loyihani faollashtirish</button>
-						<button class="roadmap-btn" data-id="${project.id || 0}" data-name="${
+									<h3 class="project-title" data-id="${project.id}">
+											${
+												project.name || 'N/A'
+											} <span class="task-hint" style="font-size: 0.8em; color: #777;">- Arxivlangan</span>
+									</h3>
+									<p class="project-description">${project.description || 'N/A'}</p>
+									<p class="project-dates">Boshlanish: ${formatDate(
+										project.startDate
+									)} | Tugash: ${formatDate(project.endDate)}</p>
+									<p class="project-status">Status: <span class="status">${
+										project.status ? project.status.toUpperCase() : 'N/A'
+									}</span></p>
+									<p class="project-status">Mas'ul hodim: <span class="status">${
+										project.responsible || 'N/A'
+									}</span></p>
+									<div class="bottons">
+											<button class="unarchive-btn" data-id="${
+												project.id || 0
+											}">Loyihani faollashtirish</button>
+											<button class="roadmap-btn" data-id="${project.id || 0}" data-name="${
 					project.name || 'N/A'
 				}">Yo‘l xaritasi</button>
-					</div>
-				`
+									</div>
+							`
 				projectsContainer.appendChild(projectCard)
 
 				// Loyiha sarlavhasiga vazifalar sonini qo‘shish
@@ -273,7 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
 									headers: {
 										'Content-Type': 'application/json',
 									},
-									body: JSON.stringify({ password }), // Parolni yuborish
+									body: JSON.stringify({ password }),
 								}
 							)
 
@@ -307,17 +299,44 @@ document.addEventListener('DOMContentLoaded', () => {
 					// Foydalanuvchi bo‘limini olish
 					let department = 'BO‘LIM NOMI' // Default qiymat
 					try {
-						const response = await fetch(
-							'http://localhost:5000/api/user-department'
+						// Foydalanuvchi autentifikatsiyasini tekshirish
+						const authResponse = await fetch(
+							'http://localhost:5000/api/check-auth',
+							{
+								method: 'GET',
+								credentials: 'include', // Cookie yoki tokenlarni yuborish uchun
+							}
 						)
-						if (response.ok) {
-							const data = await response.json()
-							department = data.department || 'BO‘LIM NOMI'
+						if (!authResponse.ok) {
+							console.warn('Foydalanuvchi autentifikatsiyasi topilmadi')
+							department = 'Raqamli transformatsiyani joriy etish bo‘limi' // Default bo‘lim nomi
 						} else {
-							console.error('Bo‘limni olishda xatolik:', response.status)
+							const authData = await authResponse.json()
+							if (authData.userId) {
+								const response = await fetch(
+									'http://localhost:5000/api/user-department',
+									{
+										method: 'GET',
+										credentials: 'include',
+									}
+								)
+								if (response.ok) {
+									const data = await response.json()
+									department =
+										data.department ||
+										'Raqamli transformatsiyani joriy etish bo‘limi'
+								} else {
+									console.error('Bo‘limni olishda xatolik:', response.status)
+									department = 'Raqamli transformatsiyani joriy etish bo‘limi'
+								}
+							} else {
+								console.warn('Foydalanuvchi ID si topilmadi')
+								department = 'Raqamli transformatsiyani joriy etish bo‘limi'
+							}
 						}
 					} catch (error) {
 						console.error('Bo‘limni olishda xatolik:', error.message)
+						department = 'Raqamli transformatsiyani joriy etish bo‘limi' // Xatolik bo‘lsa default qiymat
 					}
 
 					const tasks = await getTasksByProject(projectId)
@@ -329,36 +348,36 @@ document.addEventListener('DOMContentLoaded', () => {
 					}
 
 					let tableHTML = `
-						<button class="download-word-btn" data-project-id="${projectId}" data-project-name="${projectName}" data-department="${department}">Word sifatida yuklab olish</button>
-						<table class="roadmap-table">
-							<thead>
-								<tr>
-									<th>№</th>
-									<th>Chora-tadbirlar nomi</th>
-									<th>Amalga oshiriladigan mexanizm</th>
-									<th>Ijro muddati</th>
-									<th>Ijro uchun mas’ul</th>
-								</tr>
-							</thead>
-							<tbody>
-					`
+											<button class="download-word-btn" data-project-id="${projectId}" data-project-name="${projectName}" data-department="${department}">Word sifatida yuklab olish</button>
+											<table class="roadmap-table">
+													<thead>
+															<tr>
+																	<th>№</th>
+																	<th>Chora-tadbirlar nomi</th>
+																	<th>Amalga oshiriladigan mexanizm</th>
+																	<th>Ijro muddati</th>
+																	<th>Ijro uchun mas’ul</th>
+															</tr>
+													</thead>
+													<tbody>
+									`
 
 					tasks.forEach((task, index) => {
 						tableHTML += `
-							<tr data-id="${task.id}">
-								<td>${index + 1}</td>
-								<td>${task.vazifa_nomi || 'N/A'}</td>
-								<td>${task.izoh || 'N/A'}</td>
-								<td>${formatDateForDisplay(task.vazifa_tugash_sanasi)}</td>
-								<td>${task.vazifa_masul_hodimi || 'N/A'}</td>
-							</tr>
-						`
+													<tr data-id="${task.id}">
+															<td>${index + 1}</td>
+															<td>${task.vazifa_nomi || 'N/A'}</td>
+															<td>${task.izoh || 'N/A'}</td>
+															<td>${formatDateForDisplay(task.vazifa_tugash_sanasi)}</td>
+															<td>${task.vazifa_masul_hodimi || 'N/A'}</td>
+													</tr>
+											`
 					})
 
 					tableHTML += `
-							</tbody>
-						</table>
-					`
+													</tbody>
+											</table>
+									`
 
 					roadmapContent.innerHTML = tableHTML
 					roadmapModal.style.display = 'block'
