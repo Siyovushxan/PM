@@ -9,229 +9,133 @@ $button-hover-bg: #2f4f4f;
 
 // Yo‘l xaritasi modali uchun uslublar
 .modal-yul-xaritasi {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-    overflow: auto;
-    animation: fadeIn 0.3s ease-in;
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.4);
+	overflow: auto;
+	animation: fadeIn 0.3s ease-in;
 
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
 
-    .modal-content {
-        background-color: $card-bg;
-        margin: 4% auto;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px $card-shadow;
-        width: 90%;
-        max-width: 1000px;
-        position: relative;
-        transition: transform 0.3s ease, opacity 0.3s ease;
+	.modal-content {
+		background-color: $card-bg;
+		margin: 4% auto;
+		padding: 20px;
+		border-radius: 8px;
+		box-shadow: 0 4px 8px $card-shadow;
+		width: 90%;
+		max-width: 1000px;
+		position: relative;
+		transition: transform 0.3s ease, opacity 0.3s ease;
 
-        h2 {
-            font-size: 1.5em;
-            color: #2c3e50;
-            margin-bottom: 20px;
-            text-align: center;
-            font-family: "Times New Roman", Times, serif;
-        }
+		h2 {
+			font-size: 1.5em;
+			color: #2c3e50;
+			margin-bottom: 20px;
+			text-align: center;
+			font-family: 'Times New Roman', Times, serif;
+		}
 
-        .close-roadmap {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: color 0.3s ease;
+		.close-roadmap {
+			color: #aaa;
+			float: right;
+			font-size: 28px;
+			font-weight: bold;
+			cursor: pointer;
+			transition: color 0.3s ease;
 
-            &:hover,
-            &:focus {
-                color: #333;
-            }
-        }
-    }
+			&:hover,
+			&:focus {
+				color: #333;
+			}
+		}
+	}
 
-    // Yo‘l xaritasi jadvali stillari
-    .roadmap-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-        font-family: "Times New Roman", Times, serif;
+	// Yo‘l xaritasi jadvali stillari
+	.roadmap-table {
+		width: 100%;
+		border-collapse: collapse;
+		margin-top: 20px;
+		font-family: 'Times New Roman', Times, serif;
 
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-            vertical-align: top;
-        }
+		th,
+		td {
+			border: 1px solid #ddd;
+			padding: 8px;
+			text-align: left;
+			vertical-align: top;
+		}
 
-        th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
+		th {
+			background-color: #f2f2f2;
+			font-weight: bold;
+		}
 
-        tr {
-            &:nth-child(even) {
-                background-color: #f9f9f9;
-            }
+		tr {
+			&:nth-child(even) {
+				background-color: #f9f9f9;
+			}
 
-            &:hover {
-                background-color: #f1f1f1;
-            }
-        }
-    }
+			&:hover {
+				background-color: #f1f1f1;
+			}
+		}
+	}
 
-    // Yuklab olish tugmasi stillari
-    .download-word-btn {
-        padding: 8px 16px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 0.9em;
-        transition: background-color 0.3s ease;
-        background-color: $primary-color;
-        color: $secondary-color;
-        margin-bottom: 20px;
+	// Yuklab olish tugmasi stillari
+	.download-word-btn {
+		padding: 8px 16px;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+		font-size: 0.9em;
+		transition: background-color 0.3s ease;
+		background-color: $primary-color;
+		color: $secondary-color;
+		margin-bottom: 20px;
 
-        &:hover {
-            background-color: $button-hover-bg;
-        }
-    }
+		&:hover {
+			background-color: $button-hover-bg;
+		}
+	}
 }
 
 // Media query (kichik ekranlar uchun)
 @media (max-width: 768px) {
-    .modal-yul-xaritasi {
-        .modal-content {
-            margin: 20% auto;
-            width: 85%;
-            padding: 15px;
+	.modal-yul-xaritasi {
+		.modal-content {
+			margin: 20% auto;
+			width: 85%;
+			padding: 15px;
 
-            h2 {
-                font-size: 1.2em;
-            }
+			h2 {
+				font-size: 1.2em;
+			}
 
-            .close-roadmap {
-                font-size: 24px;
-            }
-        }
+			.close-roadmap {
+				font-size: 24px;
+			}
+		}
 
-        .roadmap-table {
-            font-size: 0.85em;
+		.roadmap-table {
+			font-size: 0.85em;
 
-            th, td {
-                padding: 8px;
-            }
-        }
-    }
-}
-
-.edit-task-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1.5rem;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px; // 1 va 2-rasmlardagi kenglikka moslashtirildi
-    margin: 0 auto;
-
-    h3 {
-        margin: 0 0 1rem 0;
-        font-size: 1.25rem; // 1 va 2-rasmlardagi shrift o‘lchamiga moslashtirildi
-        color: #2c3e50;
-        font-family: "Times New Roman", Times, serif;
-        text-align: center;
-        font-weight: bold;
-    }
-
-    .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 0.3rem; // 1 va 2-rasmlardagi oraliqqa moslashtirildi
-
-        label {
-            font-weight: normal; // 1 va 2-rasmlarda label qalin emas
-            color: #2c3e50;
-            font-family: "Times New Roman", Times, serif;
-            font-size: 0.9rem; // 1 va 2-rasmlardagi shrift o‘lchamiga moslashtirildi
-        }
-
-        input, textarea, select {
-            padding: 0.4rem; // 1 va 2-rasmlardagi paddingga moslashtirildi
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            width: 100%;
-            box-sizing: border-box;
-            font-family: "Times New Roman", Times, serif;
-            background-color: #fff; // 1 va 2-rasmlardagi fon rangi
-            transition: border-color 0.3s ease;
-
-            &:focus {
-                border-color: #007bff; // 1 va 2-rasmlardagi focus rangi (ko‘k)
-                outline: none;
-            }
-        }
-
-        textarea {
-            height: 60px; // 1 va ソー: "Izoh" maydoni uchun balandlik
-            resize: vertical;
-        }
-
-        select {
-            appearance: none;
-            background: url('data:image/svg+xml;utf8,<svg fill="#2c3e50" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 0.5rem center/8px 8px;
-            background-color: #fff;
-        }
-    }
-
-    .form-buttons {
-        display: flex;
-        gap: 0.5rem;
-        justify-content: center; // 1 va 2-rasmlarda tugmalar markazda
-        margin-top: 1rem;
-
-        .save-btn {
-            padding: 0.4rem 1.2rem; // 1 va 2-rasmlardagi tugma o‘lchamiga moslashtirildi
-            border: none;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            background-color: #28a745; // Yashil rang
-            color: #fff;
-            transition: background-color 0.3s ease;
-            font-family: "Times New Roman", Times, serif;
-
-            &:hover {
-                background-color: #218838;
-            }
-        }
-
-        .cancel-btn {
-            padding: 0.4rem 1.2rem;
-            border: none;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            background-color: #dc3545; // Qizil rang
-            color: #fff;
-            transition: background-color 0.3s ease;
-            font-family: "Times New Roman", Times, serif;
-
-            &:hover {
-                background-color: #c82333;
-            }
-        }
-    }
+			th,
+			td {
+				padding: 8px;
+			}
+		}
+	}
 }
