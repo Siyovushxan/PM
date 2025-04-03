@@ -290,78 +290,149 @@ document.addEventListener('DOMContentLoaded', () => {
 				})
 			})
 
-			// Yo‘l xaritasi tugmalari uchun hodisalar
-			document.querySelectorAll('.roadmap-btn').forEach(button => {
-				button.addEventListener('click', async () => {
-					const projectId = button.dataset.id;
-					const projectName = button.dataset.name;
+		// Yo‘l xaritasi tugmalari uchun hodisalar
+		document.querySelectorAll('.roadmap-btn').forEach(button => {
+			button.addEventListener('click', async () => {
+				const projectId = button.dataset.id;
+				const projectName = button.dataset.name;
 
-					// Foydalanuvchi bo‘limini olish
-					const department = await getUserDepartment();
+				// Foydalanuvchi bo‘limini olish
+				const department = await getUserDepartment();
 
-					const tasks = await getTasksByProject(projectId);
-					if (tasks.length === 0) {
-						roadmapContent.innerHTML = '<p>Ushbu loyiha uchun vazifalar topilmadi.</p>';
-						roadmapModal.style.display = 'block';
-						return;
-					}
-
-					let tableHTML = `
-						<button class="download-word-btn" data-project-id="${projectId}" data-project-name="${projectName}" data-department="${department}">Word sifatida yuklab olish</button>
-						<table class="roadmap-table">
-							<thead>
-								<tr>
-									<th>№</th>
-									<th>Chora-tadbirlar nomi</th>
-									<th>Amalga oshiriladigan mexanizm</th>
-									<th>Ijro muddati</th>
-									<th>Ijro uchun mas’ul</th>
-								</tr>
-							</thead>
-							<tbody>
-					`;
-
-					tasks.forEach((task, index) => {
-						tableHTML += `
-							<tr data-id="${task.id}">
-								<td>${index + 1}</td>
-								<td>${task.vazifa_nomi || 'N/A'}</td>
-								<td>${task.izoh || 'N/A'}</td>
-								<td>${formatDateForDisplay(task.vazifa_tugash_sanasi)}</td>
-								<td>${task.vazifa_masul_hodimi || 'N/A'}</td>
-							</tr>
-						`;
-					});
-
-					tableHTML += `
-							</tbody>
-						</table>
-					`;
-
-					roadmapContent.innerHTML = tableHTML;
+				const tasks = await getTasksByProject(projectId);
+				if (tasks.length === 0) {
+					roadmapContent.innerHTML = '<p>Ushbu loyiha uchun vazifalar topilmadi.</p>';
 					roadmapModal.style.display = 'block';
+					return;
+				}
 
-					// Word sifatida yuklab olish tugmasi uchun hodisa
-					document.querySelectorAll('.download-word-btn').forEach(btn => {
-						btn.addEventListener('click', () => {
-							const projectId = btn.dataset.projectId;
-							const projectName = btn.dataset.projectName;
-							const department = btn.dataset.department;
-							const currentTasks = Array.from(
-								document.querySelectorAll('.roadmap-table tbody tr')
-							).map(row => {
-								return {
-									vazifa_nomi: row.cells[1].textContent,
-									izoh: row.cells[2].textContent,
-									vazifa_tugash_sanasi: row.cells[3].textContent,
-									vazifa_masul_hodimi: row.cells[4].textContent,
-								};
+				// Vazifalar nomlarini ro'yxat sifatida tayyorlash, har birini <div> ichiga o'rash
+				const taskNames = tasks
+					.map(task => `<div class="task-item" data-task-id="${task.id}">${task.vazifa_nomi || 'N/A'}</div>`)
+					.join('');
+
+				// Ijro muddati uchun sana formatini YYYY-MM-DD ga o'zgartirish
+				const endDate = tasks[0]?.vazifa_tugash_sanasi ? new Date(tasks[0].vazifa_tugash_sanasi).toISOString().split('T')[0] : '';
+
+				let tableHTML = `
+					<button class="download-word-btn" data-project-id="${projectId}" data-project-name="${projectName}" data-department="${department}">Word sifatida yuklab olish</button>
+					<table class="roadmap-table">
+						<thead>
+							<tr>
+								<th>№</th>
+								<th>Chora-tadbirlar nomi</th>
+								<th>Amalga oshiriladigan mexanizm</th>
+								<th>Ijro muddati</th>
+								<th>Ijro uchun mas’ul</th>
+								<th>Amallar</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr data-id="${projectId}">
+								<td>1</td>
+								<td contenteditable="true">${projectName || 'N/A'}</td>
+								<td>${taskNames || 'Vazifalar mavjud emas'}</td>
+								<td>
+									<input type="date" class="end-date-input" value="${endDate}" />
+								</td>
+								<td contenteditable="true">${tasks[0]?.vazifa_masul_hodimi || 'N/A'}</td>
+								<td>
+									<button class="save-btn" style="cursor: pointer; color: #28a745;">Saqlash</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				`;
+
+				roadmapContent.innerHTML = tableHTML;
+				roadmapModal.style.display = 'block';
+
+				// Har bir task-item ni tahrirlanadigan qilish
+				document.querySelectorAll('.task-item').forEach(item => {
+					item.setAttribute('contenteditable', 'true');
+				});
+
+				// Saqlash tugmasi uchun hodisa
+				document.querySelectorAll('.save-btn').forEach(btn => {
+					btn.addEventListener('click', async () => {
+						const row = btn.closest('tr');
+						const projectId = row.dataset.id;
+
+						// Yangilangan ma'lumotlarni olish
+						const updatedProjectName = row.cells[1].textContent.trim();
+						const updatedEndDate = row.querySelector('.end-date-input').value; // YYYY-MM-DD formatida
+						const updatedResponsible = row.cells[4].textContent.trim();
+
+						// Vazifalarni yangilash
+						const updatedTasks = Array.from(row.querySelectorAll('.task-item')).map(item => ({
+							id: item.dataset.taskId,
+							vazifa_nomi: item.textContent.trim(),
+						}));
+
+						// Serverga loyiha ma'lumotlarini yangilash uchun so'rov
+						try {
+							const projectResponse = await fetch(`http://localhost:5000/api/projects/${projectId}`, {
+								method: 'PUT',
+								headers: {
+									'Content-Type': 'application/json',
+								},
+								body: JSON.stringify({
+									name: updatedProjectName,
+									endDate: updatedEndDate || null, // Agar sana bo'sh bo'lsa, null yuboramiz
+									responsible: updatedResponsible,
+								}),
 							});
-							downloadAsWord(projectName, currentTasks, department);
-						});
+
+							if (!projectResponse.ok) {
+								const errorText = await projectResponse.json();
+								throw new Error(errorText.message || 'Loyihani yangilashda xatolik yuz berdi');
+							}
+
+							// Vazifalarni yangilash
+							for (const task of updatedTasks) {
+								const taskResponse = await fetch(`http://localhost:5000/api/vazifalar/${task.id}`, {
+									method: 'PUT',
+									headers: {
+										'Content-Type': 'application/json',
+									},
+									body: JSON.stringify({
+										vazifa_nomi: task.vazifa_nomi,
+									}),
+								});
+
+								if (!taskResponse.ok) {
+									const errorText = await taskResponse.json();
+									throw new Error(errorText.message || 'Vazifani yangilashda xatolik yuz berdi');
+								}
+							}
+
+							alert('Ma\'lumotlar muvaffaqiyatli yangilandi!');
+							// Jadvalni yangilash uchun modalni qayta yuklash
+							button.click();
+						} catch (error) {
+							console.error('Ma\'lumotlarni yangilashda xatolik:', error.message);
+							alert('Ma\'lumotlarni yangilashda xatolik yuz berdi: ' + error.message);
+						}
+					});
+				});
+
+				// Word sifatida yuklab olish tugmasi uchun hodisa
+				document.querySelectorAll('.download-word-btn').forEach(btn => {
+					btn.addEventListener('click', () => {
+						const projectId = btn.dataset.projectId;
+						const projectName = btn.dataset.projectName;
+						const department = btn.dataset.department;
+						const currentTasks = [{
+							vazifa_nomi: projectName,
+							izoh: tasks.map(task => task.vazifa_nomi || 'N/A').join(', '),
+							vazifa_tugash_sanasi: tasks[0]?.vazifa_tugash_sanasi || 'N/A',
+							vazifa_masul_hodimi: tasks[0]?.vazifa_masul_hodimi || 'N/A',
+						}];
+						downloadAsWord(projectName, currentTasks, department);
 					});
 				});
 			});
+		});
 		} catch (error) {
 			console.error('Xatolik:', error.message)
 			projectsContainer.innerHTML = `<p>Xatolik yuz berdi: ${error.message}</p>`
@@ -407,6 +478,34 @@ document.addEventListener('DOMContentLoaded', () => {
 			console.error('Bo‘limni olishda xatolik:', error.message);
 			return 'Raqamli transformatsiyani joriy etish bo‘limi'; // Xatolik bo‘lsa default
 		}
+	}
+
+	// Vazifa ma'lumotlarini olish funksiyasi
+	async function getTaskDetails(taskId) {
+		try {
+			const response = await fetch(`http://localhost:5000/api/vazifalar/${taskId}`);
+			if (!response.ok) {
+				const errorText = await response.text();
+				console.error(`Vazifa ma'lumotlarini olishda xatolik: ${response.status} - ${errorText}`);
+				return null;
+			}
+			const task = await response.json();
+			return task;
+		} catch (error) {
+			console.error('Vazifa ma\'lumotlarini olishda xatolik:', error.message);
+			return null;
+		}
+	}
+
+	// Sana formatini input uchun o‘zgartirish funksiyasi (YYYY-MM-DD)
+	function formatDateForInput(dateString) {
+		if (!dateString) return '';
+		const date = new Date(dateString);
+		if (isNaN(date.getTime())) return '';
+		const year = date.getFullYear();
+		const month = String(date.getMonth() + 1).padStart(2, '0');
+		const day = String(date.getDate()).padStart(2, '0');
+		return `${year}-${month}-${day}`;
 	}
 
 	// Arxivlangan loyihalarni yuklashni boshlash

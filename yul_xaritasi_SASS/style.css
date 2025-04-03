@@ -56,9 +56,44 @@
 .modal-yul-xaritasi .roadmap-table th,
 .modal-yul-xaritasi .roadmap-table td {
   border: 1px solid #ddd;
-  padding: 8px;
+  padding: 12px 8px;
   text-align: left;
-  vertical-align: top;
+  vertical-align: middle;
+  margin-top: 2rem;
+}
+.modal-yul-xaritasi .roadmap-table th[contenteditable=true],
+.modal-yul-xaritasi .roadmap-table td[contenteditable=true] {
+  outline: none;
+  background-color: #f9f9f9;
+  transition: background-color 0.3s ease;
+}
+.modal-yul-xaritasi .roadmap-table th[contenteditable=true]:hover,
+.modal-yul-xaritasi .roadmap-table td[contenteditable=true]:hover {
+  background-color: #e6f7ff;
+}
+.modal-yul-xaritasi .roadmap-table th[contenteditable=true]:focus,
+.modal-yul-xaritasi .roadmap-table td[contenteditable=true]:focus {
+  background-color: #e6f7ff;
+  border: 1px solid #3498db;
+}
+.modal-yul-xaritasi .roadmap-table th .end-date-input,
+.modal-yul-xaritasi .roadmap-table td .end-date-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1em;
+  background-color: #f9f9f9;
+  padding: 5px;
+}
+.modal-yul-xaritasi .roadmap-table th .end-date-input:hover,
+.modal-yul-xaritasi .roadmap-table td .end-date-input:hover {
+  background-color: #e6f7ff;
+}
+.modal-yul-xaritasi .roadmap-table th .end-date-input:focus,
+.modal-yul-xaritasi .roadmap-table td .end-date-input:focus {
+  background-color: #e6f7ff;
+  border: 1px solid #3498db;
 }
 .modal-yul-xaritasi .roadmap-table th {
   background-color: #f2f2f2;
@@ -69,6 +104,24 @@
 }
 .modal-yul-xaritasi .roadmap-table tr:hover {
   background-color: #f1f1f1;
+}
+.modal-yul-xaritasi .roadmap-table .task-item {
+  margin-bottom: 30px;
+}
+.modal-yul-xaritasi .roadmap-table .task-item:last-child {
+  margin-bottom: 0;
+}
+.modal-yul-xaritasi .roadmap-table .task-item[contenteditable=true] {
+  outline: none;
+  background-color: #f9f9f9;
+  transition: background-color 0.3s ease;
+}
+.modal-yul-xaritasi .roadmap-table .task-item[contenteditable=true]:hover {
+  background-color: #e6f7ff;
+}
+.modal-yul-xaritasi .roadmap-table .task-item[contenteditable=true]:focus {
+  background-color: #e6f7ff;
+  border: 1px solid #3498db;
 }
 .modal-yul-xaritasi .download-word-btn {
   padding: 8px 16px;

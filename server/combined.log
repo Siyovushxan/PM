@@ -108,3 +108,15 @@
 {"level":"info","message":"✅ MySQLga muvaffaqiyatli ulandi!","timestamp":"2025-04-03T10:03:29.138Z"}
 {"cookie":{"expires":"2025-04-04T10:39:47.106Z","httpOnly":true,"originalMaxAge":86400000,"path":"/","sameSite":"lax","secure":false},"level":"info","message":"Sessiya saqlandi:","timestamp":"2025-04-03T10:39:47.176Z","userId":"46"}
 {"cookie":{"expires":"2025-04-04T10:41:48.259Z","httpOnly":true,"originalMaxAge":86400000,"path":"/","sameSite":"lax","secure":false},"level":"info","message":"Sessiya saqlandi:","timestamp":"2025-04-03T10:41:48.324Z","userId":"46"}
+{"level":"info","message":"✅ Server 5000 portda ishlamoqda...","timestamp":"2025-04-03T10:41:54.136Z"}
+{"level":"info","message":"✅ MySQLga muvaffaqiyatli ulandi!","timestamp":"2025-04-03T10:41:54.147Z"}
+{"level":"info","message":"✅ Server 5000 portda ishlamoqda...","timestamp":"2025-04-03T11:34:43.292Z"}
+{"level":"info","message":"✅ MySQLga muvaffaqiyatli ulandi!","timestamp":"2025-04-03T11:34:43.304Z"}
+{"level":"info","message":"✅ Server 5000 portda ishlamoqda...","timestamp":"2025-04-03T11:38:14.615Z"}
+{"level":"info","message":"✅ MySQLga muvaffaqiyatli ulandi!","timestamp":"2025-04-03T11:38:14.634Z"}
+{"level":"info","message":"✅ Server 5000 portda ishlamoqda...","timestamp":"2025-04-03T11:44:10.806Z"}
+{"level":"info","message":"✅ MySQLga muvaffaqiyatli ulandi!","timestamp":"2025-04-03T11:44:10.823Z"}
+{"level":"info","message":"✅ Server 5000 portda ishlamoqda...","timestamp":"2025-04-03T12:00:21.680Z"}
+{"level":"info","message":"✅ MySQLga muvaffaqiyatli ulandi!","timestamp":"2025-04-03T12:00:21.696Z"}
+{"level":"info","message":"✅ Server 5000 portda ishlamoqda...","timestamp":"2025-04-03T12:16:54.339Z"}
+{"level":"info","message":"✅ MySQLga muvaffaqiyatli ulandi!","timestamp":"2025-04-03T12:16:54.352Z"}

@@ -319,7 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
 														}">Tahrirlash</button>
                             <button class="delete-btn" data-id="${
 															project.id || 0
-														}">O'chirish</button>
+														}">Arxivlash</button>
                         </div>
                         <div>
                             <button class="roadmap-btn" data-id="${
@@ -457,6 +457,11 @@ document.addEventListener('DOMContentLoaded', () => {
 						return;
 					}
 
+					// Vazifalar nomlarini ro'yxat sifatida tayyorlash, har birini <div> ichiga o'rash
+					const taskNames = tasks
+						.map(task => `<div class="task-item">${task.vazifa_nomi || 'N/A'}</div>`)
+						.join('');
+
 					let tableHTML = `
 						<button class="download-word-btn" data-project-id="${projectId}" data-project-name="${projectName}" data-department="${department}">Word sifatida yuklab olish</button>
 						<table class="roadmap-table">
@@ -471,24 +476,16 @@ document.addEventListener('DOMContentLoaded', () => {
 								</tr>
 							</thead>
 							<tbody>
-					`;
-
-					tasks.forEach((task, index) => {
-						tableHTML += `
-							<tr data-id="${task.id}">
-								<td>${index + 1}</td>
-								<td>${task.vazifa_nomi || 'N/A'}</td>
-								<td>${task.izoh || 'N/A'}</td>
-								<td>${formatDateForDisplay(task.vazifa_tugash_sanasi)}</td>
-								<td>${task.vazifa_masul_hodimi || 'N/A'}</td>
-								<td>
-									<span class="edit-task-icon" style="cursor: pointer; color: #3498db;" data-id="${task.id}">✎</span>
-								</td>
-							</tr>
-						`;
-					});
-
-					tableHTML += `
+								<tr data-id="${projectId}">
+									<td>1</td>
+									<td>${projectName || 'N/A'}</td>
+									<td>${taskNames || 'Vazifalar mavjud emas'}</td>
+									<td>${formatDateForDisplay(tasks[0]?.vazifa_tugash_sanasi)}</td>
+									<td>${tasks[0]?.vazifa_masul_hodimi || 'N/A'}</td>
+									<td>
+										<span class="edit-task-icon" style="cursor: pointer; color: #3498db;" data-id="${tasks[0]?.id || ''}">✎</span>
+									</td>
+								</tr>
 							</tbody>
 						</table>
 					`;
@@ -541,16 +538,12 @@ document.addEventListener('DOMContentLoaded', () => {
 							const projectId = btn.dataset.projectId;
 							const projectName = btn.dataset.projectName;
 							const department = btn.dataset.department;
-							const currentTasks = Array.from(
-								document.querySelectorAll('.roadmap-table tbody tr')
-							).map(row => {
-								return {
-									vazifa_nomi: row.cells[1].textContent,
-									izoh: row.cells[2].textContent,
-									vazifa_tugash_sanasi: row.cells[3].textContent,
-									vazifa_masul_hodimi: row.cells[4].textContent,
-								};
-							});
+							const currentTasks = [{
+								vazifa_nomi: projectName,
+								izoh: tasks.map(task => task.vazifa_nomi || 'N/A').join(', '), // Word hujjatida vazifalar vergul bilan ajratiladi
+								vazifa_tugash_sanasi: tasks[0]?.vazifa_tugash_sanasi || 'N/A',
+								vazifa_masul_hodimi: tasks[0]?.vazifa_masul_hodimi || 'N/A',
+							}];
 							downloadAsWord(projectName, currentTasks, department);
 						});
 					});
