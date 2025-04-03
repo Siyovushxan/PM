@@ -9,6 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	const roadmapModal = document.getElementById('roadmapModal')
 	const closeRoadmap = document.querySelector('.close-roadmap')
 	const roadmapContent = document.getElementById('roadmap-content')
+	// Edit modal elementlarini olish
+	const editTaskModal = document.getElementById('editTaskModal');
+	const editTaskForm = document.getElementById('edit-task-form');
+	const closeTaskEdit = document.querySelector('.close-task-edit');
 
 	let currentProjectId = null
 
@@ -47,15 +51,15 @@ document.addEventListener('DOMContentLoaded', () => {
 		return `${day}.${month}.${year}`
 	}
 
-	// Sanani "YYYY-MM-DD" formatiga aylantirish (input uchun)
+	// Sanani input uchun formatga aylantirish
 	function formatDateForInput(dateString) {
-		if (!dateString) return ''
-		const date = new Date(dateString)
-		if (isNaN(date.getTime())) return ''
-		const year = date.getFullYear()
-		const month = String(date.getMonth() + 1).padStart(2, '0')
-		const day = String(date.getDate()).padStart(2, '0')
-		return `${year}-${month}-${day}`
+		if (!dateString) return '';
+		const date = new Date(dateString);
+		if (isNaN(date.getTime())) return '';
+		const year = date.getFullYear();
+		const month = String(date.getMonth() + 1).padStart(2, '0');
+		const day = String(date.getDate()).padStart(2, '0');
+		return `${year}-${month}-${day}`;
 	}
 
 	// Sanani "YYYY-MM-DD" formatiga aylantirish (inputdan kelgan sanalar uchun)
@@ -179,20 +183,13 @@ document.addEventListener('DOMContentLoaded', () => {
 							font-size: 14pt;
 							font-weight: bold;
 							margin-bottom: 15px;
+							margin-top: 15px;
 						}
 						.sub-header-text {
 							margin-bottom: 20px;
 							margin-left: 730px;
 							font-size: 14pt;
 							text-align: center;
-						}
-						.department-box {
-							text-align: center;
-							font-size: 14pt;
-							font-weight: bold;
-							border: 2px solid red;
-							padding: 5px;
-							margin: 10px 0;
 						}
 						table {
 							width: 100%;
@@ -217,13 +214,11 @@ document.addEventListener('DOMContentLoaded', () => {
 				<body>
 					<div class="Section1">
 						<div class="sub-header-text">
-							"Navoiyuran" davlat korxonasi <br> 2025 yil yanvarda - sonli <br> Buyrug‘iga <br> 1-ilova
+							"Navoiyuran" davlat korxonasi <br> 2025 yil yanvarda "___" - sonli <br> Buyrug‘iga <br> 1-ilova
 						</div>
 						<div class="header-text">
-							"Navoiyuran" davlat korxonasining 2025 yil <br> <br> raqamli transformatsiyani joriy etish bo‘limi <br> YO‘L XARITASI
-						</div>
-						<div class="department-box">
-							${department}
+							"Navoiyuran" davlat korxonasining 2025 yil uchun ${department} <br> tomonidan rejalashtirilgan <br>
+							<p> YO‘L XARITASI </p>
 						</div>
 						<table>
 							<thead>
@@ -254,17 +249,17 @@ document.addEventListener('DOMContentLoaded', () => {
 					</div>
 				</body>
 			</html>
-		`
-
-		const blob = new Blob([htmlContent], { type: 'application/vnd.ms-word' })
-		const url = URL.createObjectURL(blob)
-		const a = document.createElement('a')
-		a.href = url
-		a.download = `${projectName}_roadmap.doc`
-		document.body.appendChild(a)
-		a.click()
-		document.body.removeChild(a)
-		URL.revokeObjectURL(url)
+		`;
+	
+		const blob = new Blob([htmlContent], { type: 'application/vnd.ms-word' });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = `${projectName}_roadmap.doc`;
+		document.body.appendChild(a);
+		a.click();
+		document.body.removeChild(a);
+		URL.revokeObjectURL(url);
 	}
 
 	// Barcha loyihalarni olish va ko‘rsatish
@@ -448,31 +443,18 @@ document.addEventListener('DOMContentLoaded', () => {
 			// Yo‘l xaritasi tugmalari uchun hodisalar
 			document.querySelectorAll('.roadmap-btn').forEach(button => {
 				button.addEventListener('click', async () => {
-					const projectId = button.dataset.id
-					const projectName = button.dataset.name
+					const projectId = button.dataset.id;
+					currentProjectId = projectId; // Loyiha ID sini saqlash
+					const projectName = button.dataset.name;
 
 					// Foydalanuvchi bo‘limini olish
-					let department = 'BO‘LIM NOMI' // Default qiymat
-					try {
-						const response = await fetch(
-							'http://localhost:5000/api/user-department'
-						)
-						if (response.ok) {
-							const data = await response.json()
-							department = data.department || 'BO‘LIM NOMI'
-						} else {
-							console.error('Bo‘limni olishda xatolik:', response.status)
-						}
-					} catch (error) {
-						console.error('Bo‘limni olishda xatolik:', error.message)
-					}
+					const department = await getUserDepartment();
 
-					const tasks = await getTasksByProject(projectId)
+					const tasks = await getTasksByProject(projectId);
 					if (tasks.length === 0) {
-						roadmapContent.innerHTML =
-							'<p>Ushbu loyiha uchun vazifalar topilmadi.</p>'
-						roadmapModal.style.display = 'block'
-						return
+						roadmapContent.innerHTML = '<p>Ushbu loyiha uchun vazifalar topilmadi.</p>';
+						roadmapModal.style.display = 'block';
+						return;
 					}
 
 					let tableHTML = `
@@ -485,10 +467,11 @@ document.addEventListener('DOMContentLoaded', () => {
 									<th>Amalga oshiriladigan mexanizm</th>
 									<th>Ijro muddati</th>
 									<th>Ijro uchun mas’ul</th>
+									<th>Amallar</th> <!-- Yangi ustun -->
 								</tr>
 							</thead>
 							<tbody>
-					`
+					`;
 
 					tasks.forEach((task, index) => {
 						tableHTML += `
@@ -498,24 +481,66 @@ document.addEventListener('DOMContentLoaded', () => {
 								<td>${task.izoh || 'N/A'}</td>
 								<td>${formatDateForDisplay(task.vazifa_tugash_sanasi)}</td>
 								<td>${task.vazifa_masul_hodimi || 'N/A'}</td>
+								<td>
+									<span class="edit-task-icon" style="cursor: pointer; color: #3498db;" data-id="${task.id}">✎</span>
+								</td>
 							</tr>
-						`
-					})
+						`;
+					});
 
 					tableHTML += `
 							</tbody>
 						</table>
-					`
+					`;
 
-					roadmapContent.innerHTML = tableHTML
-					roadmapModal.style.display = 'block'
+					roadmapContent.innerHTML = tableHTML;
+					roadmapModal.style.display = 'block';
+
+					// Tahrirlash tugmasi uchun hodisa qo‘shish
+					document.querySelectorAll('.edit-task-icon').forEach(icon => {
+						icon.addEventListener('click', async e => {
+							e.stopPropagation();
+							const taskId = icon.getAttribute('data-id');
+							if (!taskId) {
+								console.error('ID topilmadi!');
+								alert('Vazifa ID si topilmadi!');
+								return;
+							}
+
+							// "Yo‘l xaritasi" modalini yopish
+							const roadmapModal = document.getElementById('roadmapModal');
+							roadmapModal.style.display = 'none';
+
+							// Vazifa ma'lumotlarini olish
+							const task = await getTaskDetails(taskId);
+							if (task) {
+								document.getElementById('edit-task-id').value = task.id || '';
+								document.getElementById('edit-task-name').value = task.vazifa_nomi || task.name || '';
+								document.getElementById('edit-task-description').value = task.izoh || task.description || '';
+								document.getElementById('edit-task-start-date').value = task.vazifa_boshlanish_sanasi || task.start_date
+									? formatDateForInput(task.vazifa_boshlanish_sanasi || task.start_date)
+									: '';
+								document.getElementById('edit-task-end-date').value = task.vazifa_tugash_sanasi || task.end_date
+									? formatDateForInput(task.vazifa_tugash_sanasi || task.end_date)
+									: '';
+								document.getElementById('edit-task-status').value = task.vazifa_status || task.status || 'rejalashtirilmoqda';
+								document.getElementById('edit-task-responsible').value = task.vazifa_masul_hodimi || task.responsible || '';
+
+								// Tahrirlash modalini ochish
+								const editTaskModal = document.getElementById('editTaskModal');
+								editTaskModal.style.display = 'block';
+							} else {
+								alert('Vazifa ma’lumotlari topilmadi yoki server xatosi!');
+							}
+						});
+					});
 
 					// Word sifatida yuklab olish tugmasi uchun hodisa
 					document.querySelectorAll('.download-word-btn').forEach(btn => {
 						btn.addEventListener('click', () => {
-							const projectId = btn.dataset.projectId
-							const projectName = btn.dataset.projectName
-							const department = btn.dataset.department
+							const projectId = btn.dataset.projectId;
+							const projectName = btn.dataset.projectName;
+							const department = btn.dataset.department;
 							const currentTasks = Array.from(
 								document.querySelectorAll('.roadmap-table tbody tr')
 							).map(row => {
@@ -524,13 +549,13 @@ document.addEventListener('DOMContentLoaded', () => {
 									izoh: row.cells[2].textContent,
 									vazifa_tugash_sanasi: row.cells[3].textContent,
 									vazifa_masul_hodimi: row.cells[4].textContent,
-								}
-							})
-							downloadAsWord(projectName, currentTasks, department)
-						})
-					})
-				})
-			})
+								};
+							});
+							downloadAsWord(projectName, currentTasks, department);
+						});
+					});
+				});
+			});
 
 			// Vazifa qo'shish tugmalari uchun hodisalar
 			document.querySelectorAll('.add-task-btn').forEach(button => {
@@ -623,41 +648,53 @@ document.addEventListener('DOMContentLoaded', () => {
 		console.log('Task modal close tugmasi orqali yopildi.')
 	})
 
-	// Roadmap modalni yopish
+	// "Yo‘l xaritasi" modalini yopish
 	closeRoadmap.addEventListener('click', () => {
-		roadmapModal.style.display = 'none'
-	})
+		// Agar tahrirlash modali ochiq bo‘lsa, hech narsa qilmaymiz
+		if (editTaskModal.style.display === 'block') return;
+		roadmapModal.style.display = 'none';
+	});
 
 	// Ikkala modalni tashqarisiga bosilganda yopish
+	// Edit modalni tashqari yopish
 	window.addEventListener('click', event => {
-		if (event.target === editModal) {
-			editModal.style.display = 'none'
-			console.log('Edit modal tashqarisiga bosilgan holda yopildi.')
+		if (event.target === editTaskModal) {
+			editTaskModal.style.display = 'none';
+			// "Yo‘l xaritasi" modalini qayta ochish
+			const roadmapBtn = document.querySelector(`.roadmap-btn[data-id="${currentProjectId}"]`);
+			if (roadmapBtn) {
+				roadmapBtn.click();
+			}
 		}
-		if (event.target === taskModal) {
-			taskModal.style.display = 'none'
-			console.log('Task modal tashqarisiga bosilgan holda yopildi.')
-		}
-		if (event.target === roadmapModal) {
-			roadmapModal.style.display = 'none'
-			console.log('Roadmap modal tashqarisiga bosilgan holda yopildi.')
-		}
-	})
+	});
 
-	// Esc tugmasi bosilganda yopish
+	// Esc bilan edit modalni yopish
 	document.addEventListener('keydown', event => {
-		if (
-			event.key === 'Escape' &&
-			(editModal.style.display === 'block' ||
-				taskModal.style.display === 'block' ||
-				roadmapModal.style.display === 'block')
-		) {
-			editModal.style.display = 'none'
-			taskModal.style.display = 'none'
-			roadmapModal.style.display = 'none'
-			console.log('Esc tugmasi orqali modal yopildi.')
+		if (event.key === 'Escape' && editTaskModal.style.display === 'block') {
+			editTaskModal.style.display = 'none';
+			// "Yo‘l xaritasi" modalini qayta ochish
+			const roadmapBtn = document.querySelector(`.roadmap-btn[data-id="${currentProjectId}"]`);
+			if (roadmapBtn) {
+				roadmapBtn.click();
+			}
 		}
-	})
+	});
+
+	// Esc bilan "Yo‘l xaritasi" modalini yopish
+	document.addEventListener('keydown', event => {
+		if (event.key === 'Escape' && roadmapModal.style.display === 'block') {
+			// Agar tahrirlash modali ochiq bo‘lsa, hech narsa qilmaymiz
+			if (editTaskModal.style.display === 'block') return;
+			roadmapModal.style.display = 'none';
+		}
+	});
+
+	// Modal tashqarisiga bosilganda "Yo‘l xaritasi" modalini yopish
+	window.addEventListener('click', event => {
+		if (event.target === roadmapModal) {
+			roadmapModal.style.display = 'none';
+		}
+	});
 
 	// Formani saqlash (yangilash)
 	editForm.addEventListener('submit', async event => {
@@ -700,6 +737,100 @@ document.addEventListener('DOMContentLoaded', () => {
 			alert('Loyihani yangilashda xatolik yuz berdi: ' + error.message)
 		}
 	})
+
+	// Foydalanuvchi bo‘limini olish funksiyasi
+	async function getUserDepartment() {
+		try {
+			const userId = sessionStorage.getItem('userId');
+			if (!userId) {
+				console.warn('User ID topilmadi');
+				return 'Raqamli transformatsiyani joriy etish bo‘limi'; // Default bo‘lim
+			}
+
+			const response = await fetch(`http://localhost:5000/api/user/${userId}`);
+			if (!response.ok) {
+				const errorText = await response.text();
+				console.error(`Bo‘limni olishda xatolik: ${response.status} - ${errorText}`);
+				return 'Raqamli transformatsiyani joriy etish bo‘limi'; // Xatolik bo‘lsa default
+			}
+
+			const data = await response.json();
+			return data.Bulim || 'Raqamli transformatsiyani joriy etish bo‘limi'; // Bo‘limni qaytarish
+		} catch (error) {
+			console.error('Bo‘limni olishda xatolik:', error.message);
+			return 'Raqamli transformatsiyani joriy etish bo‘limi'; // Xatolik bo‘lsa default
+		}
+	}
+
+	// Edit modalni tashqari yopish
+	window.addEventListener('click', event => {
+		if (event.target === editTaskModal) {
+			editTaskModal.style.display = 'none';
+		}
+	});
+
+	// Esc bilan edit modalni yopish
+	document.addEventListener('keydown', event => {
+		if (event.key === 'Escape' && editTaskModal.style.display === 'block') {
+			editTaskModal.style.display = 'none';
+		}
+	});
+
+	// edit-task-form submit hodisasida currentProjectId dan foydalanamiz
+	editTaskForm.addEventListener('submit', async event => {
+		event.preventDefault();
+
+		const taskData = {
+			vazifa_nomi: document.getElementById('edit-task-name').value,
+			izoh: document.getElementById('edit-task-description').value,
+			vazifa_boshlanish_sanasi: document.getElementById('edit-task-start-date').value,
+			vazifa_tugash_sanasi: document.getElementById('edit-task-end-date').value,
+			vazifa_status: document.getElementById('edit-task-status').value.toLowerCase(),
+			vazifa_masul_hodimi: document.getElementById('edit-task-responsible').value,
+		};
+
+		const taskId = document.getElementById('edit-task-id').value;
+
+		try {
+			const response = await fetch(`http://localhost:5000/api/vazifalar/${taskId}`, {
+				method: 'PUT',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(taskData),
+			});
+
+			if (!response.ok) {
+				const errorText = await response.text();
+				throw new Error(`Vazifa yangilashda xatolik: ${response.status} - ${errorText}`);
+			}
+
+			const result = await response.json();
+			alert(result.message);
+			editTaskModal.style.display = 'none';
+
+			// "Yo‘l xaritasi" modalini qayta ochish
+			const roadmapBtn = document.querySelector(`.roadmap-btn[data-id="${currentProjectId}"]`);
+			if (roadmapBtn) {
+				roadmapBtn.click();
+			}
+		} catch (error) {
+			console.error('Vazifa yangilashda xatolik:', error);
+			alert('Vazifa yangilashda xatolik yuz berdi: ' + error.message);
+		}
+	});
+
+	// Vazifa ma’lumotlarini olish
+	async function getTaskDetails(taskId) {
+		try {
+			const [basicDetails, rightDetails] = await Promise.all([
+				fetch(`http://localhost:5000/api/vazifalar/${taskId}`).then(res => res.json()),
+				fetch(`http://localhost:5000/api/vazifalar-details-right/${taskId}`).then(res => res.json()),
+			]);
+			return { ...basicDetails, ...rightDetails };
+		} catch (error) {
+			console.error('Vazifa ma’lumotlarini olishda xatolik:', error);
+			return null;
+		}
+	}
 
 	// Loyihalarni yuklashni boshlash
 	loadProjects()

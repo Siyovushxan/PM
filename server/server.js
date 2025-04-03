@@ -822,9 +822,6 @@ app.put('/api/users/:id', async (req, res) => {
 				logger.error('Username tekshirishda xatolik:', err)
 				return res.status(500).json({ message: 'Server xatosi' })
 			}
-			if (usernameResults.length > 0) {
-				return res.status(400).json({ message: 'Bu login allaqachon mavjud!' })
-			}
 
 			const sql =
 				'UPDATE users SET fish = ?, bulim = ?, parent_bulim = ?, lavozim = ?, username = ?, role = ? WHERE id = ?'
@@ -1088,8 +1085,6 @@ app.post('/api/users', async (req, res) => {
 				.status(500)
 				.json({ message: 'Server xatosi', error: err.message })
 		}
-		if (results.length > 0)
-			return res.status(400).json({ message: 'Bu login allaqachon mavjud!' })
 
 		try {
 			const hashedPassword = await bcrypt.hash(password, 10)

@@ -87,7 +87,7 @@ loginInput.addEventListener('input', async () => {
 		const exists = users.some(user => user.username === username)
 		if (exists) {
 			loginInput.style.borderColor = 'red'
-			alert('Bu login allaqachon mavjud!')
+			// alert('Bu login allaqachon mavjud!')
 			isUsernameAvailable = false
 		} else {
 			loginInput.style.borderColor = 'green'

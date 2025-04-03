@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
 							<body>
 									<div class="Section1">
 											<div class="sub-header-text">
-													"Navoiyuran" davlat korxonasi <br> 2025 yil yanvarda "____" - sonli <br> Buyrug‘iga <br> 1-ilova
+													"Navoiyuran" davlat korxonasi <br> 2025 yil yanvarda "___" - sonli <br> Buyrug‘iga <br> 1-ilova
 											</div>
 											<div class="header-text">
 													"Navoiyuran" davlat korxonasining 2025 yil uchun ${department} <br> tomonidan rejalashtirilgan <br>
@@ -293,101 +293,60 @@ document.addEventListener('DOMContentLoaded', () => {
 			// Yo‘l xaritasi tugmalari uchun hodisalar
 			document.querySelectorAll('.roadmap-btn').forEach(button => {
 				button.addEventListener('click', async () => {
-					const projectId = button.dataset.id
-					const projectName = button.dataset.name
+					const projectId = button.dataset.id;
+					const projectName = button.dataset.name;
 
 					// Foydalanuvchi bo‘limini olish
-					let department = 'BO‘LIM NOMI' // Default qiymat
-					try {
-						// Foydalanuvchi autentifikatsiyasini tekshirish
-						const authResponse = await fetch(
-							'http://localhost:5000/api/check-auth',
-							{
-								method: 'GET',
-								credentials: 'include', // Cookie yoki tokenlarni yuborish uchun
-							}
-						)
-						if (!authResponse.ok) {
-							console.warn('Foydalanuvchi autentifikatsiyasi topilmadi')
-							department = 'Raqamli transformatsiyani joriy etish bo‘limi' // Default bo‘lim nomi
-						} else {
-							const authData = await authResponse.json()
-							if (authData.userId) {
-								const response = await fetch(
-									'http://localhost:5000/api/user-department',
-									{
-										method: 'GET',
-										credentials: 'include',
-									}
-								)
-								if (response.ok) {
-									const data = await response.json()
-									department =
-										data.department ||
-										'Raqamli transformatsiyani joriy etish bo‘limi'
-								} else {
-									console.error('Bo‘limni olishda xatolik:', response.status)
-									department = 'Raqamli transformatsiyani joriy etish bo‘limi'
-								}
-							} else {
-								console.warn('Foydalanuvchi ID si topilmadi')
-								department = 'Raqamli transformatsiyani joriy etish bo‘limi'
-							}
-						}
-					} catch (error) {
-						console.error('Bo‘limni olishda xatolik:', error.message)
-						department = 'Raqamli transformatsiyani joriy etish bo‘limi' // Xatolik bo‘lsa default qiymat
-					}
+					const department = await getUserDepartment();
 
-					const tasks = await getTasksByProject(projectId)
+					const tasks = await getTasksByProject(projectId);
 					if (tasks.length === 0) {
-						roadmapContent.innerHTML =
-							'<p>Ushbu loyiha uchun vazifalar topilmadi.</p>'
-						roadmapModal.style.display = 'block'
-						return
+						roadmapContent.innerHTML = '<p>Ushbu loyiha uchun vazifalar topilmadi.</p>';
+						roadmapModal.style.display = 'block';
+						return;
 					}
 
 					let tableHTML = `
-											<button class="download-word-btn" data-project-id="${projectId}" data-project-name="${projectName}" data-department="${department}">Word sifatida yuklab olish</button>
-											<table class="roadmap-table">
-													<thead>
-															<tr>
-																	<th>№</th>
-																	<th>Chora-tadbirlar nomi</th>
-																	<th>Amalga oshiriladigan mexanizm</th>
-																	<th>Ijro muddati</th>
-																	<th>Ijro uchun mas’ul</th>
-															</tr>
-													</thead>
-													<tbody>
-									`
+						<button class="download-word-btn" data-project-id="${projectId}" data-project-name="${projectName}" data-department="${department}">Word sifatida yuklab olish</button>
+						<table class="roadmap-table">
+							<thead>
+								<tr>
+									<th>№</th>
+									<th>Chora-tadbirlar nomi</th>
+									<th>Amalga oshiriladigan mexanizm</th>
+									<th>Ijro muddati</th>
+									<th>Ijro uchun mas’ul</th>
+								</tr>
+							</thead>
+							<tbody>
+					`;
 
 					tasks.forEach((task, index) => {
 						tableHTML += `
-													<tr data-id="${task.id}">
-															<td>${index + 1}</td>
-															<td>${task.vazifa_nomi || 'N/A'}</td>
-															<td>${task.izoh || 'N/A'}</td>
-															<td>${formatDateForDisplay(task.vazifa_tugash_sanasi)}</td>
-															<td>${task.vazifa_masul_hodimi || 'N/A'}</td>
-													</tr>
-											`
-					})
+							<tr data-id="${task.id}">
+								<td>${index + 1}</td>
+								<td>${task.vazifa_nomi || 'N/A'}</td>
+								<td>${task.izoh || 'N/A'}</td>
+								<td>${formatDateForDisplay(task.vazifa_tugash_sanasi)}</td>
+								<td>${task.vazifa_masul_hodimi || 'N/A'}</td>
+							</tr>
+						`;
+					});
 
 					tableHTML += `
-													</tbody>
-											</table>
-									`
+							</tbody>
+						</table>
+					`;
 
-					roadmapContent.innerHTML = tableHTML
-					roadmapModal.style.display = 'block'
+					roadmapContent.innerHTML = tableHTML;
+					roadmapModal.style.display = 'block';
 
 					// Word sifatida yuklab olish tugmasi uchun hodisa
 					document.querySelectorAll('.download-word-btn').forEach(btn => {
 						btn.addEventListener('click', () => {
-							const projectId = btn.dataset.projectId
-							const projectName = btn.dataset.projectName
-							const department = btn.dataset.department
+							const projectId = btn.dataset.projectId;
+							const projectName = btn.dataset.projectName;
+							const department = btn.dataset.department;
 							const currentTasks = Array.from(
 								document.querySelectorAll('.roadmap-table tbody tr')
 							).map(row => {
@@ -396,13 +355,13 @@ document.addEventListener('DOMContentLoaded', () => {
 									izoh: row.cells[2].textContent,
 									vazifa_tugash_sanasi: row.cells[3].textContent,
 									vazifa_masul_hodimi: row.cells[4].textContent,
-								}
-							})
-							downloadAsWord(projectName, currentTasks, department)
-						})
-					})
-				})
-			})
+								};
+							});
+							downloadAsWord(projectName, currentTasks, department);
+						});
+					});
+				});
+			});
 		} catch (error) {
 			console.error('Xatolik:', error.message)
 			projectsContainer.innerHTML = `<p>Xatolik yuz berdi: ${error.message}</p>`
@@ -425,6 +384,30 @@ document.addEventListener('DOMContentLoaded', () => {
 			roadmapModal.style.display = 'none'
 		}
 	})
+
+	// Foydalanuvchi bo‘limini olish funksiyasi
+	async function getUserDepartment() {
+		try {
+			const userId = sessionStorage.getItem('userId');
+			if (!userId) {
+				console.warn('User ID topilmadi');
+				return 'Raqamli transformatsiyani joriy etish bo‘limi'; // Default bo‘lim
+			}
+
+			const response = await fetch(`http://localhost:5000/api/user/${userId}`);
+			if (!response.ok) {
+				const errorText = await response.text();
+				console.error(`Bo‘limni olishda xatolik: ${response.status} - ${errorText}`);
+				return 'Raqamli transformatsiyani joriy etish bo‘limi'; // Xatolik bo‘lsa default
+			}
+
+			const data = await response.json();
+			return data.Bulim || 'Raqamli transformatsiyani joriy etish bo‘limi'; // Bo‘limni qaytarish
+		} catch (error) {
+			console.error('Bo‘limni olishda xatolik:', error.message);
+			return 'Raqamli transformatsiyani joriy etish bo‘limi'; // Xatolik bo‘lsa default
+		}
+	}
 
 	// Arxivlangan loyihalarni yuklashni boshlash
 	loadArchivedProjects()
