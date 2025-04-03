@@ -71,139 +71,176 @@
     <!-- Overlay (xiralashuv effekti) -->
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
-    <main class="main">
-        <div class="users-section">
-            <h2 style="text-align: left;">Foydalanuvchilar ro‘yxati</h2>
-            <!-- <img src="img/user (1).png" alt=""> -->
-            <h2 id="addUserTrigger">Hodimni ro‘yxatdan o‘tkazish</h2>
-            <div class="search-filter">
-                <input type="text" id="searchInput" placeholder="Qidiruv (ID, F.I.Sh, Bo'lim, Yuqori bo'lim, Lavozim, Login, Rol, Sana)">
-            </div>
-            <table id="userTable">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>F.I.Sh</th>
-                        <th>Bo‘lim</th>
-                        <th>Yuqori bo‘lim</th>
-                        <th>Lavozim</th>
-                        <th>Login</th>
-                        <th>Rol</th>
-                        <th>Sana</th>
-                        <th>O‘chirish</th>
-                    </tr>
-                </thead>
-                <tbody id="userTableBody"></tbody>
-            </table>
-        </div>
+    <!-- Asosiy kontent uchun bo‘lim -->
+    <main class="main-content">
+        <!-- Hozircha bo‘sh, lekin keyinchalik kontent qo‘shilishi mumkin -->
 
-        <!-- Yangi foydalanuvchi qo‘shish uchun modal -->
-        <div id="addUserModal" class="modal">
-            <div class="modal-content">
-                <span class="close-btn" onclick="closeAddModal()">×</span>
-                <h2>Yangi foydalanuvchini ro‘yxatdan o‘tkazish</h2>
-                <form id="addUserForm">
-                    <div class="form-group">
-                        <label for="fish">F.I.Sh.:</label>
-                        <input type="text" id="fish" name="fish" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="bulim">Bo‘lim:</label>
-                        <select id="bulim" name="bulim" required>
-                            <option value="">Bo‘limni tanlang</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="parent_bulim">Yuqori bo‘lim:</label>
-                        <select id="parent_bulim" name="parent_bulim">
-                            <option value="">Yuqori bo‘limni tanlang (ixtiyoriy)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="lavozim">Lavozim:</label>
-                        <select id="lavozim" name="lavozim" required>
-                            <option value="">Lavozimni tanlang</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="login">Login:</label>
-                        <input type="text" id="login" name="login" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Parol:</label>
-                        <input type="password" id="password" name="password" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="role">Rol:</label>
-                        <select id="role" name="role" required>
-                            <option value="admin">Admin</option>
-                            <option value="user">User</option>
-                        </select>
-                    </div>
-                    <button type="submit">Ro‘yxatdan o‘tkazish</button>
-                </form>
+        <main class="main">
+            <div class="users-section">
+                <h2 style="text-align: left;">Foydalanuvchilar ro‘yxati</h2>
+                <!-- <img src="img/user (1).png" alt=""> -->
+                <h2 id="addUserTrigger">Hodimni ro‘yxatdan o‘tkazish</h2>
+                <div class="search-filter">
+                    <input type="text" id="searchInput" placeholder="Qidiruv (ID, F.I.Sh, Bo'lim, Yuqori bo'lim, Lavozim, Login, Rol, Sana)">
+                </div>
+                <table id="userTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>F.I.Sh</th>
+                            <th>Bo‘lim</th>
+                            <th>Yuqori bo‘lim</th>
+                            <th>Lavozim</th>
+                            <th>Login</th>
+                            <th>Rol</th>
+                            <th>Sana</th>
+                            <th>O‘chirish</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTableBody"></tbody>
+                </table>
             </div>
-        </div>
-
-        <!-- Foydalanuvchi ma'lumotlarini tahrirlash uchun modal -->
-        <div id="editUserModal" class="modal">
-            <div class="modal-content">
-                <span class="close-btn" onclick="closeEditModal()">×</span>
-                <h2>Foydalanuvchi ma'lumotlarini tahrirlash</h2>
-                <form id="editUserForm">
-                    <input type="hidden" id="editUserId" name="id">
-                    <div class="form-group">
-                        <label for="editFish">F.I.Sh.:</label>
-                        <input type="text" id="editFish" name="fish" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="editBulim">Bo‘lim:</label>
-                        <select id="editBulim" name="bulim" required>
-                            <option value="">Bo‘limni tanlang</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="editParentBulim">Yuqori bo‘lim:</label>
-                        <select id="editParentBulim" name="parent_bulim">
-                            <option value="">Yuqori bo‘limni tanlang (ixtiyoriy)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="editLavozim">Lavozim:</label>
-                        <select id="editLavozim" name="lavozim" required>
-                            <option value="">Lavozimni tanlang</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="editLogin">Login:</label>
-                        <input type="text" id="editLogin" name="login" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="editRole">Rol:</label>
-                        <select id="editRole" name="role" required>
-                            <option value="admin">Admin</option>
-                            <option value="user">User</option>
-                        </select>
-                    </div>
-                    <button type="submit">Saqlash</button>
-                    <button type="button" id="resetPasswordBtn">Parolni qayta tiklash</button>
-                </form>
+    
+            <!-- Yangi foydalanuvchi qo‘shish uchun modal -->
+            <div id="addUserModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-btn" onclick="closeAddModal()">×</span>
+                    <h2>Yangi foydalanuvchini ro‘yxatdan o‘tkazish</h2>
+                    <form id="addUserForm">
+                        <div class="form-group">
+                            <label for="fish">F.I.Sh.:</label>
+                            <input type="text" id="fish" name="fish" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="bulim">Bo‘lim:</label>
+                            <select id="bulim" name="bulim" required>
+                                <option value="">Bo‘limni tanlang</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="parent_bulim">Yuqori bo‘lim:</label>
+                            <select id="parent_bulim" name="parent_bulim">
+                                <option value="">Yuqori bo‘limni tanlang (ixtiyoriy)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="lavozim">Lavozim:</label>
+                            <select id="lavozim" name="lavozim" required>
+                                <option value="">Lavozimni tanlang</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="login">Login:</label>
+                            <input type="text" id="login" name="login" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Parol:</label>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="role">Rol:</label>
+                            <select id="role" name="role" required>
+                                <option value="admin">Admin</option>
+                                <option value="user">User</option>
+                            </select>
+                        </div>
+                        <button type="submit">Ro‘yxatdan o‘tkazish</button>
+                    </form>
+                </div>
             </div>
-        </div>
+    
+            <!-- Foydalanuvchi ma'lumotlarini tahrirlash uchun modal -->
+            <div id="editUserModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-btn" onclick="closeEditModal()">×</span>
+                    <h2>Foydalanuvchi ma'lumotlarini tahrirlash</h2>
+                    <form id="editUserForm">
+                        <input type="hidden" id="editUserId" name="id">
+                        <div class="form-group">
+                            <label for="editFish">F.I.Sh.:</label>
+                            <input type="text" id="editFish" name="fish" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editBulim">Bo‘lim:</label>
+                            <select id="editBulim" name="bulim" required>
+                                <option value="">Bo‘limni tanlang</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editParentBulim">Yuqori bo‘lim:</label>
+                            <select id="editParentBulim" name="parent_bulim">
+                                <option value="">Yuqori bo‘limni tanlang (ixtiyoriy)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editLavozim">Lavozim:</label>
+                            <select id="editLavozim" name="lavozim" required>
+                                <option value="">Lavozimni tanlang</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editLogin">Login:</label>
+                            <input type="text" id="editLogin" name="login" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editRole">Rol:</label>
+                            <select id="editRole" name="role" required>
+                                <option value="admin">Admin</option>
+                                <option value="user">User</option>
+                            </select>
+                        </div>
+                        <button type="submit">Saqlash</button>
+                        <button type="button" id="resetPasswordBtn">Parolni qayta tiklash</button>
+                    </form>
+                </div>
+            </div>
+        </main>
     </main>
 
-    <!-- Footer. Ishlab chiquvchi yuzasidan ma'lumot -->
-    <section class="yaratuvchi">
-        <div>
-            <div>
-                <h2>Loyiha yaratuvchisi: Raqamli transformatsiyani joriy etish bo'limi bosh mutaxassisi</h2>
-                <h2>S. Abdullayev</h2>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+        <div class="footer-left">
+            <div class="footer-logo">
+            <img src="img/Рисунок1.png" alt="Navoiyuran Logo">
+            <span>"Navoiyuran" DK</span>
             </div>
+            <div class="footer-yaratuvchi">
+            <img src="img/photo_2025-04-03_15-28-31.jpg" alt="">
             <div>
-                <p>Tel: (79) 507-02-41</p>
+                <p>Ishlab chiquvchi: Raqamli transformatsiyani joriy etish <br> bo'limi bosh mutaxassisi</p>
+                <p>Abdullayev Siyovush Asqar o'g'li</p>
+            </div>
             </div>
         </div>
-    </section>
+        <div class="footer-center">
+            <h3><a href="https://navoiyuran.uz">"Navoiyuran" DK rasmiy veb sayt</a></h3>
+            <p><a href="https://lex.uz">Lex.uz</a></p>
+            <p><a href="#">Tizimdan foydalanish qo‘llanmasi</a></p>
+            <p><a href="#">Raqamlashtirish bo'limi tomonidan ishlab chiqilgan tizimlar</a></p>
+        </div>
+        <div class="footer-right">
+            <h3>Bizning kontaktlarimiz</h3>
+            <div class="footer-contacts">
+            <div class="contact-item">
+                <img src="img/phone.png" alt="Phone Icon">
+                <span>+998 (79) 507-02-41</span>
+            </div>
+            <div class="contact-item">
+                <img src="img/envelope.png" alt="Email Icon">
+                <span>info@navoiyuran.uz</span>
+            </div>
+            </div>
+            <div class="social-icons">
+            <a href="https://facebook.com/Navoiyuran-DK-109673825046889"><img src="img/facebook.png" alt="Facebook"></a>
+            <a href="https://t.me/Navoiyuran_official"><img src="img/telegram.png" alt="Telegram"></a>
+            <a href="https://instagram.com/navoiyuran"><img src="img/instagram.png" alt="Instagram"></a>
+            <a href="https://youtube.com/@navoiyuran"><img src="img/youtube.png" alt="YouTube"></a>
+            </div>
+        </div>
+        </div>
+    </footer>
 
     <script src="js/index.js"></script>
     <script src="js/foydalanuvchilar.js"></script>

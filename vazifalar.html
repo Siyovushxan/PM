@@ -72,94 +72,128 @@
     <!-- Overlay (xiralashuv effekti) -->
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
+    <!-- Asosiy kontent uchun bo‘lim -->
+    <main class="main-content">
+        <!-- Hozircha bo‘sh, lekin keyinchalik kontent qo‘shilishi mumkin -->
 
-    <!-- Vazifalar ruyxatini bazadan oladi -->
-    <main class="task-main">
-        <div class="container-projects">
-            <div id="task-list" class="task-list">
-                <!-- Vazifalar dynamic ravishda yuklanadi -->
+        <!-- Vazifalar ruyxatini bazadan oladi -->
+        <main class="task-main">
+            <div class="container-projects">
+                <div id="task-list" class="task-list">
+                    <!-- Vazifalar dynamic ravishda yuklanadi -->
+                </div>
+            </div>
+        </main>
+    
+        <!-- Vazifalar modal oynasi -->
+        <div id="task-modal" class="task-modal">
+            <div class="nav-task" id="task-name"></div>
+            <span class="close-modal">×</span>
+            <div class="modal-content">
+                <div class="modal-left">
+                    <div id="task-id">Vazifa raqami: </div>
+                    <div id="task-description">Vazifa izohi:</div>
+                    <div class="natija">NATIJALAR</div>
+                    <div id="task-result" class="task-section">Natija:</div>
+                    <button id="view-chat-btn" style="margin: 10px 0;">Chat tarixini kurish</button>
+                    <div id="task-history" class="task-section">Tarix: Vazifa bo'yicha yozishmalar tarixi</div>
+                    <div id="message-input-container">
+                        <input type="text" id="message-input" placeholder="Xabar yozing...">
+                        <input type="file" id="file-upload" multiple> <br>
+                        <input type="checkbox" id="result-checkbox"> Ijobiy natija
+                        <button onclick="sendMessage()">Yuborish</button>
+                    </div>
+                </div>
+                <div class="modal-right" id="task-details">
+                    <p class="modal-right-umumiy">Qo'shimcha ma'lumotlar</p>
+                    <p><strong>Boshlanish vaqti:</strong> <span id="start-date"></span></p>
+                    <p><strong>Tugash vaqti:</strong> <span id="end-date"></span></p>
+                    <p><strong>Muddat: </strong> <span id="days-diff"> </span> KUN</p>
+                    <p><strong>Vazifaga mas'ul hodim:</strong> <span id="responsible"></span></p>
+                    <p><strong>Loyiha rahbari:</strong> <span id="creator"></span></p>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Vazifa tahrirlash modal oynasi -->
+        <div id="editTaskModal" class="modal">
+            <div class="modal-content">
+                <span class="close-task-edit">×</span>
+                <h2>Vazifani Tahrirlash</h2>
+                <form id="edit-task-form">
+                    <input type="hidden" id="edit-task-id">
+                    <label for="edit-task-name">Vazifa nomi</label>
+                    <input type="text" id="edit-task-name" required>
+                    <label for="edit-task-description">Izoh</label>
+                    <textarea id="edit-task-description" required></textarea>
+                    <label for="edit-task-start-date">Boshlanish sanasi</label>
+                    <input type="date" id="edit-task-start-date" required>
+                    <label for="edit-task-end-date">Tugash sanasi</label>
+                    <input type="date" id="edit-task-end-date" required>
+                    <label for="edit-task-status">Status</label>
+                    <select id="edit-task-status" required>
+                        <option value="rejalashtirilmoqda">Rejalashtirilmoqda</option>
+                        <option value="bajarilmoqda">Bajarilmoqda</option>
+                        <option value="yakunlandi">Yakunlandi</option>
+                        <option value="to'xtatildi">To'xtatilgan</option>
+                    </select>
+                    <label for="edit-task-responsible">Mas'ul hodim</label>
+                    <select id="edit-task-responsible" required>
+                        <option value="S.Adizov">S. Adizov</option>
+                        <option value="S.Abdullayev">S. Abdullayev</option>
+                        <option value="J.G'iyosov">J. G'iyosov</option>
+                        <option value="J.Toshboyev">J. Toshboyev</option>
+                    </select>
+                    <button type="submit">Saqlash</button>
+                </form>
             </div>
         </div>
     </main>
 
-    <!-- Vazifalar modal oynasi -->
-    <div id="task-modal" class="task-modal">
-        <div class="nav-task" id="task-name"></div>
-        <span class="close-modal">×</span>
-        <div class="modal-content">
-            <div class="modal-left">
-                <div id="task-id">Vazifa raqami: </div>
-                <div id="task-description">Vazifa izohi:</div>
-                <div class="natija">NATIJALAR</div>
-                <div id="task-result" class="task-section">Natija:</div>
-                <button id="view-chat-btn" style="margin: 10px 0;">Chat tarixini kurish</button>
-                <div id="task-history" class="task-section">Tarix: Vazifa bo'yicha yozishmalar tarixi</div>
-                <div id="message-input-container">
-                    <input type="text" id="message-input" placeholder="Xabar yozing...">
-                    <input type="file" id="file-upload" multiple> <br>
-                    <input type="checkbox" id="result-checkbox"> Ijobiy natija
-                    <button onclick="sendMessage()">Yuborish</button>
-                </div>
-            </div>
-            <div class="modal-right" id="task-details">
-                <p class="modal-right-umumiy">Qo'shimcha ma'lumotlar</p>
-                <p><strong>Boshlanish vaqti:</strong> <span id="start-date"></span></p>
-                <p><strong>Tugash vaqti:</strong> <span id="end-date"></span></p>
-                <p><strong>Muddat: </strong> <span id="days-diff"> </span> KUN</p>
-                <p><strong>Vazifaga mas'ul hodim:</strong> <span id="responsible"></span></p>
-                <p><strong>Loyiha rahbari:</strong> <span id="creator"></span></p>
-            </div>
-        </div>
-    </div>
 
-    <!-- Vazifa tahrirlash modal oynasi -->
-    <div id="editTaskModal" class="modal">
-        <div class="modal-content">
-            <span class="close-task-edit">×</span>
-            <h2>Vazifani Tahrirlash</h2>
-            <form id="edit-task-form">
-                <input type="hidden" id="edit-task-id">
-                <label for="edit-task-name">Vazifa nomi</label>
-                <input type="text" id="edit-task-name" required>
-                <label for="edit-task-description">Izoh</label>
-                <textarea id="edit-task-description" required></textarea>
-                <label for="edit-task-start-date">Boshlanish sanasi</label>
-                <input type="date" id="edit-task-start-date" required>
-                <label for="edit-task-end-date">Tugash sanasi</label>
-                <input type="date" id="edit-task-end-date" required>
-                <label for="edit-task-status">Status</label>
-                <select id="edit-task-status" required>
-                    <option value="rejalashtirilmoqda">Rejalashtirilmoqda</option>
-                    <option value="bajarilmoqda">Bajarilmoqda</option>
-                    <option value="yakunlandi">Yakunlandi</option>
-                    <option value="to'xtatildi">To'xtatilgan</option>
-                </select>
-                <label for="edit-task-responsible">Mas'ul hodim</label>
-                <select id="edit-task-responsible" required>
-                    <option value="S.Adizov">S. Adizov</option>
-                    <option value="S.Abdullayev">S. Abdullayev</option>
-                    <option value="J.G'iyosov">J. G'iyosov</option>
-                    <option value="J.Toshboyev">J. Toshboyev</option>
-                </select>
-                <button type="submit">Saqlash</button>
-            </form>
-        </div>
-    </div>
-
-    <section class="yaratuvchi">
-        <div>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+        <div class="footer-left">
+            <div class="footer-logo">
+            <img src="img/Рисунок1.png" alt="Navoiyuran Logo">
+            <span>"Navoiyuran" DK</span>
+            </div>
+            <div class="footer-yaratuvchi">
+            <img src="img/photo_2025-04-03_15-28-31.jpg" alt="">
             <div>
-                <h2>Loyiha yaratuvchisi: Raqamli transformatsiyani joriy etish bo'limi bosh mutaxassisi</h2>
-                <h2>S. Abdullayev</h2>
+                <p>Ishlab chiquvchi: Raqamli transformatsiyani joriy etish <br> bo'limi bosh mutaxassisi</p>
+                <p>Abdullayev Siyovush Asqar o'g'li</p>
             </div>
-
-            <div>
-                <p>
-                    Tel: (79) 507-02-41
-                </p>
             </div>
         </div>
-    </section>
+        <div class="footer-center">
+            <h3><a href="https://navoiyuran.uz">"Navoiyuran" DK rasmiy veb sayt</a></h3>
+            <p><a href="https://lex.uz">Lex.uz</a></p>
+            <p><a href="#">Tizimdan foydalanish qo‘llanmasi</a></p>
+            <p><a href="#">Raqamlashtirish bo'limi tomonidan ishlab chiqilgan tizimlar</a></p>
+        </div>
+        <div class="footer-right">
+            <h3>Bizning kontaktlarimiz</h3>
+            <div class="footer-contacts">
+            <div class="contact-item">
+                <img src="img/phone.png" alt="Phone Icon">
+                <span>+998 (79) 507-02-41</span>
+            </div>
+            <div class="contact-item">
+                <img src="img/envelope.png" alt="Email Icon">
+                <span>info@navoiyuran.uz</span>
+            </div>
+            </div>
+            <div class="social-icons">
+            <a href="https://facebook.com/Navoiyuran-DK-109673825046889"><img src="img/facebook.png" alt="Facebook"></a>
+            <a href="https://t.me/Navoiyuran_official"><img src="img/telegram.png" alt="Telegram"></a>
+            <a href="https://instagram.com/navoiyuran"><img src="img/instagram.png" alt="Instagram"></a>
+            <a href="https://youtube.com/@navoiyuran"><img src="img/youtube.png" alt="YouTube"></a>
+            </div>
+        </div>
+        </div>
+    </footer>
 
     <script src="js/vazifalar.js"></script>
     <script src="js/index.js"></script>

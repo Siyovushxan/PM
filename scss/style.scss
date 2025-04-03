@@ -40,9 +40,14 @@ body {
   background-color: #f4f4f4;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100vh; // Sahifaning minimal balandligi ekran balandligiga teng bo‘ladi
   position: relative; // Overlay uchun
   padding-top: $navbar-height + 2rem; // Navbar va menyu ikonkasi balandligi uchun joy
+}
+
+// Main content styles
+.main-content {
+  flex: 1 0 auto; // Main bo‘limi bo‘sh joyni to‘ldiradi
 }
 
 // Navbar styles
@@ -230,7 +235,6 @@ body {
   display: flex;
   justify-content: flex-start; // Chapga joylashadi
   padding: 0rem 2rem;
-  // box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   z-index: 9; // Sidebar va overlaydan yuqori, lekin navbar ostida
 
   .menu-toggle {
@@ -339,7 +343,7 @@ body {
 // Loyiha va vazifalar statistikasi
 .statistika-container {
   max-width: 90%;
-  margin: 2rem auto;
+  margin: 0rem auto;
   padding: 2rem;
   background-color: $card-bg;
   box-shadow: 0 4px 12px $card-shadow;
@@ -349,6 +353,7 @@ body {
   display: flex;
   flex-direction: row;
   gap: 2rem;
+  margin-bottom: 2rem;
 
   .loyiha-statistika,
   .vazifalar-status-statistika {
@@ -484,7 +489,7 @@ body {
       border-radius: 4px;
       background-color: $input-bg;
       font-size: 1rem;
-      outline: none; /* Fokuslangರ: focus holatida paydo bo'ladigan ko'k chiziqni olib tashlaydi */
+      outline: none; /* Fokuslanganda focus holatida paydo bo'ladigan ko'k chiziqni olib tashlaydi */
     }
 
     textarea {
@@ -509,34 +514,105 @@ body {
   }
 }
 
-// Yaratuvchi section
-.yaratuvchi {
-  background-color: $primary-color;
-  color: $secondary-color;
-  text-align: center;
-  padding: 1rem;
-  flex-shrink: 0;
-  width: 100%;
-  margin-top: auto;
+// Footer uslublari
+.footer {
+  background-color: #1a3c34;
+  color: #fff;
+  padding: 40px 0;
+  font-family: "Arial", sans-serif;
+  flex-shrink: 0; // Footer o‘z o‘lchamini saqlaydi
 
-  div {
-    padding: 0.5rem;
+  .footer-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    
+    .footer-left {
+      .footer-logo {
+        display: flex;
+        // justify-content: center;
+        align-items: center;
+        margin-bottom: 1rem;
+        gap: 1rem;
 
-    h2 {
-      font-size: 1.2rem;
-      margin: 0;
+        img {
+          width: 7rem;
+        }
 
-      &:last-child {
-        margin-top: 0.5rem;
+        span {
+          font-size: 2rem;
+        }
+      }
+
+      .footer-yaratuvchi {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+
+        img {
+          width: 7rem;
+          border-radius: 10px;
+        }
+
+        div {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          font-size: 1.2rem;
+        }
       }
     }
-  }
 
-  div {
-    margin: 0.5rem;
+    .footer-center {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
 
-    p {
-      text-align: center;
+      h3 {
+        a {
+          color: white;
+          font-size: 1.5rem;
+        }
+      }
+
+      p {
+        a {
+          color: white;
+        }
+      }
+    }
+
+    .footer-right {
+      .footer-contacts {
+        .contact-item {
+          display: flex;
+          flex-direction: row;
+          justify-content: start;
+          align-items: center;
+          gap: 0.5rem;
+          margin-top: 1rem;
+
+          img {
+            width: 2rem;
+          }
+        }
+      }
+
+      .social-icons {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        margin-top: 1rem;
+
+        a {
+          img {
+            width: 3rem;
+          }
+        }
+      }
     }
   }
 }

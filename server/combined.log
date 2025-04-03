@@ -91,3 +91,20 @@
 {"level":"info","message":"✅ MySQLga muvaffaqiyatli ulandi!","timestamp":"2025-04-03T06:48:38.741Z"}
 {"level":"info","message":"✅ Server 5000 portda ishlamoqda...","timestamp":"2025-04-03T06:49:06.307Z"}
 {"level":"info","message":"✅ MySQLga muvaffaqiyatli ulandi!","timestamp":"2025-04-03T06:49:06.321Z"}
+{"level":"info","message":"✅ Server 5000 portda ishlamoqda...","timestamp":"2025-04-03T06:49:56.561Z"}
+{"level":"info","message":"✅ MySQLga muvaffaqiyatli ulandi!","timestamp":"2025-04-03T06:49:56.574Z"}
+{"cookie":{"expires":"2025-04-04T06:51:11.390Z","httpOnly":true,"originalMaxAge":86400000,"path":"/","sameSite":"lax","secure":false},"level":"info","message":"Sessiya saqlandi:","timestamp":"2025-04-03T06:51:11.465Z","userId":"18"}
+{"cookie":{"expires":"2025-04-04T06:59:40.429Z","httpOnly":true,"originalMaxAge":86400000,"path":"/","sameSite":"lax","secure":false},"level":"info","message":"Sessiya saqlandi:","timestamp":"2025-04-03T06:59:40.496Z","userId":"18"}
+{"cookie":{"expires":"2025-04-04T07:09:50.413Z","httpOnly":true,"originalMaxAge":86400000,"path":"/","sameSite":"lax","secure":false},"level":"info","message":"Sessiya saqlandi:","timestamp":"2025-04-03T07:09:50.477Z","userId":"46"}
+{"cookie":{"expires":"2025-04-04T07:14:44.447Z","httpOnly":true,"originalMaxAge":86400000,"path":"/","sameSite":"lax","secure":false},"level":"info","message":"Sessiya saqlandi:","timestamp":"2025-04-03T07:14:44.510Z","userId":"46"}
+{"cookie":{"expires":"2025-04-04T07:15:11.821Z","httpOnly":true,"originalMaxAge":86400000,"path":"/","sameSite":"lax","secure":false},"level":"info","message":"Sessiya saqlandi:","timestamp":"2025-04-03T07:17:36.999Z","userId":"43"}
+{"cookie":{"expires":"2025-04-04T07:17:37.000Z","httpOnly":true,"originalMaxAge":86400000,"path":"/","sameSite":"lax","secure":false},"level":"info","message":"Sessiya saqlandi:","timestamp":"2025-04-03T07:18:10.790Z","userId":"18"}
+{"cookie":{"expires":"2025-04-04T09:05:43.922Z","httpOnly":true,"originalMaxAge":86400000,"path":"/","sameSite":"lax","secure":false},"level":"info","message":"Sessiya saqlandi:","timestamp":"2025-04-03T09:05:55.619Z","userId":"18"}
+{"cookie":{"expires":"2025-04-04T09:06:01.612Z","httpOnly":true,"originalMaxAge":86400000,"path":"/","sameSite":"lax","secure":false},"level":"info","message":"Sessiya saqlandi:","timestamp":"2025-04-03T09:06:01.676Z","userId":"46"}
+{"level":"info","message":"✅ Server 5000 portda ishlamoqda...","timestamp":"2025-04-03T09:07:26.006Z"}
+{"level":"info","message":"✅ MySQLga muvaffaqiyatli ulandi!","timestamp":"2025-04-03T09:07:26.026Z"}
+{"cookie":{"expires":"2025-04-04T09:53:49.482Z","httpOnly":true,"originalMaxAge":86400000,"path":"/","sameSite":"lax","secure":false},"level":"info","message":"Sessiya saqlandi:","timestamp":"2025-04-03T09:53:49.560Z","userId":"46"}
+{"level":"info","message":"✅ Server 5000 portda ishlamoqda...","timestamp":"2025-04-03T10:03:29.127Z"}
+{"level":"info","message":"✅ MySQLga muvaffaqiyatli ulandi!","timestamp":"2025-04-03T10:03:29.138Z"}
+{"cookie":{"expires":"2025-04-04T10:39:47.106Z","httpOnly":true,"originalMaxAge":86400000,"path":"/","sameSite":"lax","secure":false},"level":"info","message":"Sessiya saqlandi:","timestamp":"2025-04-03T10:39:47.176Z","userId":"46"}
+{"cookie":{"expires":"2025-04-04T10:41:48.259Z","httpOnly":true,"originalMaxAge":86400000,"path":"/","sameSite":"lax","secure":false},"level":"info","message":"Sessiya saqlandi:","timestamp":"2025-04-03T10:41:48.324Z","userId":"46"}

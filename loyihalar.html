@@ -72,157 +72,191 @@
   <!-- Overlay (xiralashuv effekti) -->
   <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
-
-  <main>
-    <div class="container-projects">
-      <h2 class="title_vazifa">Bajarilishi Rejalashtirilgan Loyihalar</h2>
-
-      <!-- Loyiha kartalari -->
-      <div class="projects">
-        <div class="bottons">
-          <div class="left">
-            <button class="edit-btn" data-id="${project.id || 0}">Tahrirlash</button>
-            <button class="delete-btn" data-id="${project.id || 0}">O'chirish</button>
-            <button class="archive-btn" data-id="${project.id || 0}">Arxivlash</button> <!-- Yangi Arxivlash tugmasi -->
+  <!-- Asosiy kontent uchun bo‘lim -->
+  <main class="main-content">
+    <!-- Hozircha bo‘sh, lekin keyinchalik kontent qo‘shilishi mumkin -->
+    
+    <main>
+      <div class="container-projects">
+        <h2 class="title_vazifa">Bajarilishi Rejalashtirilgan Loyihalar</h2>
+  
+        <!-- Loyiha kartalari -->
+        <div class="projects">
+          <div class="bottons">
+            <div class="left">
+              <button class="edit-btn" data-id="${project.id || 0}">Tahrirlash</button>
+              <button class="delete-btn" data-id="${project.id || 0}">O'chirish</button>
+              <button class="archive-btn" data-id="${project.id || 0}">Arxivlash</button> <!-- Yangi Arxivlash tugmasi -->
+            </div>
+            <div>
+              <button class="roadmap-btn" data-id="${project.id || 0}" data-name="${project.name || 'N/A'}">Yo‘l
+                xaritasi</button>
+              <button class="add-task-btn" data-id="${project.id || 0}">Vazifa qo'shish</button>
+            </div>  
           </div>
-          <div>
-            <button class="roadmap-btn" data-id="${project.id || 0}" data-name="${project.name || 'N/A'}">Yo‘l
-              xaritasi</button>
-            <button class="add-task-btn" data-id="${project.id || 0}">Vazifa qo'shish</button>
-          </div>  
         </div>
+      </div>
+    </main>
+    
+    <!-- Loyiha tahrirlash modal oynasi -->
+    <div id="editModal" class="modal">
+      <div class="modal-content">
+        <span class="close">×</span>
+        <h2>Loyihani Tahrirlash</h2>
+        <form id="edit-form">
+          <input type="hidden" id="edit-index">
+          <label for="edit-project-name">Loyiha nomi</label>
+          <input type="text" id="edit-project-name" required>
+          <label for="edit-project-description">Izoh</label>
+          <textarea id="edit-project-description" required></textarea>
+          <label for="edit-start-date">Boshlanish sanasi</label>
+          <input type="date" id="edit-start-date" required>
+          <label for="edit-end-date">Tugash sanasi</label>
+          <input type="date" id="edit-end-date" required>
+          <label for="edit-status">Status</label>
+          <select id="edit-status" required>
+            <option value="rejalashtirilmoqda">Rejalashtirilmoqda</option>
+            <option value="bajarilmoqda">Bajarilmoqda</option>
+            <option value="yakunlandi">Yakunlandi</option>
+            <option value="to'xtatildi">To'xtatilgan</option>
+          </select>
+          <label for="edit-statusMasul">Mas'ul hodim</label>
+          <select id="edit-statusMasul" required>
+            <option value="masul">Mas'ul hodimni tanlang</option>
+            <option value="J.Xafizov">J. Xafizov</option>
+            <option value="S.Adizov">S. Adizov</option>
+            <option value="S.Abdullayev">S. Abdullayev</option>
+            <option value="J.G'iyosov">J. G'iyosov</option>
+            <option value="J.Toshboyev">J. Toshboyev</option>
+          </select>
+          <button type="submit">Saqlash</button>
+        </form>
+      </div>
+    </div>
+  
+    <!-- Yangi vazifa qo'shish modal -->
+    <div id="taskModal" class="modal">
+      <div class="modal-content">
+        <span class="close-task">×</span>
+        <h2>Yangi Vazifa Qo'shish</h2>
+        <form id="task-form">
+          <input type="hidden" id="task-index">
+          <label for="task-name">Vazifa nomi</label>
+          <input type="text" id="task-name" placeholder="Vazifa nomini kiriting" required>
+          <label for="task-description">Izoh</label>
+          <textarea id="task-description" placeholder="Vazifa haqida izoh kiriting" required></textarea>
+          <label for="task-start-date">Boshlanish sanasi</label>
+          <input type="date" id="task-start-date" required>
+          <label for="task-end-date">Tugash sanasi</label>
+          <input type="date" id="task-end-date" required>
+          <label for="vazifa">Status</label>
+          <select id="vazifa" required>
+            <option value="status-tanlash">Loyiha statusini tanlang</option>
+            <option value="rejalashtirilmoqda">Rejalashtirilmoqda</option>
+            <option value="bajarilmoqda">Bajarilmoqda</option>
+            <option value="yakunlandi">Yakunlandi</option>
+            <option value="to'xtatildi">To'xtatilgan</option>
+          </select>
+          <label for="vazifa-masul-hodim">Mas'ul hodim</label>
+          <select id="vazifa-masul-hodim" required>
+            <option value="masul">Mas'ul hodimni tanlang</option>
+            <option value="S.Adizov">S. Adizov</option>
+            <option value="S.Abdullayev">S. Abdullayev</option>
+            <option value="J.G'iyosov">J. G'iyosov</option>
+            <option value="J.Toshboyev">J. Toshboyev</option>
+          </select>
+          <button type="submit">Qo'shish</button>
+        </form>
+      </div>
+    </div>
+  
+    <!-- Vazifa tahrirlash modal oynasi -->
+    <div id="editTaskModal" class="modal">
+      <div class="modal-content">
+          <span class="close-task-edit">×</span>
+          <h2>Vazifani Tahrirlash</h2>
+          <form id="edit-task-form">
+              <input type="hidden" id="edit-task-id">
+              <label for="edit-task-name">Vazifa nomi</label>
+              <input type="text" id="edit-task-name" required>
+              <label for="edit-task-description">Izoh</label>
+              <textarea id="edit-task-description" required></textarea>
+              <label for="edit-task-start-date">Boshlanish sanasi</label>
+              <input type="date" id="edit-task-start-date" required>
+              <label for="edit-task-end-date">Tugash sanasi</label>
+              <input type="date" id="edit-task-end-date" required>
+              <label for="edit-task-status">Status</label>
+              <select id="edit-task-status" required>
+                  <option value="rejalashtirilmoqda">Rejalashtirilmoqda</option>
+                  <option value="bajarilmoqda">Bajarilmoqda</option>
+                  <option value="yakunlandi">Yakunlandi</option>
+                  <option value="to'xtatildi">To'xtatilgan</option>
+              </select>
+              <label for="edit-task-responsible">Mas'ul hodim</label>
+              <select id="edit-task-responsible" required>
+                  <option value="S.Adizov">S. Adizov</option>
+                  <option value="S.Abdullayev">S. Abdullayev</option>
+                  <option value="J.G'iyosov">J. G'iyosov</option>
+                  <option value="J.Toshboyev">J. Toshboyev</option>
+              </select>
+              <button type="submit">Saqlash</button>
+          </form>
+      </div>
+    </div>
+  
+    <!-- Yo‘l xaritasi modal -->
+    <div id="roadmapModal" class="modal-yul-xaritasi">
+      <div class="modal-content">
+        <span class="close-roadmap">×</span>
+        <div id="roadmap-content"></div>
       </div>
     </div>
   </main>
 
-  <!-- Loyiha tahrirlash modal oynasi -->
-  <div id="editModal" class="modal">
-    <div class="modal-content">
-      <span class="close">×</span>
-      <h2>Loyihani Tahrirlash</h2>
-      <form id="edit-form">
-        <input type="hidden" id="edit-index">
-        <label for="edit-project-name">Loyiha nomi</label>
-        <input type="text" id="edit-project-name" required>
-        <label for="edit-project-description">Izoh</label>
-        <textarea id="edit-project-description" required></textarea>
-        <label for="edit-start-date">Boshlanish sanasi</label>
-        <input type="date" id="edit-start-date" required>
-        <label for="edit-end-date">Tugash sanasi</label>
-        <input type="date" id="edit-end-date" required>
-        <label for="edit-status">Status</label>
-        <select id="edit-status" required>
-          <option value="rejalashtirilmoqda">Rejalashtirilmoqda</option>
-          <option value="bajarilmoqda">Bajarilmoqda</option>
-          <option value="yakunlandi">Yakunlandi</option>
-          <option value="to'xtatildi">To'xtatilgan</option>
-        </select>
-        <label for="edit-statusMasul">Mas'ul hodim</label>
-        <select id="edit-statusMasul" required>
-          <option value="masul">Mas'ul hodimni tanlang</option>
-          <option value="J.Xafizov">J. Xafizov</option>
-          <option value="S.Adizov">S. Adizov</option>
-          <option value="S.Abdullayev">S. Abdullayev</option>
-          <option value="J.G'iyosov">J. G'iyosov</option>
-          <option value="J.Toshboyev">J. Toshboyev</option>
-        </select>
-        <button type="submit">Saqlash</button>
-      </form>
-    </div>
-  </div>
 
-  <!-- Yangi vazifa qo'shish modal -->
-  <div id="taskModal" class="modal">
-    <div class="modal-content">
-      <span class="close-task">×</span>
-      <h2>Yangi Vazifa Qo'shish</h2>
-      <form id="task-form">
-        <input type="hidden" id="task-index">
-        <label for="task-name">Vazifa nomi</label>
-        <input type="text" id="task-name" placeholder="Vazifa nomini kiriting" required>
-        <label for="task-description">Izoh</label>
-        <textarea id="task-description" placeholder="Vazifa haqida izoh kiriting" required></textarea>
-        <label for="task-start-date">Boshlanish sanasi</label>
-        <input type="date" id="task-start-date" required>
-        <label for="task-end-date">Tugash sanasi</label>
-        <input type="date" id="task-end-date" required>
-        <label for="vazifa">Status</label>
-        <select id="vazifa" required>
-          <option value="status-tanlash">Loyiha statusini tanlang</option>
-          <option value="rejalashtirilmoqda">Rejalashtirilmoqda</option>
-          <option value="bajarilmoqda">Bajarilmoqda</option>
-          <option value="yakunlandi">Yakunlandi</option>
-          <option value="to'xtatildi">To'xtatilgan</option>
-        </select>
-        <label for="vazifa-masul-hodim">Mas'ul hodim</label>
-        <select id="vazifa-masul-hodim" required>
-          <option value="masul">Mas'ul hodimni tanlang</option>
-          <option value="S.Adizov">S. Adizov</option>
-          <option value="S.Abdullayev">S. Abdullayev</option>
-          <option value="J.G'iyosov">J. G'iyosov</option>
-          <option value="J.Toshboyev">J. Toshboyev</option>
-        </select>
-        <button type="submit">Qo'shish</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Vazifa tahrirlash modal oynasi -->
-  <div id="editTaskModal" class="modal">
-    <div class="modal-content">
-        <span class="close-task-edit">×</span>
-        <h2>Vazifani Tahrirlash</h2>
-        <form id="edit-task-form">
-            <input type="hidden" id="edit-task-id">
-            <label for="edit-task-name">Vazifa nomi</label>
-            <input type="text" id="edit-task-name" required>
-            <label for="edit-task-description">Izoh</label>
-            <textarea id="edit-task-description" required></textarea>
-            <label for="edit-task-start-date">Boshlanish sanasi</label>
-            <input type="date" id="edit-task-start-date" required>
-            <label for="edit-task-end-date">Tugash sanasi</label>
-            <input type="date" id="edit-task-end-date" required>
-            <label for="edit-task-status">Status</label>
-            <select id="edit-task-status" required>
-                <option value="rejalashtirilmoqda">Rejalashtirilmoqda</option>
-                <option value="bajarilmoqda">Bajarilmoqda</option>
-                <option value="yakunlandi">Yakunlandi</option>
-                <option value="to'xtatildi">To'xtatilgan</option>
-            </select>
-            <label for="edit-task-responsible">Mas'ul hodim</label>
-            <select id="edit-task-responsible" required>
-                <option value="S.Adizov">S. Adizov</option>
-                <option value="S.Abdullayev">S. Abdullayev</option>
-                <option value="J.G'iyosov">J. G'iyosov</option>
-                <option value="J.Toshboyev">J. Toshboyev</option>
-            </select>
-            <button type="submit">Saqlash</button>
-        </form>
-    </div>
-  </div>
-
-  <!-- Yo‘l xaritasi modal -->
-  <div id="roadmapModal" class="modal-yul-xaritasi">
-    <div class="modal-content">
-      <span class="close-roadmap">×</span>
-      <div id="roadmap-content"></div>
-    </div>
-  </div>
-
-  <section class="yaratuvchi">
-    <div>
-      <div>
-        <h2>Loyiha yaratuvchisi: Raqamli transformatsiyani joriy etish bo'limi bosh mutaxassisi</h2>
-        <h2>S. Abdullayev</h2>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="footer-logo">
+          <img src="img/Рисунок1.png" alt="Navoiyuran Logo">
+          <span>"Navoiyuran" DK</span>
+        </div>
+        <div class="footer-yaratuvchi">
+          <img src="img/photo_2025-04-03_15-28-31.jpg" alt="">
+          <div>
+            <p>Ishlab chiquvchi: Raqamli transformatsiyani joriy etish <br> bo'limi bosh mutaxassisi</p>
+            <p>Abdullayev Siyovush Asqar o'g'li</p>
+          </div>
+        </div>
       </div>
-
-      <div>
-        <p>
-          Tel: (79) 507-02-41
-        </p>
+      <div class="footer-center">
+        <h3><a href="https://navoiyuran.uz">"Navoiyuran" DK rasmiy veb sayt</a></h3>
+        <p><a href="https://lex.uz">Lex.uz</a></p>
+        <p><a href="#">Tizimdan foydalanish qo‘llanmasi</a></p>
+        <p><a href="#">Raqamlashtirish bo'limi tomonidan ishlab chiqilgan tizimlar</a></p>
+      </div>
+      <div class="footer-right">
+        <h3>Bizning kontaktlarimiz</h3>
+        <div class="footer-contacts">
+          <div class="contact-item">
+            <img src="img/phone.png" alt="Phone Icon">
+            <span>+998 (79) 507-02-41</span>
+          </div>
+          <div class="contact-item">
+            <img src="img/envelope.png" alt="Email Icon">
+            <span>info@navoiyuran.uz</span>
+          </div>
+        </div>
+        <div class="social-icons">
+          <a href="https://facebook.com/Navoiyuran-DK-109673825046889"><img src="img/facebook.png" alt="Facebook"></a>
+          <a href="https://t.me/Navoiyuran_official"><img src="img/telegram.png" alt="Telegram"></a>
+          <a href="https://instagram.com/navoiyuran"><img src="img/instagram.png" alt="Instagram"></a>
+          <a href="https://youtube.com/@navoiyuran"><img src="img/youtube.png" alt="YouTube"></a>
+        </div>
       </div>
     </div>
-  </section>
+  </footer>
 
   <script src="js/loyihalar.js"></script>
   <script src="js/index.js"></script>

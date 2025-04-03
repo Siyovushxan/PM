@@ -71,80 +71,117 @@
     <!-- Overlay (xiralashuv effekti) -->
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
-    <!-- Lavozimlar ro‘yxati -->
-    <div class="container">
-        <h2>LAVOZIMLAR RO‘YXATI</h2>
-        <div class="total-positions">Soni: <span id="total-positions-count">0</span></div>
-        <div class="search-container">
-            <input type="text" id="search-input" placeholder="Qidiruv (ID, O‘zbek, Rus, Ingliz tilida)">
-        </div>
-        <div class="button-group">
-            <button class="btn-add" onclick="openAddPositionModal()">Yangi lavozim qo‘shish</button>
-            <button class="btn-structure" onclick="openStructureModal()">Struktura</button>
-        </div>
-        <table id="positions-table">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Lavozim (O‘zbek)</th>
-                    <th>Lavozim (Rus)</th>
-                    <th>Lavozim (Ingliz)</th>
-                    <th>Yuqori turuvchi lavozim</th>
-                    <th>O‘chirish</th>
-                </tr>
-            </thead>
-            <tbody id="positions-tbody">
-                <!-- Lavozimlar JavaScript orqali qo‘shiladi -->
-            </tbody>
-        </table>
-    </div>
+    <!-- Asosiy kontent uchun bo‘lim -->
+    <main class="main-content">
+        <!-- Hozircha bo‘sh, lekin keyinchalik kontent qo‘shilishi mumkin -->
 
-    <!-- Struktura modali -->
-    <div id="structure-modal" class="modal structure-modal">
-        <div class="modal-content structure-modal-content">
-            <h2 id="structure-modal-title">Lavozimlar struktura</h2>
-            <div id="structure-tree" class="structure-tree">
-                <!-- Struktura JavaScript orqali qo‘shiladi -->
+        <!-- Lavozimlar ro‘yxati -->
+        <div class="container">
+            <h2>LAVOZIMLAR RO‘YXATI</h2>
+            <div class="total-positions">Soni: <span id="total-positions-count">0</span></div>
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Qidiruv (ID, O‘zbek, Rus, Ingliz tilida)">
             </div>
-            <button class="btn-export-excel" onclick="exportStructureToExcel()">Excel formatida yuklab olish</button>
-            <button class="btn-close" onclick="closeStructureModal()">Yopish</button>
-        </div>
-    </div>
-
-    <!-- Yangi lavozim qo‘shish va tahrirlash uchun modal -->
-    <div id="position-modal" class="modal">
-        <div class="modal-content">
-            <h2 id="modal-title">Yangi lavozim qo‘shish</h2>
-            <form id="position-form">
-                <label for="position-name-uz">Lavozim nomi (O‘zbek):</label>
-                <input type="text" id="position-name-uz" name="position-name-uz" required>
-                <label for="position-name-ru">Lavozim nomi (Rus):</label>
-                <input type="text" id="position-name-ru" name="position-name-ru" required>
-                <label for="position-name-en">Lavozim nomi (Ingliz):</label>
-                <input type="text" id="position-name-en" name="position-name-en" required>
-                <label for="parent-position">Yuqori turuvchi lavozim (ixtiyoriy):</label>
-                <select id="parent-position" name="parent-position">
-                    <option value="">Hech qaysi</option>
+            <div class="button-group">
+                <button class="btn-add" onclick="openAddPositionModal()">Yangi lavozim qo‘shish</button>
+                <button class="btn-structure" onclick="openStructureModal()">Struktura</button>
+            </div>
+            <table id="positions-table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Lavozim (O‘zbek)</th>
+                        <th>Lavozim (Rus)</th>
+                        <th>Lavozim (Ingliz)</th>
+                        <th>Yuqori turuvchi lavozim</th>
+                        <th>O‘chirish</th>
+                    </tr>
+                </thead>
+                <tbody id="positions-tbody">
                     <!-- Lavozimlar JavaScript orqali qo‘shiladi -->
-                </select>
-                <button type="submit" class="btn-submit">Saqlash</button>
-            </form>
-            <button class="btn-close" onclick="closePositionModal()">Bekor qilish</button>
+                </tbody>
+            </table>
         </div>
-    </div>
+    
+        <!-- Struktura modali -->
+        <div id="structure-modal" class="modal structure-modal">
+            <div class="modal-content structure-modal-content">
+                <h2 id="structure-modal-title">Lavozimlar struktura</h2>
+                <div id="structure-tree" class="structure-tree">
+                    <!-- Struktura JavaScript orqali qo‘shiladi -->
+                </div>
+                <button class="btn-export-excel" onclick="exportStructureToExcel()">Excel formatida yuklab olish</button>
+                <button class="btn-close" onclick="closeStructureModal()">Yopish</button>
+            </div>
+        </div>
+    
+        <!-- Yangi lavozim qo‘shish va tahrirlash uchun modal -->
+        <div id="position-modal" class="modal">
+            <div class="modal-content">
+                <h2 id="modal-title">Yangi lavozim qo‘shish</h2>
+                <form id="position-form">
+                    <label for="position-name-uz">Lavozim nomi (O‘zbek):</label>
+                    <input type="text" id="position-name-uz" name="position-name-uz" required>
+                    <label for="position-name-ru">Lavozim nomi (Rus):</label>
+                    <input type="text" id="position-name-ru" name="position-name-ru" required>
+                    <label for="position-name-en">Lavozim nomi (Ingliz):</label>
+                    <input type="text" id="position-name-en" name="position-name-en" required>
+                    <label for="parent-position">Yuqori turuvchi lavozim (ixtiyoriy):</label>
+                    <select id="parent-position" name="parent-position">
+                        <option value="">Hech qaysi</option>
+                        <!-- Lavozimlar JavaScript orqali qo‘shiladi -->
+                    </select>
+                    <button type="submit" class="btn-submit">Saqlash</button>
+                </form>
+                <button class="btn-close" onclick="closePositionModal()">Bekor qilish</button>
+            </div>
+        </div>
+    </main>
+
 
     <!-- Footer -->
-    <section class="yaratuvchi">
-        <div>
-            <div>
-                <h2>Loyiha yaratuvchisi: Raqamli transformatsiyani joriy etish bo‘limi bosh mutaxassisi</h2>
-                <h2>S. Abdullayev</h2>
+    <footer class="footer">
+        <div class="footer-container">
+        <div class="footer-left">
+            <div class="footer-logo">
+            <img src="img/Рисунок1.png" alt="Navoiyuran Logo">
+            <span>"Navoiyuran" DK</span>
             </div>
+            <div class="footer-yaratuvchi">
+            <img src="img/photo_2025-04-03_15-28-31.jpg" alt="">
             <div>
-                <p>Tel: (79) 507-02-41</p>
+                <p>Ishlab chiquvchi: Raqamli transformatsiyani joriy etish <br> bo'limi bosh mutaxassisi</p>
+                <p>Abdullayev Siyovush Asqar o'g'li</p>
+            </div>
             </div>
         </div>
-    </section>
+        <div class="footer-center">
+            <h3><a href="https://navoiyuran.uz">"Navoiyuran" DK rasmiy veb sayt</a></h3>
+            <p><a href="https://lex.uz">Lex.uz</a></p>
+            <p><a href="#">Tizimdan foydalanish qo‘llanmasi</a></p>
+            <p><a href="#">Raqamlashtirish bo'limi tomonidan ishlab chiqilgan tizimlar</a></p>
+        </div>
+        <div class="footer-right">
+            <h3>Bizning kontaktlarimiz</h3>
+            <div class="footer-contacts">
+            <div class="contact-item">
+                <img src="img/phone.png" alt="Phone Icon">
+                <span>+998 (79) 507-02-41</span>
+            </div>
+            <div class="contact-item">
+                <img src="img/envelope.png" alt="Email Icon">
+                <span>info@navoiyuran.uz</span>
+            </div>
+            </div>
+            <div class="social-icons">
+            <a href="https://facebook.com/Navoiyuran-DK-109673825046889"><img src="img/facebook.png" alt="Facebook"></a>
+            <a href="https://t.me/Navoiyuran_official"><img src="img/telegram.png" alt="Telegram"></a>
+            <a href="https://instagram.com/navoiyuran"><img src="img/instagram.png" alt="Instagram"></a>
+            <a href="https://youtube.com/@navoiyuran"><img src="img/youtube.png" alt="YouTube"></a>
+            </div>
+        </div>
+        </div>
+    </footer>
 
     <script src="js/index.js"></script>
     <script src="js/lavozimlar.js"></script>
